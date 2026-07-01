@@ -1,15 +1,19 @@
 import Masonry from "@/components/Masonry";
-import { imageUrlFor, listArtworks } from "@/lib/local-store";
+import { listArtworks } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const artworks = await listArtworks();
-  const items = artworks.map((artwork) => ({
-    id: artwork.id,
-    title: artwork.title,
-    url: imageUrlFor(artwork.filename),
-  }));
+  const items = await listArtworks();
+
+  const groups = new Map<string, typeof items>();
+  for (const item of items) {
+    const key = item.style || "Uncategorized";
+    const group = groups.get(key);
+    if (group) group.push(item);
+    else groups.set(key, [item]);
+  }
+  const clusters = [...groups.entries()].sort((a, b) => b[1].length - a[1].length);
 
   return (
     <main className="flex-1 px-4 sm:px-8 pb-16">
@@ -26,7 +30,14 @@ export default async function Home() {
           </a>
         </div>
       ) : (
-        <Masonry items={items} />
+        clusters.map(([style, clusterItems]) => (
+          <section key={style} className="mb-14">
+            <h2 className="text-xs tracking-[0.3em] uppercase text-neutral-500 mb-4">
+              {style}
+            </h2>
+            <Masonry items={clusterItems} />
+          </section>
+        ))
       )}
     </main>
   );

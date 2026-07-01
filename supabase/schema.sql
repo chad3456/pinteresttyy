@@ -6,8 +6,12 @@ create table if not exists artworks (
   id uuid primary key default gen_random_uuid(),
   title text not null default 'Untitled',
   storage_path text not null,
+  style text not null default 'Uncategorized',
   created_at timestamptz not null default now()
 );
+
+-- Safe to re-run on an existing table created before the style column existed.
+alter table artworks add column if not exists style text not null default 'Uncategorized';
 
 alter table artworks enable row level security;
 
