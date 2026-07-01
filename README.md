@@ -1,62 +1,68 @@
 # Gallery
 
 A minimal, private, Pinterest-style gallery for curating your own artwork.
-Images live in a Supabase Storage bucket — there's no static image folder in
-the repo, so you add, remove, and rearrange pieces entirely from the app.
+There's no static image folder baked into the app — you add, remove, and
+rearrange pieces entirely from the UI, and images are stored outside of git.
 
 ## Features
 
 - Masonry-style responsive grid, dark and minimal
-- Upload artwork straight to a Supabase Storage bucket (no local/static files)
+- `/upload` — add one piece at a time
+- `/admin` — drag-and-drop bulk uploader for seeding many pieces at once
 - Remove pieces from the gallery on hover
 - Single shared password gate (via cookie) so the collection stays private
 
-## Setup
+## Running locally (no cloud setup required)
 
-### 1. Create a Supabase project
-
-Go to [supabase.com](https://supabase.com), create a free project, then open
-the SQL editor and run `supabase/schema.sql` from this repo. That will:
-
-- create the `artworks` table (id, title, storage_path, created_at)
-- create a public storage bucket named `artwork`
-- set up row-level security so the gallery can be read publicly, while all
-  writes go through the server using the service role key
-
-### 2. Configure environment variables
-
-Copy `.env.example` to `.env.local` and fill in:
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL=       # Project Settings -> API -> Project URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Project Settings -> API -> anon public key
-SUPABASE_SERVICE_ROLE_KEY=      # Project Settings -> API -> service_role key (keep secret)
-GALLERY_PASSWORD=               # the password used to view/manage your gallery
-```
-
-### 3. Run it
+By default the app stores images and metadata on your local filesystem
+under `data/` (gitignored) — nothing to configure, nothing to sign up for.
 
 ```bash
 npm install
-npm run dev
+GALLERY_PASSWORD=choose-a-password npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). You'll be asked for
-`GALLERY_PASSWORD` before you can see or upload anything.
+Or copy `.env.example` to `.env.local` and set `GALLERY_PASSWORD` there
+instead of passing it inline.
 
-## How it works
+Open [http://localhost:3000](http://localhost:3000), enter your password,
+then use `/upload` or `/admin` to add artwork — it'll show up on the
+gallery immediately.
 
-- `middleware.ts` gates every route behind a password cookie, except
+`data/images/` holds the uploaded files and `data/artworks.json` holds the
+title/order metadata. Delete that folder any time to start fresh.
+
+## How it works (local mode)
+
+- `src/proxy.ts` gates every route behind a password cookie, except
   `/login` and `/api/login`.
-- `/upload` posts a file + title to `/api/upload`, which uploads the image to
-  the `artwork` bucket and inserts a row in `artworks` using the Supabase
-  service role key (server-side only).
-- `/` (the gallery) reads `artworks` with the public anon key and renders a
-  CSS-columns masonry grid of public bucket URLs.
+- `/upload` and `/admin` both post to `/api/upload`, which saves the file
+  under `data/images/` and appends a record to `data/artworks.json`
+  (see `src/lib/local-store.ts`).
+- `/` (the gallery) reads `data/artworks.json` and renders a CSS-columns
+  masonry grid, with each image served by `/api/images/[filename]`.
 - Hovering a piece reveals a "Remove" button, which calls
-  `DELETE /api/artworks/[id]` to delete both the storage object and the row.
+  `DELETE /api/artworks/[id]` to delete both the file and its record.
 
-## Deploying
+## Moving to Supabase for production
 
-Any Next.js host (e.g. Vercel) works — just set the same four environment
-variables in the hosting provider's dashboard.
+Local filesystem storage doesn't survive most cloud deployments (e.g.
+Vercel's filesystem is read-only/ephemeral), so before deploying, swap in
+the Supabase-backed storage:
+
+1. Create a free project at [supabase.com](https://supabase.com) and run
+   `supabase/schema.sql` in its SQL editor. That creates the `artworks`
+   table, a public `artwork` storage bucket, and the row-level security
+   policies needed for public reads.
+2. Set these environment variables (see `.env.example`):
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
+   SUPABASE_SERVICE_ROLE_KEY=
+   GALLERY_PASSWORD=
+   ```
+3. Swap the `@/lib/local-store` calls in `src/app/page.tsx`,
+   `src/app/api/upload/route.ts`, and `src/app/api/artworks/[id]/route.ts`
+   for the equivalent functions in `src/lib/supabase.ts`.
+4. Deploy to any Next.js host (e.g. Vercel) and set the same environment
+   variables in its dashboard.

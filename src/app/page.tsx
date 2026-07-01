@@ -1,19 +1,14 @@
 import Masonry from "@/components/Masonry";
-import { getSupabase, publicUrlFor, type Artwork } from "@/lib/supabase";
+import { imageUrlFor, listArtworks } from "@/lib/local-store";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { data, error } = await getSupabase()
-    .from("artworks")
-    .select("id, title, storage_path, created_at")
-    .order("created_at", { ascending: false });
-
-  const artworks: Artwork[] = error || !data ? [] : data;
+  const artworks = await listArtworks();
   const items = artworks.map((artwork) => ({
     id: artwork.id,
     title: artwork.title,
-    url: publicUrlFor(artwork.storage_path),
+    url: imageUrlFor(artwork.filename),
   }));
 
   return (

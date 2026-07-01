@@ -1,7 +1,6 @@
-import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE, isValidSession } from "@/lib/auth";
-import { ARTWORK_BUCKET, getSupabaseAdmin } from "@/lib/supabase";
+import { addArtwork } from "@/lib/local-store";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_BYTES = 20 * 1024 * 1024;
@@ -26,29 +25,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "File too large" }, { status: 400 });
   }
 
-  const admin = getSupabaseAdmin();
-  const extension = file.name.split(".").pop() || "jpg";
-  const storagePath = `${randomUUID()}.${extension}`;
-
-  const { error: uploadError } = await admin.storage
-    .from(ARTWORK_BUCKET)
-    .upload(storagePath, await file.arrayBuffer(), {
-      contentType: file.type,
-      upsert: false,
-    });
-
-  if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
-  }
-
-  const { error: insertError } = await admin
-    .from("artworks")
-    .insert({ title: title || "Untitled", storage_path: storagePath });
-
-  if (insertError) {
-    await admin.storage.from(ARTWORK_BUCKET).remove([storagePath]);
-    return NextResponse.json({ error: insertError.message }, { status: 500 });
-  }
+  await addArtwork(file, title);
 
   return NextResponse.json({ ok: true });
 }

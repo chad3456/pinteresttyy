@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE, isValidSession } from "@/lib/auth";
-import { ARTWORK_BUCKET, getSupabaseAdmin } from "@/lib/supabase";
+import { deleteArtwork } from "@/lib/local-store";
 
 export async function DELETE(
   request: NextRequest,
@@ -12,26 +12,10 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  const admin = getSupabaseAdmin();
+  const deleted = await deleteArtwork(id);
 
-  const { data: artwork, error: fetchError } = await admin
-    .from("artworks")
-    .select("storage_path")
-    .eq("id", id)
-    .single();
-
-  if (fetchError || !artwork) {
+  if (!deleted) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-
-  await admin.storage.from(ARTWORK_BUCKET).remove([artwork.storage_path]);
-  const { error: deleteError } = await admin
-    .from("artworks")
-    .delete()
-    .eq("id", id);
-
-  if (deleteError) {
-    return NextResponse.json({ error: deleteError.message }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });
