@@ -20,6 +20,9 @@ export default function Header() {
         <Link href="/upload" className="hover:text-white transition-colors">
           Upload
         </Link>
+        <Link href="/admin" className="hover:text-white transition-colors">
+          Admin
+        </Link>
         <form action="/api/logout" method="POST">
           <button
             type="submit"
