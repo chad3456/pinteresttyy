@@ -1,0 +1,60 @@
+"use client";
+
+import { useState } from "react";
+
+export type MasonryItem = {
+  id: string;
+  title: string;
+  url: string;
+};
+
+export default function Masonry({ items }: { items: MasonryItem[] }) {
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [hidden, setHidden] = useState<Set<string>>(new Set());
+
+  async function handleDelete(id: string) {
+    if (!confirm("Remove this piece from the gallery?")) return;
+    setDeleting(id);
+    const res = await fetch(`/api/artworks/${id}`, { method: "DELETE" });
+    if (res.ok) {
+      setHidden((prev) => new Set(prev).add(id));
+    } else {
+      alert("Could not delete this piece.");
+    }
+    setDeleting(null);
+  }
+
+  return (
+    <div className="columns-2 sm:columns-3 lg:columns-4 gap-4 [column-fill:_balance]">
+      {items
+        .filter((item) => !hidden.has(item.id))
+        .map((item) => (
+          <div
+            key={item.id}
+            className="group relative mb-4 break-inside-avoid overflow-hidden bg-neutral-900"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={item.url}
+              alt={item.title}
+              loading="lazy"
+              className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-xs tracking-wide text-neutral-100 truncate pr-2">
+                {item.title}
+              </span>
+              <button
+                onClick={() => handleDelete(item.id)}
+                disabled={deleting === item.id}
+                className="pointer-events-auto text-[10px] tracking-[0.15em] uppercase text-neutral-300 hover:text-white border border-neutral-500 hover:border-white px-2 py-1 transition-colors disabled:opacity-50"
+              >
+                {deleting === item.id ? "..." : "Remove"}
+              </button>
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+}
