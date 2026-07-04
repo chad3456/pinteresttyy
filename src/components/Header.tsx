@@ -10,14 +10,14 @@ export default function Header() {
   if (pathname === "/login") return null;
 
   return (
-    <header className="flex items-center justify-between px-6 sm:px-10 py-6">
+    <header className="flex items-center justify-between px-6 sm:px-10 py-8 border-b border-white/5">
       <Link
         href="/"
-        className="text-xs sm:text-sm tracking-[0.3em] uppercase text-neutral-200 hover:text-[var(--accent)] transition-colors"
+        className="font-[family-name:var(--font-serif-display)] italic text-xl sm:text-2xl tracking-wide text-[#f3efe6] hover:text-[var(--accent)] transition-colors"
       >
         {SITE_NAME}
       </Link>
-      <nav className="flex items-center gap-6 text-xs tracking-[0.15em] uppercase text-neutral-400">
+      <nav className="flex items-center gap-7 text-[11px] tracking-[0.2em] uppercase text-neutral-400">
         <Link href="/upload" className="hover:text-[var(--accent)] transition-colors">
           Upload
         </Link>

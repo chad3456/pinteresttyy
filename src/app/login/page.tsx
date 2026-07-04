@@ -14,10 +14,13 @@ export default async function LoginPage({ searchParams }: Props) {
         method="POST"
         className="w-full max-w-xs flex flex-col gap-5"
       >
-        <div className="text-center mb-2">
-          <h1 className="text-sm tracking-[0.3em] uppercase text-neutral-400">
+        <div className="text-center mb-4">
+          <h1 className="font-[family-name:var(--font-serif-display)] italic text-3xl text-[#f3efe6]">
             {SITE_NAME}
           </h1>
+          <p className="mt-2 text-[10px] tracking-[0.3em] uppercase text-neutral-600">
+            Private Collection
+          </p>
         </div>
         <input type="hidden" name="from" value={from} />
         <input

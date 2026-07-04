@@ -42,18 +42,18 @@ export default function Masonry({ items }: { items: MasonryItem[] }) {
         .map((item) => (
           <div
             key={item.id}
-            className="group relative mb-4 break-inside-avoid overflow-hidden bg-neutral-900"
+            className="group relative mb-4 break-inside-avoid overflow-hidden bg-neutral-900 shadow-lg shadow-black/40 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/60"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={item.url}
               alt={item.title}
               loading="lazy"
-              className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.02]"
+              className="w-full h-auto block transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-xs tracking-wide text-neutral-100 truncate pr-2">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="font-[family-name:var(--font-serif-display)] italic text-base text-[#f3efe6] truncate pr-3">
                 {item.title}
               </span>
               <button

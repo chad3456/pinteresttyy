@@ -24,17 +24,23 @@ export default async function Home() {
           </p>
           <a
             href="/upload"
-            className="text-xs tracking-[0.2em] uppercase text-neutral-300 border border-neutral-700 hover:border-neutral-300 px-4 py-2 transition-colors"
+            className="text-xs tracking-[0.2em] uppercase text-neutral-300 border border-neutral-700 hover:border-[var(--accent)] hover:text-[var(--accent)] px-4 py-2 transition-colors"
           >
             Add the first piece
           </a>
         </div>
       ) : (
         clusters.map(([style, clusterItems]) => (
-          <section key={style} className="mb-14">
-            <h2 className="text-xs tracking-[0.3em] uppercase text-neutral-500 mb-4">
-              {style}
-            </h2>
+          <section key={style} className="mb-20">
+            <div className="flex items-center gap-4 mb-6">
+              <h2 className="font-[family-name:var(--font-serif-display)] italic text-2xl sm:text-3xl text-[#f3efe6] whitespace-nowrap">
+                {style}
+              </h2>
+              <span className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
+              <span className="text-[11px] tracking-[0.2em] uppercase text-neutral-600">
+                {clusterItems.length}
+              </span>
+            </div>
             <Masonry items={clusterItems} />
           </section>
         ))
