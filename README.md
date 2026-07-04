@@ -17,6 +17,8 @@ gallery groups similar-style pieces into their own clusters.
   Surreal) using Claude's vision model
 - Remove pieces from the gallery on hover
 - Single shared password gate (via cookie) so the collection stays private
+- Re-skinnable via env vars: site name, accent color, grid density — no
+  code changes needed
 
 ## Setup
 
@@ -48,6 +50,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Project Settings -> API -> anon public key
 SUPABASE_SERVICE_ROLE_KEY=      # Project Settings -> API -> service_role key (keep secret)
 GALLERY_PASSWORD=               # the password used to view/manage your gallery
 ANTHROPIC_API_KEY=              # used to classify each upload's art style
+
+# Optional branding — all have sensible defaults if you skip them
+NEXT_PUBLIC_SITE_NAME=Gallery         # shown in the header and browser tab
+NEXT_PUBLIC_ACCENT_COLOR=#ffffff      # hex color used for hover states/buttons
+NEXT_PUBLIC_GRID_COLUMNS=4            # desktop column count, 2-6
 ```
 
 ### 4. Run it
@@ -78,7 +85,40 @@ you'll see the same gallery.
   `DELETE /api/artworks/[id]` to delete both the storage object and the
   row.
 
-## Deploying
+## Deploying to Vercel
 
-Any Next.js host (e.g. Vercel) works — just set the same five environment
-variables in the hosting provider's dashboard.
+You said you already created the Vercel project, so this is the dashboard
+path — no CLI or token needed.
+
+1. **Connect the repo.** In your Vercel project, go to **Settings → Git**
+   and connect it to this GitHub repository (`chad3456/pinteresttyy`) if it
+   isn't already. Framework preset should auto-detect as **Next.js**.
+
+2. **Set environment variables.** Go to **Settings → Environment
+   Variables** and add each of the following for the **Production**
+   environment (and **Preview** too, if you want preview deploys to work):
+
+   | Name | Value |
+   |---|---|
+   | `NEXT_PUBLIC_SUPABASE_URL` | your Supabase project URL |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your Supabase anon key |
+   | `SUPABASE_SERVICE_ROLE_KEY` | your Supabase service role key |
+   | `GALLERY_PASSWORD` | your chosen password |
+   | `ANTHROPIC_API_KEY` | your Anthropic API key |
+   | `NEXT_PUBLIC_SITE_NAME` | *(optional)* your gallery's name |
+   | `NEXT_PUBLIC_ACCENT_COLOR` | *(optional)* hex color, e.g. `#e11d48` |
+   | `NEXT_PUBLIC_GRID_COLUMNS` | *(optional)* `2`–`6` |
+
+3. **Deploy.** Push to the branch Vercel is tracking (or click **Deploy**
+   in the dashboard). Vercel builds with `next build` and serves it
+   automatically — no other config needed, since everything (images,
+   metadata) lives in Supabase rather than on the filesystem.
+
+4. **Verify.** Open the deployment URL, confirm the login screen shows
+   your branding, log in, and upload a test image via `/admin` or
+   `/upload` to confirm it reaches Supabase and shows up on `/`.
+
+If you'd rather I drive this directly instead of clicking through the
+dashboard yourself, generate a token at vercel.com/account/tokens and
+share it — I can then use the Vercel CLI to link the project, push env
+vars, and trigger + verify the deployment for you.

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SITE_NAME } from "@/lib/config";
 
 export default function Header() {
   const pathname = usePathname();
@@ -12,21 +13,21 @@ export default function Header() {
     <header className="flex items-center justify-between px-6 sm:px-10 py-6">
       <Link
         href="/"
-        className="text-xs sm:text-sm tracking-[0.3em] uppercase text-neutral-200 hover:text-white transition-colors"
+        className="text-xs sm:text-sm tracking-[0.3em] uppercase text-neutral-200 hover:text-[var(--accent)] transition-colors"
       >
-        Gallery
+        {SITE_NAME}
       </Link>
       <nav className="flex items-center gap-6 text-xs tracking-[0.15em] uppercase text-neutral-400">
-        <Link href="/upload" className="hover:text-white transition-colors">
+        <Link href="/upload" className="hover:text-[var(--accent)] transition-colors">
           Upload
         </Link>
-        <Link href="/admin" className="hover:text-white transition-colors">
+        <Link href="/admin" className="hover:text-[var(--accent)] transition-colors">
           Admin
         </Link>
         <form action="/api/logout" method="POST">
           <button
             type="submit"
-            className="hover:text-white transition-colors cursor-pointer"
+            className="hover:text-[var(--accent)] transition-colors cursor-pointer"
           >
             Logout
           </button>

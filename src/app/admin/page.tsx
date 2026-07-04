@@ -165,7 +165,7 @@ export default function AdminPage() {
                 {item.status !== "done" && !uploading && (
                   <button
                     onClick={() => removeItem(item.key)}
-                    className="text-[10px] tracking-[0.15em] uppercase text-neutral-500 hover:text-white self-start"
+                    className="text-[10px] tracking-[0.15em] uppercase text-neutral-500 hover:text-[var(--accent)] self-start"
                   >
                     Remove
                   </button>
@@ -178,7 +178,7 @@ export default function AdminPage() {
             <button
               onClick={uploadAll}
               disabled={uploading || pendingCount === 0}
-              className="text-xs tracking-[0.2em] uppercase border border-neutral-700 hover:border-neutral-300 hover:text-white text-neutral-300 px-6 py-2 transition-colors disabled:opacity-50"
+              className="text-xs tracking-[0.2em] uppercase border border-neutral-700 hover:border-[var(--accent)] hover:text-[var(--accent)] text-neutral-300 px-6 py-2 transition-colors disabled:opacity-50"
             >
               {uploading
                 ? "Uploading…"

@@ -1,11 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { GRID_COLUMNS } from "@/lib/config";
 
 export type MasonryItem = {
   id: string;
   title: string;
   url: string;
+};
+
+const DESKTOP_COLUMN_CLASSES: Record<number, string> = {
+  2: "lg:columns-2",
+  3: "lg:columns-3",
+  4: "lg:columns-4",
+  5: "lg:columns-5",
+  6: "lg:columns-6",
 };
 
 export default function Masonry({ items }: { items: MasonryItem[] }) {
@@ -25,7 +34,9 @@ export default function Masonry({ items }: { items: MasonryItem[] }) {
   }
 
   return (
-    <div className="columns-2 sm:columns-3 lg:columns-4 gap-4 [column-fill:_balance]">
+    <div
+      className={`columns-2 sm:columns-3 ${DESKTOP_COLUMN_CLASSES[GRID_COLUMNS]} gap-4 [column-fill:_balance]`}
+    >
       {items
         .filter((item) => !hidden.has(item.id))
         .map((item) => (
@@ -48,7 +59,7 @@ export default function Masonry({ items }: { items: MasonryItem[] }) {
               <button
                 onClick={() => handleDelete(item.id)}
                 disabled={deleting === item.id}
-                className="pointer-events-auto text-[10px] tracking-[0.15em] uppercase text-neutral-300 hover:text-white border border-neutral-500 hover:border-white px-2 py-1 transition-colors disabled:opacity-50"
+                className="pointer-events-auto text-[10px] tracking-[0.15em] uppercase text-neutral-300 hover:text-[var(--accent)] border border-neutral-500 hover:border-[var(--accent)] px-2 py-1 transition-colors disabled:opacity-50"
               >
                 {deleting === item.id ? "..." : "Remove"}
               </button>

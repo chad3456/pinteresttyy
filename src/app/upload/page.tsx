@@ -67,7 +67,7 @@ export default function UploadPage() {
           type="text"
           name="title"
           placeholder="Title"
-          className="bg-transparent border-b border-neutral-700 focus:border-neutral-300 outline-none py-2 text-center text-sm tracking-wide text-neutral-100 placeholder:text-neutral-600 transition-colors"
+          className="bg-transparent border-b border-neutral-700 focus:border-[var(--accent)] outline-none py-2 text-center text-sm tracking-wide text-neutral-100 placeholder:text-neutral-600 transition-colors"
         />
 
         {error && (
@@ -77,7 +77,7 @@ export default function UploadPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-2 text-xs tracking-[0.2em] uppercase border border-neutral-700 hover:border-neutral-300 hover:text-white text-neutral-300 py-2 transition-colors disabled:opacity-50"
+          className="mt-2 text-xs tracking-[0.2em] uppercase border border-neutral-700 hover:border-[var(--accent)] hover:text-[var(--accent)] text-neutral-300 py-2 transition-colors disabled:opacity-50"
         >
           {submitting ? "Uploading..." : "Save"}
         </button>

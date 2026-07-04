@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
+import { ACCENT_COLOR, SITE_NAME } from "@/lib/config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gallery",
+  title: SITE_NAME,
   description: "A private, curated collection of artwork.",
 };
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      style={{ "--accent": ACCENT_COLOR } as React.CSSProperties}
     >
       <body className="min-h-full flex flex-col bg-black text-neutral-100">
         <Header />
