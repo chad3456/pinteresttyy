@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Masonry from "@/components/Masonry";
-import { listArtworks } from "@/lib/local-store";
+import { listArtworks } from "@/lib/blob-store";
 
 export const dynamic = "force-dynamic";
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addArtwork } from "@/lib/local-store";
+import { addArtwork } from "@/lib/blob-store";
 import { classifyStyle } from "@/lib/style";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];

@@ -24,7 +24,9 @@ export default function Masonry({ items }: { items: MasonryItem[] }) {
   async function handleDelete(id: string) {
     if (!confirm("Remove this piece from the gallery?")) return;
     setDeleting(id);
-    const res = await fetch(`/api/artworks/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/artworks?id=${encodeURIComponent(id)}`, {
+      method: "DELETE",
+    });
     if (res.ok) {
       setHidden((prev) => new Set(prev).add(id));
     } else {
