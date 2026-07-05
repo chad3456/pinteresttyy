@@ -1,5 +1,6 @@
+import Link from "next/link";
 import Masonry from "@/components/Masonry";
-import { listArtworks } from "@/lib/supabase";
+import { listArtworks } from "@/lib/local-store";
 
 export const dynamic = "force-dynamic";
 
@@ -17,17 +18,27 @@ export default async function Home() {
 
   return (
     <main className="flex-1 px-4 sm:px-8 pb-16">
+      {items.length > 0 && (
+        <div className="flex justify-end mb-10">
+          <Link
+            href="/upload"
+            className="text-xs tracking-[0.2em] uppercase border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black px-5 py-2.5 transition-colors"
+          >
+            + Upload artwork
+          </Link>
+        </div>
+      )}
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 py-32 text-center">
+        <div className="flex flex-col items-center justify-center gap-4 py-32 text-center">
           <p className="text-sm text-neutral-500 tracking-wide">
             No artwork yet.
           </p>
-          <a
+          <Link
             href="/upload"
-            className="text-xs tracking-[0.2em] uppercase text-neutral-300 border border-neutral-700 hover:border-[var(--accent)] hover:text-[var(--accent)] px-4 py-2 transition-colors"
+            className="text-xs tracking-[0.2em] uppercase border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black px-5 py-2.5 transition-colors"
           >
-            Add the first piece
-          </a>
+            + Upload the first piece
+          </Link>
         </div>
       ) : (
         clusters.map(([style, clusterItems]) => (

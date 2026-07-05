@@ -1,14 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { SITE_NAME } from "@/lib/config";
 
 export default function Header() {
-  const pathname = usePathname();
-
-  if (pathname === "/login") return null;
-
   return (
     <header className="flex items-center justify-between px-6 sm:px-10 py-8 border-b border-white/5">
       <Link
@@ -24,14 +17,6 @@ export default function Header() {
         <Link href="/admin" className="hover:text-[var(--accent)] transition-colors">
           Admin
         </Link>
-        <form action="/api/logout" method="POST">
-          <button
-            type="submit"
-            className="hover:text-[var(--accent)] transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
-        </form>
       </nav>
     </header>
   );
