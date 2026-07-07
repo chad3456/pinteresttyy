@@ -58,11 +58,20 @@ npm run dev
 
 ## How it works
 
-- `/upload` and `/admin` both post to `/api/upload`, which sends the image
-  to Claude for a one-word style tag (`src/lib/style.ts`), then uploads it
-  to Vercel Blob (`src/lib/blob-store.ts`) at a path like
-  `artworks/<title>__<style>__<uuid>.jpg` — the title and style live in
-  the path itself, so there's no separate database to keep in sync.
+- `/upload` and `/admin` upload the file **directly from the browser to
+  Vercel Blob** (`@vercel/blob/client`), not through our own server — this
+  matters because Vercel serverless functions cap request bodies at
+  ~4.5MB, and proxying full-size images through `/api/upload` would fail
+  above that. Our server only issues a short-lived upload token
+  (`onBeforeGenerateToken` in `src/app/api/upload/route.ts`).
+- The file first lands at a pathname like
+  `artworks/<title>__pending__<uuid>.jpg`. Once the upload finishes,
+  Vercel calls our server back (`onUploadCompleted`), which fetches the
+  image, asks Claude for a one-word style tag (`src/lib/style.ts`), and
+  renames the blob to `artworks/<title>__<style>__<uuid>.jpg` — title and
+  style live in the path itself, so there's no separate database. A piece
+  briefly won't appear on the gallery between upload and that rename
+  (usually a couple seconds); refresh if it's not there yet.
 - `/` (the gallery) lists blobs under `artworks/`, groups them by the
   style encoded in their path, and renders one masonry section per style
   cluster (largest cluster first), using each blob's public URL directly.

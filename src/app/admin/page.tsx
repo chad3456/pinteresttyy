@@ -1,7 +1,9 @@
 "use client";
 
+import { upload } from "@vercel/blob/client";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type DragEvent } from "react";
+import { buildPendingPathname } from "@/lib/artwork-path";
 
 type QueuedFile = {
   key: string;
@@ -63,16 +65,12 @@ export default function AdminPage() {
         prev.map((i) => (i.key === item.key ? { ...i, status: "uploading" } : i))
       );
 
-      const formData = new FormData();
-      formData.set("file", item.file);
-      formData.set("title", item.title || "Untitled");
-
       try {
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
-        if (!res.ok) {
-          const body = await res.json().catch(() => ({}));
-          throw new Error(body.error || "Upload failed");
-        }
+        await upload(
+          buildPendingPathname(item.title, item.file.name),
+          item.file,
+          { access: "public", handleUploadUrl: "/api/upload" }
+        );
         setQueue((prev) =>
           prev.map((i) => (i.key === item.key ? { ...i, status: "done" } : i))
         );

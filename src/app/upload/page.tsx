@@ -1,35 +1,41 @@
 "use client";
 
+import { upload } from "@vercel/blob/client";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { buildPendingPathname } from "@/lib/artwork-path";
 
 export default function UploadPage() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    setPreview(file ? URL.createObjectURL(file) : null);
+    const selected = e.target.files?.[0] ?? null;
+    setFile(selected);
+    setPreview(selected ? URL.createObjectURL(selected) : null);
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!file) return;
     setError(null);
     setSubmitting(true);
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const title = String(new FormData(form).get("title") ?? "").trim();
 
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-
-    if (res.ok) {
+    try {
+      await upload(buildPendingPathname(title, file.name), file, {
+        access: "public",
+        handleUploadUrl: "/api/upload",
+      });
       router.push("/");
       router.refresh();
-    } else {
-      const body = await res.json().catch(() => ({}));
-      setError(body.error || "Upload failed.");
+    } catch (err) {
+      setError((err as Error).message || "Upload failed.");
       setSubmitting(false);
     }
   }
