@@ -107,6 +107,8 @@ Describe:
 - **Animation**: pop/scale-in per word, karaoke highlight, typewriter, slide-up, bounce, shake on emphasis.
 - **Emoji and icons** next to key words.
 
+On animation with a shared dark background (space, night), a hard cut between scenes often changes only part of the frame and shows up as a step change. Glance at those tiles before trusting the pace.
+
 Captions that track speech produce many "step changes" in facts.md (a new caption every 0.3–0.8 s). Text that changes less often than speech suggests headline-style text.
 
 ## Voice delivery

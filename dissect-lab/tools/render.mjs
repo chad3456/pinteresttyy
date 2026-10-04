@@ -8,14 +8,20 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const engine = readFileSync(join(here, "..", "engine.js"), "utf8");
+const engine = readFileSync(join(here, "..", "engine.js"), "utf8") + "\n" + readFileSync(join(here, "..", "fermi.js"), "utf8");
+const fontCss = [["Nunito", 700], ["Nunito", 800], ["Nunito", 900], ["Baloo 2", 800]].map(([fam, w]) => {
+  const file = join(here, "..", "fonts", `${fam.toLowerCase().replace(" ", "-")}-latin-${w}-normal.woff2`);
+  return `@font-face{font-family:'${fam}';font-weight:${w};src:url(data:font/woff2;base64,${readFileSync(file).toString("base64")}) format('woff2')}`;
+}).join("");
+const SIZE = (process.env.SIZE || "1280x720").split("x").map(Number);
 const outDir = process.argv[2] || "recreations";
 const FPS = 24;
 mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
-const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
-await page.setContent(`<canvas id="c" width="1280" height="720"></canvas><script>${engine}</script>`);
+const page = await browser.newPage({ viewport: { width: SIZE[0], height: SIZE[1] } });
+await page.setContent(`<style>${fontCss}</style><canvas id="c" width="${SIZE[0]}" height="${SIZE[1]}"></canvas><script>${engine}</script>`);
+await page.evaluate(async () => { for (const f of ["700 20px Nunito", "800 20px Nunito", "900 20px Nunito", "800 20px 'Baloo 2'"]) await document.fonts.load(f); });
 const ids = process.argv.slice(3).length ? process.argv.slice(3) : await page.evaluate(() => Object.keys(DissectEngine.PRESETS));
 
 for (const id of ids) {

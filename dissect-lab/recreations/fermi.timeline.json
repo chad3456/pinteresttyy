@@ -1,0 +1,275 @@
+{
+ "preset": "fermi",
+ "topic": "Where is everybody? The Fermi Paradox",
+ "lines": [
+  {
+   "text": "Look up on a clear night and you can see a few thousand stars.",
+   "start": 0.8,
+   "end": 6.416455696202531
+  },
+  {
+   "text": "Our galaxy alone holds around two hundred billion of them.",
+   "start": 7.166455696202531,
+   "end": 11.263924050632912
+  },
+  {
+   "text": "Many have planets, and some of those planets orbit where water can stay liquid.",
+   "start": 12.01392405063291,
+   "end": 17.63037974683544
+  },
+  {
+   "text": "Even if life starts on only a tiny fraction of them, the galaxy should be crowded.",
+   "start": 18.380379746835445,
+   "end": 24.756329113924053
+  },
+  {
+   "text": "A civilization slightly older than ours could have spread across it in a few million years.",
+   "start": 25.506329113924053,
+   "end": 31.882278481012662
+  },
+  {
+   "text": "So where is everybody?",
+   "start": 32.63227848101266,
+   "end": 34.45126582278481
+  },
+  {
+   "text": "This is the Fermi Paradox.",
+   "start": 35.63227848101266,
+   "end": 37.83101265822785
+  },
+  {
+   "text": "One answer is a Great Filter: a step so hard that almost nothing gets past it.",
+   "start": 39.03227848101266,
+   "end": 45.40822784810126
+  },
+  {
+   "text": "Maybe it is behind us, and simple life almost never becomes complex.",
+   "start": 46.15822784810127,
+   "end": 51.015189873417725
+  },
+  {
+   "text": "Or maybe it lies ahead, waiting for every civilization that reaches our level.",
+   "start": 51.765189873417725,
+   "end": 57.00189873417722
+  },
+  {
+   "text": "Perhaps they are out there, but too far apart, too quiet, or not interested in us.",
+   "start": 57.75189873417722,
+   "end": 64.12784810126583
+  },
+  {
+   "text": "Or perhaps we really are among the first.",
+   "start": 64.87784810126581,
+   "end": 68.21582278481011
+  },
+  {
+   "text": "Either way, the silence says something about our own future.",
+   "start": 68.96582278481011,
+   "end": 73.06329113924049
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 6.8164556962025316,
+   "scene": "nightHill",
+   "seed": 100,
+   "line": 0,
+   "cut": "cut",
+   "sfx": [
+    0.6
+   ]
+  },
+  {
+   "start": 6.8164556962025316,
+   "end": 11.663924050632911,
+   "scene": "galaxy",
+   "seed": 101,
+   "line": 1,
+   "cut": "zoom",
+   "sfx": [
+    7.416455696202531,
+    8.216455696202532
+   ]
+  },
+  {
+   "start": 11.663924050632911,
+   "end": 18.030379746835443,
+   "scene": "habitable",
+   "seed": 102,
+   "line": 2,
+   "cut": "cut",
+   "sfx": [
+    12.163924050632911,
+    12.86392405063291
+   ]
+  },
+  {
+   "start": 18.030379746835443,
+   "end": 25.156329113924052,
+   "scene": "lifeDots",
+   "seed": 103,
+   "line": 3,
+   "cut": "cut",
+   "sfx": [
+    19.030379746835443,
+    19.630379746835445,
+    20.230379746835442,
+    20.830379746835444
+   ]
+  },
+  {
+   "start": 25.156329113924052,
+   "end": 32.28227848101266,
+   "scene": "expansion",
+   "seed": 104,
+   "line": 4,
+   "cut": "cut",
+   "sfx": [
+    25.55632911392405
+   ]
+  },
+  {
+   "start": 32.28227848101266,
+   "end": 35.28227848101266,
+   "scene": "empty",
+   "seed": 105,
+   "line": 5,
+   "cut": "cut",
+   "sfx": [
+    34.28227848101266
+   ]
+  },
+  {
+   "start": 35.28227848101266,
+   "end": 38.68227848101266,
+   "scene": "title",
+   "seed": 106,
+   "line": 6,
+   "cut": "cut",
+   "sfx": [
+    35.43227848101266
+   ]
+  },
+  {
+   "start": 38.68227848101266,
+   "end": 45.80822784810127,
+   "scene": "filterSteps",
+   "seed": 107,
+   "line": 7,
+   "cut": "cut",
+   "sfx": [
+    38.83227848101266,
+    39.08227848101266,
+    39.33227848101266,
+    39.58227848101266,
+    39.83227848101266,
+    40.18227848101266
+   ]
+  },
+  {
+   "start": 45.80822784810127,
+   "end": 51.415189873417724,
+   "scene": "filterBehind",
+   "seed": 108,
+   "line": 8,
+   "cut": "cut",
+   "sfx": [
+    47.30822784810127
+   ]
+  },
+  {
+   "start": 51.415189873417724,
+   "end": 57.401898734177216,
+   "scene": "filterAhead",
+   "seed": 109,
+   "line": 9,
+   "cut": "cut",
+   "sfx": [
+    52.915189873417724
+   ]
+  },
+  {
+   "start": 57.401898734177216,
+   "end": 64.52784810126582,
+   "scene": "tooFar",
+   "seed": 110,
+   "line": 10,
+   "cut": "cut",
+   "sfx": [
+    58.20189873417721
+   ]
+  },
+  {
+   "start": 64.52784810126582,
+   "end": 68.61582278481012,
+   "scene": "first",
+   "seed": 111,
+   "line": 11,
+   "cut": "zoom",
+   "sfx": []
+  },
+  {
+   "start": 68.61582278481012,
+   "end": 75.9632911392405,
+   "scene": "closing",
+   "seed": 112,
+   "line": 12,
+   "cut": "zoom",
+   "sfx": []
+  }
+ ],
+ "events": [],
+ "duration": 75.9632911392405,
+ "captions": true,
+ "cuts": [
+  {
+   "t": 6.8164556962025316,
+   "kind": "cut"
+  },
+  {
+   "t": 11.663924050632911,
+   "kind": "zoom"
+  },
+  {
+   "t": 18.030379746835443,
+   "kind": "cut"
+  },
+  {
+   "t": 25.156329113924052,
+   "kind": "cut"
+  },
+  {
+   "t": 32.28227848101266,
+   "kind": "cut"
+  },
+  {
+   "t": 35.28227848101266,
+   "kind": "cut"
+  },
+  {
+   "t": 38.68227848101266,
+   "kind": "cut"
+  },
+  {
+   "t": 45.80822784810127,
+   "kind": "cut"
+  },
+  {
+   "t": 51.415189873417724,
+   "kind": "cut"
+  },
+  {
+   "t": 57.401898734177216,
+   "kind": "cut"
+  },
+  {
+   "t": 64.52784810126582,
+   "kind": "cut"
+  },
+  {
+   "t": 68.61582278481012,
+   "kind": "zoom"
+  }
+ ]
+}

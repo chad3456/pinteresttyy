@@ -444,6 +444,7 @@
   }
   function buildTimeline(id, opts = {}) {
     const P = PRESETS[id];
+    if (P.build) return P.build(opts); // presets with their own script and timeline (fermi.js)
     const lines = (opts.lines && opts.lines.length ? opts.lines : P.sample.lines).map((l) => l.trim()).filter(Boolean);
     const tl = { preset: id, topic: opts.topic || P.sample.topic, lines: [], shots: [], events: [], duration: 0, title: opts.title ?? P.sample.title, credit: P.sample.credit };
     if (P.mode === "narrated") {
@@ -488,7 +489,7 @@
   function drawShot(ctx, tl, shot, t, frame) {
     const P = PRESETS[tl.preset];
     const s = { p: clamp((t - shot.start) / (shot.end - shot.start)), gt: t, seed: shot.seed, scene: shot.scene, label: shot.label, title: tl.title, credit: tl.credit,
-      events: tl.events, boxes: tl.boxes, frame, cam: P.cam, variant: P.variant };
+      events: tl.events, boxes: tl.boxes, frame, cam: P.cam, variant: P.variant, _shot: shot };
     ctx.save(); P.scenes[shot.scene](ctx, s); ctx.restore();
   }
   function renderAt(ctx, tl, t, frame = Math.round(t * 30)) {
@@ -514,9 +515,13 @@
     if (tl.captions) {
       const ln = tl.lines.find((l) => t >= l.start && t <= l.end && l.text);
       if (ln) {
-        ctx.font = "700 34px Nunito, 'Baloo 2', sans-serif"; ctx.textAlign = "center";
-        const rows = wrapText(ctx, ln.text, W * 0.75);
-        rows.forEach((row, j) => { const y = H - 70 - (rows.length - 1 - j) * 44; ctx.lineWidth = 7; ctx.strokeStyle = "rgba(0,0,0,0.75)"; ctx.strokeText(row, W / 2, y); ctx.fillStyle = "#fff"; ctx.fillText(row, W / 2, y); });
+        ctx.font = "800 30px Nunito, 'Baloo 2', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+        const rows = wrapText(ctx, ln.text, W * 0.7), k = Math.min(1, (t - ln.start) / 0.2, (ln.end - t) / 0.2);
+        ctx.save(); ctx.globalAlpha = Math.max(0, k);
+        const sg = ctx.createLinearGradient(0, H - 70 - rows.length * 40, 0, H); sg.addColorStop(0, "rgba(5,5,20,0)"); sg.addColorStop(1, "rgba(5,5,20,0.55)");
+        ctx.fillStyle = sg; ctx.fillRect(0, H - 70 - rows.length * 40, W, 70 + rows.length * 40);
+        rows.forEach((row, j) => { const y = H - 46 - (rows.length - 1 - j) * 40; ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 2; ctx.fillStyle = "#fff"; ctx.fillText(row, W / 2, y); });
+        ctx.restore();
       }
     }
     ctx.restore();

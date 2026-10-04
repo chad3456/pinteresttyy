@@ -86,7 +86,14 @@ def main():
                 "sheets": sheets(R / "check" / preset, f"recreations/check/{preset}"),
             },
         })
-    out = {"generated": "2026-10-04", "pairs": pairs, "formula": (D / "formula.md").read_text()}
+    ftl = json.loads((R / "fermi.timeline.json").read_text())
+    style = json.loads((R / "check" / "fermi" / "style" / "style.json").read_text())["profile"]
+    fermi = {"video": "recreations/fermi.mp4", "webm": "recreations/fermi.webm", "stills": "recreations/check/fermi/stills.jpg",
+             "duration": round(ftl["duration"], 1), "designedShots": len(ftl["shots"]),
+             "designedCuts": sum(1 for c in ftl["cuts"] if c["kind"] == "cut"), "designedZooms": sum(1 for c in ftl["cuts"] if c["kind"] == "zoom"),
+             "measured": summarize(R / "check" / "fermi" / "data" / "metrics.json"), "style": style,
+             "script": [ln["text"] for ln in ftl["lines"]]}
+    out = {"generated": "2026-10-04", "pairs": pairs, "formula": (D / "formula.md").read_text(), "fermi": fermi}
     (ROOT / "data.json").write_text(json.dumps(out, indent=1))
     print("data.json:", len(pairs), "pairs,", (ROOT / "data.json").stat().st_size // 1024, "KB")
 

@@ -3,6 +3,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&family=Nunito:wght@700;800&family=Fredoka:wght@700&display=swap">
 <style>
+@font-face { font-family: "Nunito"; font-weight: 800; src: url("fonts/nunito-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Nunito"; font-weight: 900; src: url("fonts/nunito-latin-900-normal.woff2") format("woff2"); }
+@font-face { font-family: "Baloo 2"; font-weight: 800; src: url("fonts/baloo-2-latin-800-normal.woff2") format("woff2"); }
 /* Layout: an edit-suite bench. A top bar of tabs, then one wide working column; results read as
    source | recreation pairs with timecode strips drawn to scale. */
 :root {
@@ -62,6 +65,9 @@ nav button:hover:not([aria-selected="true"]) { color: var(--ink); }
 .stats div { background: var(--surface); padding: 12px 14px; }
 .stats b { display: block; font: 800 1.5rem/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
 .stats span { font-size: 0.8rem; color: var(--muted); }
+.feature { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 16px; margin-bottom: 22px; }
+.feature .cols { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+.script { margin: 0; padding-left: 1.2em; font-size: 0.88rem; color: var(--muted); display: grid; gap: 2px; }
 .notice { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--warn); background: var(--warn-bg); color: var(--ink); border-radius: 0 var(--r) var(--r) 0; font-size: 0.9rem; }
 
 /* result pairs */
@@ -142,7 +148,10 @@ pre.cmd { background: var(--sunken); border: 1px solid var(--line); border-radiu
 
 section[hidden] { display: none !important; }
 @media (max-width: 860px) {
-  .intro, .cols, .studio { grid-template-columns: minmax(0, 1fr); }
+  .intro, .cols, .feature .cols, .studio { grid-template-columns: minmax(0, 1fr); }
+  .pair, .feature, .panel { padding: 14px; }
+  .chip { white-space: normal; }
+  dl.kv { grid-template-columns: minmax(0, 1fr); } dl.kv dd { margin-bottom: 6px; }
   .wrap { padding-inline: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -172,6 +181,8 @@ section[hidden] { display: none !important; }
       </div>
       <div class="stats" id="stats"></div>
     </div>
+    <article class="feature" id="fermi"><p class="muted">Loading the Fermi Paradox film…</p></article>
+    <h2 style="margin:6px 0 14px">Test videos and their recreations</h2>
     <div class="pairs" id="pairs"><p class="muted">Loading results…</p></div>
     <details style="margin-top:22px"><summary>Formula across the five measured videos</summary><div class="md" id="formula"></div></details>
   </section>
@@ -267,6 +278,7 @@ section[hidden] { display: none !important; }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="engine.js"></script>
+<script src="fermi.js"></script>
 <script>
 (() => {
   const E = window.DissectEngine;
@@ -377,8 +389,39 @@ section[hidden] { display: none !important; }
       </article>`;
     }).join("");
     $("#pairs").innerHTML = html;
+    const F = data.fermi;
+    if (F) {
+      const m = F.measured, st = F.style;
+      const prof = [["Flat fills", st.flatness, "share of pixels in flat colour areas"], ["Edges", st.edges, "share of pixels on a hard edge"], ["Colours for 90%", st.economy, "quantised colours covering 90% of the frame"],
+        ["Dark sky", st.dark_bg, "share of near-black pixels"], ["Saturation", st.sat_mean, "mean; accents p90 " + st.sat_p90], ["Brightness", st.brightness, "mean"]];
+      $("#fermi").innerHTML = `<div class="pair-head"><div><p class="eyebrow">New film · flat-vector explainer style</p><h2>Where is everybody? The Fermi Paradox</h2></div><span class="chip study">Genre study</span></div>
+        <div class="cols">
+          <div class="col"><video class="media" controls preload="metadata" playsinline poster="recreations/check/fermi/poster.jpg"><source src="${esc(F.video)}" type="video/mp4"><source src="${esc(F.webm)}" type="video/webm"></video>
+            <p class="hint">${fmt(F.duration)} · 1920×1080 · ${F.designedShots} scenes · original script, characters and music. Subtitles are burned in because no text-to-speech voice was available on the build machine; the Studio narrates it live with your browser's voice.</p>
+            ${strip(m.timeline, m.duration, "Pace, as the dissect skill measured it")}${legend}
+          </div>
+          <div class="col">
+            <dl class="kv"><dt>Designed</dt><dd>${F.designedShots} shots, ${F.designedCuts} hard cuts, ${F.designedZooms} zoom-throughs, 5.8 s average shot</dd>
+            <dt>Skill measured</dt><dd>${m.cuts} hard cuts + ${m.uncertain} uncertain; ${m.steps} in-shot changes. All 12 transitions were found, but 5 cuts between dark-sky scenes read as in-shot changes.</dd>
+            <dt>Loudness</dt><dd>${m.lufs != null ? m.lufs.toFixed(1) + " LUFS" : "n/a"}, ${esc(m.bed || "")}</dd>
+            <dt>Palette</dt><dd><span class="swatches">${st.palette.slice(0, 6).map((c) => `<i style="background:${c.hex}" title="${c.hex}"></i>`).join("")}</span></dd></dl>
+            <div class="table-wrap"><table><thead><tr><th>Style profile</th><th>Value</th><th>Meaning</th></tr></thead><tbody>${prof.map(([a, v, b]) => `<tr><td>${a}</td><td>${v}</td><td style="white-space:normal">${b}</td></tr>`).join("")}</tbody></table></div>
+            <button class="btn primary" id="fermi-open">Edit the script in Studio</button>
+          </div>
+        </div>
+        <img class="media" style="aspect-ratio:auto" loading="lazy" src="${esc(F.stills)}" alt="One still from each of the 13 scenes">
+        <details><summary>Script</summary><ol class="script">${F.script.map((l) => `<li>${esc(l)}</li>`).join("")}</ol></details>
+        <details open><summary>Match it to real Kurzgesagt frames</summary><div class="md">
+          <p>YouTube is blocked on the build machine, so this film follows a study of the genre, not measured frames. To tune it against the real thing, give the study tool screenshots or a video file:</p>
+          <ol><li>Take 20–40 screenshots of a Kurzgesagt video (any screenshot tool), or download the video.</li>
+          <li>Put them in <code>dissect-lab/reference/kurzgesagt/</code> on this branch and push, or attach them in the chat.</li>
+          <li>The comparison runs with <code>uv run --with numpy --with pillow python dissect-lab/tools/study_frames.py dissect-lab/recreations/fermi.mp4 --compare dissect-lab/reference/kurzgesagt</code>, which gives a 0–100 similarity score per measure and side-by-side sheets. The renderer is then tuned until it matches, and the frames are checked by eye too.</li></ol>
+          <p>Or drop a downloaded file into the Analyzer tab for pace, palette and brightness right here.</p></div></details>`;
+      $("#fermi-open").addEventListener("click", () => { studio.load("fermi"); show("studio"); history.replaceState(null, "", "#studio"); });
+    }
     $("#formula").innerHTML = md(data.formula);
     $("#stats").innerHTML = `<div><b>5</b><span>videos measured</span></div><div><b>6</b><span>recreations rendered</span></div><div><b>${ok}/${total}</b><span>targets matched after fixes</span></div>`;
+    $("#stats").style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
     document.querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => { studio.load(b.dataset.open); show("studio"); history.replaceState(null, "", "#studio"); }));
   }
 
@@ -393,9 +436,11 @@ section[hidden] { display: none !important; }
       $("#topic").value = P.sample.topic; $("#script").value = P.sample.lines.join("\n");
       $("#wpm").value = P.wpm || 160; $("#asl").value = P.asl || 4.5;
       $("#captions").checked = !!P.captions; $("#boxes").checked = !!P.boxes;
-      $("#pace-controls").hidden = P.mode !== "narrated";
-      $("#script-label").textContent = P.mode === "narrated" ? "Script, one line per sentence" : P.mode === "beats" ? "Beats, one per shot (no narration in this format)" : "Events, one per subject (no narration in this format)";
-      $("#voice").disabled = P.mode !== "narrated"; $("#voice").checked = P.mode === "narrated";
+      $("#pace-controls").hidden = P.mode !== "narrated" && P.mode !== "scripted";
+      $("#asl").disabled = P.mode === "scripted";
+      $("#script-label").textContent = P.mode === "scripted" ? `Script, one line per scene (${P.sample.lines.length} scenes)` : P.mode === "narrated" ? "Script, one line per sentence" : P.mode === "beats" ? "Beats, one per shot (no narration in this format)" : "Events, one per subject (no narration in this format)";
+      const talks = P.mode === "narrated" || P.mode === "scripted";
+      $("#voice").disabled = !talks; $("#voice").checked = talks;
       $("#music").disabled = !(P.music && P.music !== "none"); $("#music").checked = !$("#music").disabled;
       $("#preset-note").textContent = P.measured ? `Targets measured from the source: average shot ${P.targets.avgShot} s, ${P.targets.shots} shot${P.targets.shots > 1 ? "s" : ""}, saturation ${P.targets.saturation}, brightness ${P.targets.brightness}; transitions: ${P.targets.transitions}.` : "Targets from a style study (not measured).";
       build();
@@ -548,7 +593,7 @@ section[hidden] { display: none !important; }
         ${strip({ shots, cuts: C, uncertain: U, steps: St.map((t) => [t, "local"]) }, dur, "Pace")}${legend}
         <h3>Shot middles</h3><div class="thumbs">${thumbs.map(([src, t], k) => `<figure><img src="${src}" alt="Shot ${k + 1}"><figcaption>S${k + 1} · ${fmt(t)}</figcaption></figure>`).join("")}</div>`;
       $("#an-out").hidden = false;
-      $("#an-open").addEventListener("click", () => { studio.load(best); if (E.PRESETS[best].mode === "narrated") { $("#asl").value = Math.min(10, Math.max(1.5, avgShot.toFixed(1))); studio.build(); } show("studio"); });
+      $("#an-open").addEventListener("click", () => { studio.load(best); if (E.PRESETS[best].mode === "narrated" && !E.PRESETS[best].build) { $("#asl").value = Math.min(10, Math.max(1.5, avgShot.toFixed(1))); studio.build(); } show("studio"); });
       URL.revokeObjectURL(v.src);
     }
     const go = (blob, name) => run(blob, name).catch((e) => msg(e.message || String(e), 0));
@@ -579,8 +624,9 @@ section[hidden] { display: none !important; }
 
   // ---------------------------------------------------------------- boot
   fetch("data.json").then((r) => r.json()).then(renderResults).catch((e) => { $("#pairs").innerHTML = `<p>Couldn't load the results (${esc(e.message)}). Reload the page to try again.</p>`; });
-  studio.load("flat-space");
+  studio.load("fermi");
   const start = (location.hash || "").slice(1) || store.get("lab-tab") || "results";
   show(start);
+  addEventListener("hashchange", () => show(location.hash.slice(1)));
 })();
 </script>

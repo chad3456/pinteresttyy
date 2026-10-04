@@ -77,6 +77,41 @@ def pastoral(tl):
     return buf * fade
 
 
+def popsfx(amp=0.12, f=880.0):
+    t = np.arange(int(0.18 * SR)) / SR
+    sweep = f * (1 + 1.5 * np.exp(-t * 40))
+    return amp * np.sin(2 * np.pi * np.cumsum(sweep) / SR) * np.exp(-t * 28)
+
+
+def riser(dur=1.6, amp=0.08, seed=1):
+    n = np.random.default_rng(seed).standard_normal(int(dur * SR))
+    n = np.convolve(n, np.ones(4) / 4, mode="same")
+    return amp * n * np.linspace(0, 1, len(n)) ** 2.5
+
+
+def boom(amp=0.5):
+    t = np.arange(int(1.6 * SR)) / SR
+    return amp * np.sin(2 * np.pi * (55 + 40 * np.exp(-t * 6)) * t) * np.exp(-t * 2.2)
+
+
+def fermi(tl):
+    """Ambient explainer bed: pad + plucks, whoosh on cuts, pops on entrances, riser and boom into the title."""
+    buf = pad(tl) * 0.9
+    rng = np.random.default_rng(5)
+    for sh in tl["shots"]:
+        for i, at in enumerate(sh.get("sfx", [])):
+            add(buf, popsfx(0.1, float(rng.choice([660, 880, 990, 1175]))), at)
+        if sh["scene"] == "title":
+            add(buf, riser(1.6, 0.09), max(0, sh["start"] - 1.6))
+            add(buf, boom(0.45), sh["start"])
+    fade = np.ones(len(buf))
+    n = int(3 * SR)
+    end = int(tl["duration"] * SR)
+    fade[max(0, end - n):end] = np.linspace(1, 0, min(n, end))
+    fade[end:] = 0
+    return buf * fade
+
+
 def main():
     d = Path(sys.argv[1] if len(sys.argv) > 1 else "recreations")
     for tlf in sorted(d.glob("*.timeline.json")):
@@ -84,7 +119,7 @@ def main():
         tl = json.loads(tlf.read_text())
         silent = d / f"{pid}.silent.mp4"
         out = d / f"{pid}.mp4"
-        kind = {"flat-space": pad, "storybook": pastoral}.get(pid)
+        kind = {"flat-space": pad, "storybook": pastoral, "fermi": fermi}.get(pid)
         if kind is None:
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(silent), "-c", "copy", str(out)], check=True)
         else:

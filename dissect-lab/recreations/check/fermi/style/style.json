@@ -1,0 +1,46 @@
+{
+ "profile": {
+  "flatness": 0.795,
+  "edges": 0.053,
+  "economy": 13.0,
+  "dark_bg": 0.606,
+  "sat_mean": 0.67,
+  "sat_p90": 0.783,
+  "brightness": 0.165,
+  "frames": 25,
+  "palette": [
+   {
+    "hex": "#1c1144",
+    "share": 0.16
+   },
+   {
+    "hex": "#331f5c",
+    "share": 0.147
+   },
+   {
+    "hex": "#0d0c2f",
+    "share": 0.138
+   },
+   {
+    "hex": "#3f316a",
+    "share": 0.133
+   },
+   {
+    "hex": "#140e39",
+    "share": 0.115
+   },
+   {
+    "hex": "#080724",
+    "share": 0.108
+   },
+   {
+    "hex": "#211a50",
+    "share": 0.104
+   },
+   {
+    "hex": "#7b6f9c",
+    "share": 0.095
+   }
+  ]
+ }
+}

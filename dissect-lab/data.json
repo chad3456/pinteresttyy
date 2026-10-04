@@ -1082,5 +1082,202 @@
    }
   }
  ],
- "formula": "# Formula: five test videos\n\nFive openly licensed sample videos, dissected on 2026-10-04 without transcripts:\n\n| Video | Length | Shots | Avg shot | Measured changes | Saturation | Brightness | Audio |\n|---|---|---|---|---|---|---|---|\n| Big Buck Bunny (opening) | 60.1 s | 6 | 10.0 s | 5 cuts, 3 dissolves, 8 in-shot changes | 0.35 | 0.52 | Music bed, -26 LUFS |\n| Classroom | 32.8 s | 1 | 32.8 s | 1 | 0.24 | 0.51 | None |\n| Store aisle | 65.4 s | 1 | 65.4 s | 1 | 0.14 | 0.52 | Silent |\n| Corridor walk-up | 90.9 s | 1 | 90.9 s | 3 (hidden jump cuts) | 0.11 | 0.51 | Silent |\n| Parking lot | 53.9 s | 1 | 53.9 s | 0 | 0.02 | 0.53 | Silent |\n\nNone of these have platform stats (they're local files), so the \"best performer\" comparison can't be made. Instead, this compares the two formats in the set.\n\n## What stays constant (the real format of the four Intel clips)\n\n- **One locked-off take.** No cuts, pans or zooms; rhythm comes from subjects entering and leaving.\n- **Brightness \u2248 0.51\u20130.53** in all four, from flat, even, real-world light.\n- **Low saturation (0.02\u20130.24)**, falling as the setting gets more utilitarian.\n- **No music or voice.**\n- **Gaps are part of the rhythm.** Every clip has empty or still stretches between actions (parking lot: 7\u201310 s empty between subjects).\n\n## What varies\n\n- **Camera angle** sets the job: overhead for counting (aisle, lot), eye-level for faces (corridor), high corner for behaviour (classroom).\n- **Density curve:** the aisle builds from 0 to 5 people; the lot shows one subject at a time; the corridor repeats walk-ups.\n- **Hidden edits:** only the corridor clip joins takes, as jump cuts while the frame is empty (0:19.2, 0:44.0).\n\n## The outlier: Big Buck Bunny\n\nThe only produced piece. It shares brightness (0.52) with the rest but uses six shots, dissolves, a music bed, a title and staged reveals. Its formula: world first, then a sidekick gag, then the title over the hero's home, then a reveal in the dark and a payoff in the light.\n\n## Merged template (fixed-cam)\n\n```\nCamera: {{ANGLE}} on a tripod, exposure and white balance locked. One take of {{40\u201390}} s.\n0:00     Empty or near-empty frame, 3\u20137 s\nthen     Subject 1 enters from a frame edge, does one readable action, leaves or settles\nthen     2\u201310 s of stillness\nthen     Subject 2 (different type or a pair), repeat; optionally build the count up to 4\u20135\nend      Settle to stillness for 5+ s\nLook:    saturation 0.02\u20130.24, brightness ~0.52, no grade, no text (or detection boxes)\nSound:   none\n```\n"
+ "formula": "# Formula: five test videos\n\nFive openly licensed sample videos, dissected on 2026-10-04 without transcripts:\n\n| Video | Length | Shots | Avg shot | Measured changes | Saturation | Brightness | Audio |\n|---|---|---|---|---|---|---|---|\n| Big Buck Bunny (opening) | 60.1 s | 6 | 10.0 s | 5 cuts, 3 dissolves, 8 in-shot changes | 0.35 | 0.52 | Music bed, -26 LUFS |\n| Classroom | 32.8 s | 1 | 32.8 s | 1 | 0.24 | 0.51 | None |\n| Store aisle | 65.4 s | 1 | 65.4 s | 1 | 0.14 | 0.52 | Silent |\n| Corridor walk-up | 90.9 s | 1 | 90.9 s | 3 (hidden jump cuts) | 0.11 | 0.51 | Silent |\n| Parking lot | 53.9 s | 1 | 53.9 s | 0 | 0.02 | 0.53 | Silent |\n\nNone of these have platform stats (they're local files), so the \"best performer\" comparison can't be made. Instead, this compares the two formats in the set.\n\n## What stays constant (the real format of the four Intel clips)\n\n- **One locked-off take.** No cuts, pans or zooms; rhythm comes from subjects entering and leaving.\n- **Brightness \u2248 0.51\u20130.53** in all four, from flat, even, real-world light.\n- **Low saturation (0.02\u20130.24)**, falling as the setting gets more utilitarian.\n- **No music or voice.**\n- **Gaps are part of the rhythm.** Every clip has empty or still stretches between actions (parking lot: 7\u201310 s empty between subjects).\n\n## What varies\n\n- **Camera angle** sets the job: overhead for counting (aisle, lot), eye-level for faces (corridor), high corner for behaviour (classroom).\n- **Density curve:** the aisle builds from 0 to 5 people; the lot shows one subject at a time; the corridor repeats walk-ups.\n- **Hidden edits:** only the corridor clip joins takes, as jump cuts while the frame is empty (0:19.2, 0:44.0).\n\n## The outlier: Big Buck Bunny\n\nThe only produced piece. It shares brightness (0.52) with the rest but uses six shots, dissolves, a music bed, a title and staged reveals. Its formula: world first, then a sidekick gag, then the title over the hero's home, then a reveal in the dark and a payoff in the light.\n\n## Merged template (fixed-cam)\n\n```\nCamera: {{ANGLE}} on a tripod, exposure and white balance locked. One take of {{40\u201390}} s.\n0:00     Empty or near-empty frame, 3\u20137 s\nthen     Subject 1 enters from a frame edge, does one readable action, leaves or settles\nthen     2\u201310 s of stillness\nthen     Subject 2 (different type or a pair), repeat; optionally build the count up to 4\u20135\nend      Settle to stillness for 5+ s\nLook:    saturation 0.02\u20130.24, brightness ~0.52, no grade, no text (or detection boxes)\nSound:   none\n```\n",
+ "fermi": {
+  "video": "recreations/fermi.mp4",
+  "webm": "recreations/fermi.webm",
+  "stills": "recreations/check/fermi/stills.jpg",
+  "duration": 76.0,
+  "designedShots": 13,
+  "designedCuts": 10,
+  "designedZooms": 2,
+  "measured": {
+   "duration": 76.0,
+   "width": 1920,
+   "height": 1080,
+   "shots": 7,
+   "avgShot": 10.9,
+   "cuts": 6,
+   "uncertain": 1,
+   "steps": 10,
+   "dissolves": 1,
+   "saturation": 0.68,
+   "brightness": 0.16,
+   "palette": [
+    {
+     "hex": "#1b1142",
+     "share": 0.16
+    },
+    {
+     "hex": "#3e3369",
+     "share": 0.138
+    },
+    {
+     "hex": "#120e36",
+     "share": 0.127
+    },
+    {
+     "hex": "#0c0c2e",
+     "share": 0.125
+    },
+    {
+     "hex": "#372059",
+     "share": 0.124
+    },
+    {
+     "hex": "#080723",
+     "share": 0.12
+    }
+   ],
+   "lufs": -16.27,
+   "bed": "music-like bed (tonal)",
+   "sfxOnCuts": 0.6666666666666666,
+   "sfxBaseline": 0.62,
+   "hasAudio": true,
+   "timeline": {
+    "shots": [
+     [
+      0.0,
+      18.04
+     ],
+     [
+      18.04,
+      32.29
+     ],
+     [
+      32.29,
+      35.29
+     ],
+     [
+      35.29,
+      38.71
+     ],
+     [
+      38.71,
+      57.38
+     ],
+     [
+      57.38,
+      64.54
+     ],
+     [
+      64.54,
+      76.0
+     ]
+    ],
+    "cuts": [
+     18.04,
+     32.29,
+     35.29,
+     38.71,
+     57.38,
+     64.54
+    ],
+    "uncertain": [
+     6.79
+    ],
+    "steps": [
+     [
+      11.79,
+      "local"
+     ],
+     [
+      25.12,
+      "local"
+     ],
+     [
+      45.79,
+      "local"
+     ],
+     [
+      46.29,
+      "local"
+     ],
+     [
+      46.79,
+      "local"
+     ],
+     [
+      47.96,
+      "local"
+     ],
+     [
+      51.38,
+      "local"
+     ],
+     [
+      52.38,
+      "local"
+     ],
+     [
+      68.88,
+      "local"
+     ],
+     [
+      75.25,
+      "dissolve"
+     ]
+    ]
+   }
+  },
+  "style": {
+   "flatness": 0.795,
+   "edges": 0.053,
+   "economy": 13.0,
+   "dark_bg": 0.606,
+   "sat_mean": 0.67,
+   "sat_p90": 0.783,
+   "brightness": 0.165,
+   "frames": 25,
+   "palette": [
+    {
+     "hex": "#1c1144",
+     "share": 0.16
+    },
+    {
+     "hex": "#331f5c",
+     "share": 0.147
+    },
+    {
+     "hex": "#0d0c2f",
+     "share": 0.138
+    },
+    {
+     "hex": "#3f316a",
+     "share": 0.133
+    },
+    {
+     "hex": "#140e39",
+     "share": 0.115
+    },
+    {
+     "hex": "#080724",
+     "share": 0.108
+    },
+    {
+     "hex": "#211a50",
+     "share": 0.104
+    },
+    {
+     "hex": "#7b6f9c",
+     "share": 0.095
+    }
+   ]
+  },
+  "script": [
+   "Look up on a clear night and you can see a few thousand stars.",
+   "Our galaxy alone holds around two hundred billion of them.",
+   "Many have planets, and some of those planets orbit where water can stay liquid.",
+   "Even if life starts on only a tiny fraction of them, the galaxy should be crowded.",
+   "A civilization slightly older than ours could have spread across it in a few million years.",
+   "So where is everybody?",
+   "This is the Fermi Paradox.",
+   "One answer is a Great Filter: a step so hard that almost nothing gets past it.",
+   "Maybe it is behind us, and simple life almost never becomes complex.",
+   "Or maybe it lies ahead, waiting for every civilization that reaches our level.",
+   "Perhaps they are out there, but too far apart, too quiet, or not interested in us.",
+   "Or perhaps we really are among the first.",
+   "Either way, the silence says something about our own future."
+  ]
+ }
 }

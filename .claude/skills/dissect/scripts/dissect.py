@@ -1369,7 +1369,8 @@ def write_facts(path: Path, ctx: dict) -> None:
     a("## Caveats\n")
     a("- Cut detection works on small frames sampled at "
       f"{vis.get('fps')} fps. Fast camera moves, flashes and smoke can look like cuts (listed as uncertain); a cut between "
-      "two very similar framings (a subtle jump cut) can be missed or show up as a step change.")
+      "two very similar framings (a subtle jump cut), or between scenes that share a dark background (space, night skies), "
+      "can be missed or show up as a step change. On dark-background animation, treat large step changes as possible cuts.")
     a("- Step changes are local changes that stay: usually text, graphics, stickers or a punch-in. Word-by-word captions "
       "produce many of them.")
     a("- The bed, sound-hit and emphasis numbers are heuristics. When the frames or your ears disagree, trust them.")
