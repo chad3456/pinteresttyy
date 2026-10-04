@@ -146,9 +146,31 @@ textarea { min-height: 170px; resize: vertical; line-height: 1.45; }
 pre.cmd { background: var(--sunken); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 0.85rem/1.5 var(--f-mono); margin: 0; }
 .cmd-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
 
+.make-intro { padding-block: 26px 14px; display: grid; gap: 8px; }
+.mk-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: step; }
+.mk-step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; display: grid; gap: 14px; counter-increment: step; }
+.mk-step > header { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.mk-step > header::before { content: counter(step); font: 800 0.95rem/1 var(--f-mono); color: var(--accent-ink); background: var(--accent); border-radius: 999px; width: 28px; height: 28px; display: inline-grid; place-items: center; flex: none; }
+.mk-step > header h3 { font-size: 1.1rem; }
+.mk-step.done > header::before { content: "✓"; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.frames { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.frames img { height: 84px; border-radius: 6px; flex: none; }
+.colors { display: flex; flex-wrap: wrap; gap: 10px; }
+.colors label { display: grid; justify-items: center; gap: 2px; font: 0.72rem var(--f-mono); color: var(--muted); }
+.colors input { width: 44px; height: 34px; border: 1px solid var(--line); border-radius: 8px; padding: 2px; background: var(--bg); }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px 14px; align-items: end; }
+.script-rows { display: grid; gap: 8px; }
+.srow { display: grid; grid-template-columns: 130px minmax(0, 1fr) minmax(0, 2.2fr) auto; gap: 8px; align-items: start; }
+.srow textarea { min-height: 44px; }
+.status { font-size: 0.85rem; color: var(--muted); min-height: 1.2em; }
+.status.err { color: var(--bad); }
+.ai { display: inline-flex; gap: 6px; align-items: center; }
+.example { font: 600 0.72rem var(--f-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--warn); }
 section[hidden] { display: none !important; }
 @media (max-width: 860px) {
-  .intro, .cols, .feature .cols, .studio { grid-template-columns: minmax(0, 1fr); }
+  .intro, .cols, .feature .cols, .studio, .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .srow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .srow textarea { grid-column: 1 / -1; }
   .pair, .feature, .panel { padding: 14px; }
   .chip { white-space: normal; }
   dl.kv { grid-template-columns: minmax(0, 1fr); } dl.kv dd { margin-bottom: 6px; }
@@ -161,7 +183,8 @@ section[hidden] { display: none !important; }
   <div class="wrap">
     <div class="brand"><h1>Dissect Lab</h1><span class="tc" id="tc">00:00:00:00</span></div>
     <nav role="tablist" aria-label="Sections">
-      <button role="tab" id="tab-results" aria-controls="results" aria-selected="true">Results</button>
+      <button role="tab" id="tab-make" aria-controls="make" aria-selected="true">Make a video</button>
+      <button role="tab" id="tab-results" aria-controls="results" aria-selected="false">Results</button>
       <button role="tab" id="tab-studio" aria-controls="studio" aria-selected="false">Studio</button>
       <button role="tab" id="tab-analyzer" aria-controls="analyzer" aria-selected="false">Analyzer</button>
       <button role="tab" id="tab-run" aria-controls="run" aria-selected="false">Run locally</button>
@@ -171,7 +194,64 @@ section[hidden] { display: none !important; }
 
 <main class="wrap">
   <!-- RESULTS -->
-  <section id="results" role="tabpanel" aria-labelledby="tab-results">
+  <!-- MAKE -->
+  <section id="make" role="tabpanel" aria-labelledby="tab-make">
+    <div class="make-intro">
+      <p class="eyebrow">Guided maker</p>
+      <h2>Make a video in the style of any video</h2>
+      <p class="muted">Give it a reference video, then a topic. It measures the reference's pace, colours and captions, writes a script, and builds a new animated video in that style. The example below is ready to play; replace each step with your own.</p>
+    </div>
+    <ol class="mk-steps">
+      <li class="mk-step" id="mk-s1"><header><h3>Add a reference video</h3><span class="example" id="mk-ex1">Example: no reference yet, using a default style</span></header>
+        <div class="drop" id="mk-drop">
+          <b>Drop a video file here</b>
+          <span class="muted">Any MP4, WebM or MOV you have, such as a video you downloaded or recorded. The first 3 minutes are measured, on your device.</span>
+          <div class="row"><label class="btn primary" for="mk-file">Choose a video</label><input type="file" id="mk-file" accept="video/*" hidden>
+            <button class="btn" id="mk-sample">Try with the Fermi Paradox film</button></div>
+        </div>
+        <div id="mk-an-status" hidden><div class="progress"><i id="mk-bar"></i></div><p class="status" id="mk-msg"></p></div>
+        <div id="mk-measure" hidden></div>
+      </li>
+      <li class="mk-step" id="mk-s2"><header><h3>Read its style</h3><span class="ai" id="mk-read-wrap" hidden><button class="btn primary" id="mk-read">Ask Claude to read the style</button><button class="btn" id="mk-read-stop" hidden>Stop</button></span></header>
+        <p id="mk-summary">A dark, saturated explainer look with rounded type and calm pacing.</p>
+        <p class="status" id="mk-style-msg"></p>
+        <div class="colors" id="mk-colors"></div>
+        <div class="opts">
+          <label for="mk-mood">Mood <select id="mk-mood"><option>calm</option><option>curious</option><option>energetic</option><option>dramatic</option><option>playful</option></select></label>
+          <label for="mk-bg">Background <select id="mk-bg"><option value="dark">dark</option><option value="light">light</option></select></label>
+          <label for="mk-font">Type <select id="mk-font"><option value="rounded">rounded</option><option value="bold-sans">bold sans</option><option value="serif">serif</option></select></label>
+          <label for="mk-trans">Transitions <select id="mk-trans"><option value="cut">hard cuts</option><option value="dissolve">dissolves</option></select></label>
+          <label for="mk-caps">Captions <select id="mk-caps"><option value="off">none</option><option value="0">subtitles</option><option value="1">1 word at a time</option><option value="2">2 words</option><option value="3">3 words</option><option value="4">4 words</option></select></label>
+          <label for="mk-cappos">Caption position <select id="mk-cappos"><option value="bottom">bottom</option><option value="center">lower middle</option></select></label>
+          <label class="check"><input type="checkbox" id="mk-upper"> UPPERCASE text</label>
+          <div class="slider"><label for="mk-asl">Average shot</label><span class="mono" id="mk-asl-v"></span><input type="range" id="mk-asl" min="1.5" max="10" step="0.5"></div>
+          <div class="slider"><label for="mk-wpm">Narration pace</label><span class="mono" id="mk-wpm-v"></span><input type="range" id="mk-wpm" min="110" max="220" step="5"></div>
+        </div>
+        <ul class="hint" id="mk-rules" hidden></ul>
+      </li>
+      <li class="mk-step" id="mk-s3"><header><h3>Write the script</h3></header>
+        <div class="opts">
+          <label for="mk-topic" style="grid-column: span 2">Topic <input type="text" id="mk-topic" value="Why do we dream?"></label>
+          <label for="mk-len">Length <select id="mk-len"><option value="30">30 seconds</option><option value="45" selected>45 seconds</option><option value="60">60 seconds</option><option value="90">90 seconds</option></select></label>
+        </div>
+        <div class="row"><span class="ai" id="mk-write-wrap" hidden><button class="btn primary" id="mk-write">Write it with Claude</button><button class="btn" id="mk-write-stop" hidden>Stop</button></span>
+          <button class="btn" id="mk-starter">Use a starter template</button><button class="btn" id="mk-add">Add a line</button></div>
+        <p class="status" id="mk-script-msg"></p>
+        <div class="script-rows" id="mk-rows"></div>
+      </li>
+      <li class="mk-step" id="mk-s4"><header><h3>Build, watch and save</h3><button class="btn primary" id="mk-build">Build my video</button></header>
+        <canvas class="screen" id="mk-canvas" width="1280" height="720" aria-label="Your video"></canvas>
+        <div class="transport"><button class="btn primary" id="mk-play">Play</button><button class="btn" id="mk-restart">Restart</button>
+          <input type="range" id="mk-scrub" min="0" max="1000" value="0" aria-label="Position"><span class="mono" id="mk-time">0:00.0</span></div>
+        <div class="row"><label class="check"><input type="checkbox" id="mk-voice" checked> Narrate with browser voice</label><label class="check"><input type="checkbox" id="mk-music" checked> Music and sound effects</label>
+          <button class="btn" id="mk-record">Record video</button><button class="btn primary" id="mk-save" hidden>Save video</button></div>
+        <p class="status" id="mk-rec-msg">Recording captures picture, music and effects in real time. Browsers don't let a page record its own speech voice, so add narration in an editor, or read the script over it.</p>
+        <video class="media" id="mk-out" controls hidden></video>
+      </li>
+    </ol>
+  </section>
+
+  <section id="results" role="tabpanel" aria-labelledby="tab-results" hidden>
     <div class="intro">
       <div>
         <p class="eyebrow">Test bench for the /dissect skill</p>
@@ -279,6 +359,7 @@ section[hidden] { display: none !important; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="engine.js"></script>
 <script src="fermi.js"></script>
+<script src="maker.js"></script>
 <script>
 (() => {
   const E = window.DissectEngine;
@@ -309,9 +390,9 @@ section[hidden] { display: none !important; }
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
 
   // ---------------------------------------------------------------- tabs
-  const tabs = ["results", "studio", "analyzer", "run"];
+  const tabs = ["make", "results", "studio", "analyzer", "run"];
   function show(id) {
-    if (!tabs.includes(id)) id = "results";
+    if (!tabs.includes(id)) id = "make";
     tabs.forEach((t) => { $("#" + t).hidden = t !== id; $("#tab-" + t).setAttribute("aria-selected", t === id); });
     store.set("lab-tab", id);
     if (id === "studio") studio.draw();
@@ -510,91 +591,24 @@ section[hidden] { display: none !important; }
 
   // ---------------------------------------------------------------- analyzer (browser port of the skill's cut detector)
   const analyzer = (() => {
-    const GRID = 8;
-    const median = (a) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[s.length >> 1]; };
-    const seek = (v, t) => new Promise((res) => { const h = () => { v.removeEventListener("seeked", h); res(); }; v.addEventListener("seeked", h); v.currentTime = t; });
     function msg(text, k) { $("#an-status").hidden = false; $("#an-msg").textContent = text; if (k != null) $("#an-bar").style.width = `${Math.round(k * 100)}%`; }
     async function run(blob, name) {
       $("#an-out").hidden = true;
-      const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = URL.createObjectURL(blob);
-      await new Promise((res, rej) => { v.onloadeddata = res; v.onerror = () => rej(new Error("This browser can't decode that file. Try an MP4 (H.264) or WebM.")); });
-      const dur = Math.min(v.duration, 180), fps = dur > 90 ? 4 : 6, n = Math.floor(dur * fps);
-      const w = v.videoWidth >= v.videoHeight ? 96 : Math.round(96 * v.videoWidth / v.videoHeight), h = v.videoWidth >= v.videoHeight ? Math.round(96 * v.videoHeight / v.videoWidth) : 96;
-      const c = document.createElement("canvas"); c.width = w; c.height = h; const cx = c.getContext("2d", { willReadFrequently: true });
-      const dp = [], dh = [], bf = [], bmax = [], th = [], lum = [], sat = [], pix = [];
-      let prevG = null, prevH = null;
-      for (let i = 0; i < n; i++) {
-        await seek(v, i / fps); cx.drawImage(v, 0, 0, w, h);
-        const d = cx.getImageData(0, 0, w, h).data, g = new Float32Array(w * h), hist = new Float32Array(64);
-        let L = 0, S = 0;
-        for (let p = 0, q = 0; p < d.length; p += 4, q++) {
-          const r = d[p], gg = d[p + 1], b = d[p + 2]; g[q] = (0.299 * r + 0.587 * gg + 0.114 * b) / 255; L += g[q];
-          const mx = Math.max(r, gg, b), mn = Math.min(r, gg, b); S += mx ? (mx - mn) / mx : 0;
-          hist[(r >> 6) * 16 + (gg >> 6) * 4 + (b >> 6)]++;
-          if (q % 37 === 0) pix.push([r, gg, b]);
-        }
-        hist.forEach((x, k) => (hist[k] = x / (w * h))); lum.push(L / (w * h)); sat.push(S / (w * h));
-        const blocks = new Float32Array(GRID * GRID), bd = new Float32Array(GRID * GRID), cnt = new Float32Array(GRID * GRID);
-        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const k = Math.min(GRID - 1, Math.floor(y / h * GRID)) * GRID + Math.min(GRID - 1, Math.floor(x / w * GRID)), q = y * w + x;
-          blocks[k] += g[q]; if (prevG) bd[k] += Math.abs(g[q] - prevG[q]); cnt[k]++; }
-        blocks.forEach((x, k) => { blocks[k] = x / cnt[k]; bd[k] = bd[k] / cnt[k]; });
-        th.push(blocks);
-        if (prevG) { let s = 0; for (let q = 0; q < g.length; q++) s += Math.abs(g[q] - prevG[q]); dp.push(s / g.length); let hd = 0; for (let k = 0; k < 64; k++) hd += Math.abs(hist[k] - prevH[k]); dh.push(hd / 2);
-          bf.push(bd.filter((x) => x > 0.1).length / bd.length); bmax.push(Math.max(...bd)); } else { dp.push(0); dh.push(0); bf.push(0); bmax.push(0); }
-        prevG = g; prevH = hist;
-        if (i % 6 === 0) msg(`Scanning frames: ${fmt(i / fps)} of ${fmt(dur)}`, (i / n) * 0.8);
-      }
-      // same rules as dissect.py: hard cut, uncertain, change inside a shot
-      const half = Math.max(3, Math.round(fps * 0.75)), cuts = [], unc = [], steps = [];
-      const loc = (arr, i) => median([...arr.slice(Math.max(0, i - half), i), ...arr.slice(i + 1, i + half + 1)]);
-      const td = (a, b) => { a = Math.max(0, Math.min(n - 1, a)); b = Math.max(0, Math.min(n - 1, b)); let s = 0; for (let k = 0; k < 64; k++) s += Math.abs(th[a][k] - th[b][k]); return s / 64; };
-      for (let i = 1; i < n; i++) {
-        const mdp = loc(dp, i), mdh = loc(dh, i), mbf = loc(bf, i), mbm = loc(bmax, i), t = (i - 0.5) / fps;
-        const spike = dp[i] >= 2.5 * mdp + 0.03 || dh[i] >= 2.5 * mdh + 0.1, motion = mdp >= 0.06 || mbf >= 0.45;
-        const returns = td(i - 1, i + 2) < 0.35 * Math.max(td(i - 1, i), 1e-6) && td(i - 1, i + 2) < 0.03;
-        const nb = Math.max(dp[i - 1], dp[i + 1] || 0);
-        const strong = (bf[i] >= 0.5 && (dh[i] >= 0.25 || (dp[i] >= 0.07 && bf[i] >= 0.65))) || (dh[i] >= 0.2 && dp[i] >= 0.04 && dp[i] >= 4 * nb && bf[i] >= 0.12);
-        if (strong && spike && !returns && !motion) cuts.push(t);
-        else if ((strong && (spike || !returns)) || (bf[i] >= 0.3 && spike && (dh[i] >= 0.15 || dp[i] >= 0.04))) unc.push(t);
-        else if (bmax[i] >= 2.5 * mbm + 0.06 && bmax[i] >= 0.12 && mbf < 0.2) steps.push(t);
-      }
-      const nms = (arr) => arr.filter((t, k) => k === 0 || t - arr[k - 1] >= 0.3);
-      const C = nms(cuts), U = nms(unc).filter((t) => C.every((c) => Math.abs(c - t) >= 0.3)), St = nms(steps).filter((t) => [...C, ...U].every((c) => Math.abs(c - t) >= 0.3));
-      const bounds = [0, ...C, dur], shots = bounds.slice(1).map((b, k) => [bounds[k], b]);
-      // thumbnails at shot middles
-      const tw = 240, thh = Math.round(tw * v.videoHeight / v.videoWidth), tc = document.createElement("canvas"); tc.width = tw; tc.height = thh;
-      const thumbs = [];
-      for (const [a, b] of shots.slice(0, 24)) { await seek(v, (a + b) / 2); tc.getContext("2d").drawImage(v, 0, 0, tw, thh); thumbs.push([tc.toDataURL("image/jpeg", 0.8), (a + b) / 2]); }
-      msg("Reading the audio…", 0.9);
-      let audioTxt = "No audio track found, or this browser couldn't decode it.";
-      try {
-        const buf = await (new (window.AudioContext || window.webkitAudioContext)()).decodeAudioData(await blob.arrayBuffer());
-        const x = buf.getChannelData(0), sr = buf.sampleRate, hop = Math.round(sr * 0.05), lv = [];
-        for (let k = 0; k + hop <= Math.min(x.length, dur * sr); k += hop) { let s = 0; for (let j = k; j < k + hop; j++) s += x[j] * x[j]; lv.push(10 * Math.log10(s / hop + 1e-12)); }
-        const med = median(lv), quiet = lv.filter((d) => d < -50).length / lv.length;
-        audioTxt = `Median level ${med.toFixed(1)} dBFS (RMS, not LUFS); ${(quiet * 100).toFixed(0)}% of the time below -50 dBFS.`;
-      } catch {}
-      // palette: a few rounds of k-means over sampled pixels
-      let cent = [[20, 20, 30], [90, 90, 90], [160, 160, 160], [230, 230, 230], [200, 120, 60], [60, 120, 200]];
-      for (let it = 0; it < 6; it++) { const acc = cent.map(() => [0, 0, 0, 0]); for (const p of pix) { let bi = 0, bd = 1e9; cent.forEach((c, k) => { const d = (c[0] - p[0]) ** 2 + (c[1] - p[1]) ** 2 + (c[2] - p[2]) ** 2; if (d < bd) { bd = d; bi = k; } }); const a = acc[bi]; a[0] += p[0]; a[1] += p[1]; a[2] += p[2]; a[3]++; }
-        cent = acc.map((a, k) => (a[3] ? [a[0] / a[3], a[1] / a[3], a[2] / a[3], a[3]] : [...cent[k].slice(0, 3), 0])); }
-      const pal = cent.filter((c) => c[3]).sort((a, b) => b[3] - a[3]).map((c) => "#" + c.slice(0, 3).map((x) => Math.round(x).toString(16).padStart(2, "0")).join(""));
-      const avgShot = dur / shots.length, sa = sat.reduce((a, b) => a + b, 0) / sat.length, br = lum.reduce((a, b) => a + b, 0) / lum.length;
-      // closest style
-      const cands = Object.entries(E.PRESETS).map(([id, P]) => { const tg = P.targets; const as = typeof tg.avgShot === "number" ? tg.avgShot : 4.5, ts = typeof tg.saturation === "number" ? tg.saturation : 0.7, tb = typeof tg.brightness === "number" ? tg.brightness : 0.2;
-        return [id, Math.abs(Math.log(avgShot / as)) + 3 * Math.abs(sa - ts) + 3 * Math.abs(br - tb)]; }).sort((a, b) => a[1] - b[1]);
+      const m = await window.Maker.analyze(blob, msg), dur = m.duration;
+      const cands = Object.entries(E.PRESETS).filter(([id]) => id !== "custom").map(([id, P]) => { const tg = P.targets || {}; const as = typeof tg.avgShot === "number" ? tg.avgShot : 4.5, ts = typeof tg.saturation === "number" ? tg.saturation : 0.7, tb = typeof tg.brightness === "number" ? tg.brightness : 0.2;
+        return [id, Math.abs(Math.log(m.avgShot / as)) + 3 * Math.abs(m.saturation - ts) + 3 * Math.abs(m.brightness - tb)]; }).sort((a, b) => a[1] - b[1]);
       const best = cands[0][0];
-      msg("Done.", 1);
-      $("#an-out").innerHTML = `<div class="pair-head"><div><p class="eyebrow">Browser measurement</p><h2>${esc(name)}</h2></div><span class="chip measured">${fmt(dur)} analysed at ${fps} fps</span></div>
-        <div class="stats"><div><b>${shots.length}</b><span>shots</span></div><div><b>${avgShot.toFixed(1)} s</b><span>average shot</span></div><div><b>${(C.length / (dur / 60)).toFixed(1)}–${((C.length + U.length) / (dur / 60)).toFixed(1)}</b><span>cuts per minute</span></div></div>
-        <dl class="kv"><dt>Changes</dt><dd>${C.length} hard cuts, ${U.length} uncertain, ${St.length} changes inside shots</dd><dt>Look</dt><dd>saturation ${sa.toFixed(2)}, brightness ${br.toFixed(2)}</dd>
-        <dt>Palette</dt><dd><span class="swatches">${pal.map((c) => `<i style="background:${c}" title="${c}"></i>`).join("")}</span></dd><dt>Audio</dt><dd>${esc(audioTxt)}</dd>
-        <dt>Closest style</dt><dd>${esc(E.PRESETS[best].name)} <button class="btn" id="an-open">Open in Studio</button></dd></dl>
-        ${strip({ shots, cuts: C, uncertain: U, steps: St.map((t) => [t, "local"]) }, dur, "Pace")}${legend}
-        <h3>Shot middles</h3><div class="thumbs">${thumbs.map(([src, t], k) => `<figure><img src="${src}" alt="Shot ${k + 1}"><figcaption>S${k + 1} · ${fmt(t)}</figcaption></figure>`).join("")}</div>`;
+      $("#an-out").innerHTML = `<div class="pair-head"><div><p class="eyebrow">Browser measurement</p><h2>${esc(name)}</h2></div><span class="chip measured">${fmt(dur)} analysed at ${m.fps} fps</span></div>
+        <div class="stats"><div><b>${m.shots.length}</b><span>shots</span></div><div><b>${m.avgShot.toFixed(1)} s</b><span>average shot</span></div><div><b>${m.cutsPerMin.toFixed(1)}–${((m.cuts.length + m.uncertain.length) / (dur / 60)).toFixed(1)}</b><span>cuts per minute</span></div></div>
+        <dl class="kv"><dt>Changes</dt><dd>${m.cuts.length} hard cuts, ${m.uncertain.length} uncertain, ${m.steps.length} changes inside shots</dd><dt>Look</dt><dd>saturation ${m.saturation.toFixed(2)}, brightness ${m.brightness.toFixed(2)}</dd>
+        <dt>Palette</dt><dd><span class="swatches">${m.palette.slice(0, 6).map((c) => `<i style="background:${c.hex}" title="${c.hex}"></i>`).join("")}</span></dd>
+        <dt>Audio</dt><dd>${m.audio ? `median level ${m.audio.median.toFixed(1)} dBFS (RMS, not LUFS); ${(m.audio.quiet * 100).toFixed(0)}% of the time below -50 dBFS` : "No audio track found, or this browser couldn't decode it."}</dd>
+        <dt>Closest preset</dt><dd>${esc(E.PRESETS[best].name)} <button class="btn" id="an-open">Open in Studio</button></dd></dl>
+        ${strip({ shots: m.shots, cuts: m.cuts, uncertain: m.uncertain, steps: m.steps.map((t) => [t, "local"]) }, dur, "Pace")}${legend}
+        <h3>Frames</h3><div class="thumbs">${m.frames.map((f, k) => `<figure><img src="${f.url}" alt="Frame ${k + 1}"><figcaption>${fmt(f.t)}</figcaption></figure>`).join("")}</div>
+        <p class="hint">To make a new video in this style, use the Make a video tab.</p>`;
       $("#an-out").hidden = false;
-      $("#an-open").addEventListener("click", () => { studio.load(best); if (E.PRESETS[best].mode === "narrated" && !E.PRESETS[best].build) { $("#asl").value = Math.min(10, Math.max(1.5, avgShot.toFixed(1))); studio.build(); } show("studio"); });
-      URL.revokeObjectURL(v.src);
+      $("#an-open").addEventListener("click", () => { studio.load(best); show("studio"); });
     }
     const go = (blob, name) => run(blob, name).catch((e) => msg(e.message || String(e), 0));
     $("#file").addEventListener("change", (e) => e.target.files[0] && go(e.target.files[0], e.target.files[0].name));
@@ -625,8 +639,191 @@ section[hidden] { display: none !important; }
   // ---------------------------------------------------------------- boot
   fetch("data.json").then((r) => r.json()).then(renderResults).catch((e) => { $("#pairs").innerHTML = `<p>Couldn't load the results (${esc(e.message)}). Reload the page to try again.</p>`; });
   studio.load("fermi");
-  const start = (location.hash || "").slice(1) || store.get("lab-tab") || "results";
+  const start = (location.hash || "").slice(1) || store.get("lab-tab") || "make";
   show(start);
   addEventListener("hashchange", () => show(location.hash.slice(1)));
+})();
+</script>
+
+<script>
+(() => {
+  const M = window.Maker, E = window.DissectEngine, $ = (q) => document.querySelector(q);
+  const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt = (t) => { t = Math.max(0, t || 0); const m = Math.floor(t / 60); return `${m}:${(t - m * 60).toFixed(1).padStart(4, "0")}`; };
+  const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const load = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
+  const ERR = { not_granted: "Claude isn't allowed for this page. You can still use the starter template and edit everything by hand.",
+    sampling_disabled: "Claude isn't available for this account. Use the starter template instead.", rate_limited: "Too many requests right now. Wait a minute and try again.",
+    session_expired: "Your session expired. Sign in again, then retry.", image_rejected: "One of the frames was rejected. Try a different reference video.",
+    refused: "Claude declined that request. Try a different topic or wording.", invalid_json: "The answer came back in the wrong shape. Try again.",
+    empty_completion: "Claude returned nothing. Try again with a simpler topic.", upstream_error: "The connection dropped. Try again." };
+  const errText = (e) => ERR[e?.code] || (e?.message ? `Something went wrong: ${e.message}` : "Something went wrong. Try again.");
+
+  // example state: a dark explainer look and an original script, so the page works before any input
+  const EXAMPLE_STYLE = { summary: "Example style: dark gradient backgrounds, saturated pink, amber and teal accents, rounded type, calm explainer pacing.", genre: "animated explainer", mood: "curious", background: "dark",
+    colors: { bg1: "#0b0d2c", bg2: "#241656", accent1: "#33c9e0", accent2: "#ffb340", accent3: "#ff5d8f", text: "#f6f3ff" },
+    captions: { on: true, uppercase: false, box: false, position: "bottom", wordsAtATime: 0 }, font: "rounded", narration: { wpm: 155, tone: "curious and clear" }, avgShot: 4.5, transition: "cut", do: [], avoid: [] };
+  const EXAMPLE_SCRIPT = [
+    { text: "Every night your brain puts on a show, and you almost never remember it.", visual: "question", label: "Why do we dream?" },
+    { text: "Most adults spend around two hours a night dreaming, mostly during REM sleep.", visual: "number", label: "2 hours a night", number: 2 },
+    { text: "Scientists have a few leading ideas about why we do it.", visual: "list", label: "", items: ["sorting memories", "practising threats", "processing feelings"] },
+    { text: "One idea is that dreams help sort and store what you learned during the day.", visual: "icon", label: "memory", icon: "book" },
+    { text: "Another is that they let us rehearse danger somewhere safe.", visual: "icon", label: "practice run", icon: "warning" },
+    { text: "REM periods also get longer as the night goes on.", visual: "chart", label: "REM gets longer", number: 4 },
+    { text: "Most likely, dreams do several of these jobs at once.", visual: "statement", label: "several jobs at once" },
+    { text: "So tonight, enjoy the show.", visual: "character", label: "sweet dreams!" },
+  ];
+  let style = load("mk-style") || structuredClone(EXAMPLE_STYLE), rows = load("mk-rows") || structuredClone(EXAMPLE_SCRIPT), measured = null;
+  if (load("mk-topic")) $("#mk-topic").value = load("mk-topic");
+  let sample = null, maxImages = 0, downloads = null, lastBlob = null, ctl = null;
+
+  // ---- style editor
+  const COLOR_KEYS = [["bg1", "Background 1"], ["bg2", "Background 2"], ["accent1", "Accent 1"], ["accent2", "Accent 2"], ["accent3", "Accent 3"], ["text", "Text"]];
+  $("#mk-colors").innerHTML = COLOR_KEYS.map(([k, l]) => `<label for="mk-c-${k}"><input type="color" id="mk-c-${k}">${l}</label>`).join("");
+  function renderStyle() {
+    $("#mk-summary").textContent = style.summary;
+    COLOR_KEYS.forEach(([k]) => ($("#mk-c-" + k).value = style.colors[k]));
+    $("#mk-mood").value = style.mood; $("#mk-bg").value = style.background; $("#mk-font").value = style.font; $("#mk-trans").value = style.transition;
+    $("#mk-caps").value = style.captions.on ? String(style.captions.wordsAtATime || 0) : "off"; $("#mk-cappos").value = style.captions.position; $("#mk-upper").checked = style.captions.uppercase;
+    $("#mk-asl").value = style.avgShot; $("#mk-wpm").value = style.narration.wpm; $("#mk-asl-v").textContent = `${(+style.avgShot).toFixed(1)} s`; $("#mk-wpm-v").textContent = `${style.narration.wpm} wpm`;
+    const rules = [...(style.do || []).map((x) => "Keep: " + x), ...(style.avoid || []).map((x) => "Avoid: " + x)];
+    $("#mk-rules").hidden = !rules.length; $("#mk-rules").innerHTML = rules.map((r) => `<li>${esc(r)}</li>`).join("");
+  }
+  function readStyle() {
+    COLOR_KEYS.forEach(([k]) => (style.colors[k] = $("#mk-c-" + k).value));
+    style.mood = $("#mk-mood").value; style.background = $("#mk-bg").value; style.font = $("#mk-font").value; style.transition = $("#mk-trans").value;
+    const cv = $("#mk-caps").value; style.captions = { on: cv !== "off", wordsAtATime: cv === "off" ? 0 : +cv, position: $("#mk-cappos").value, uppercase: $("#mk-upper").checked, box: false };
+    style.avgShot = +$("#mk-asl").value; style.narration.wpm = +$("#mk-wpm").value;
+    $("#mk-asl-v").textContent = `${style.avgShot.toFixed(1)} s`; $("#mk-wpm-v").textContent = `${style.narration.wpm} wpm`;
+    save("mk-style", style); build();
+  }
+  document.querySelectorAll("#mk-s2 input, #mk-s2 select").forEach((el) => el.addEventListener("input", readStyle));
+
+  // ---- script rows
+  function renderRows() {
+    $("#mk-rows").innerHTML = rows.map((r, i) => `<div class="srow" data-i="${i}">
+      <select aria-label="Visual for line ${i + 1}" data-k="visual">${M.VISUALS.map((v) => `<option${v === r.visual ? " selected" : ""}>${v}</option>`).join("")}</select>
+      <input type="text" aria-label="On-screen text for line ${i + 1}" data-k="label" placeholder="on-screen text" value="${esc(r.items && r.items.length ? r.items.join(", ") : r.label)}">
+      <textarea aria-label="Narration for line ${i + 1}" data-k="text">${esc(r.text)}</textarea>
+      <button class="btn" data-del="${i}" aria-label="Remove line ${i + 1}">Remove</button></div>`).join("");
+  }
+  function readRows() {
+    rows = [...document.querySelectorAll("#mk-rows .srow")].map((el) => {
+      const visual = el.querySelector('[data-k="visual"]').value, label = el.querySelector('[data-k="label"]').value.trim(), text = el.querySelector('[data-k="text"]').value.trim();
+      const num = parseFloat(label.replace(/,/g, "").match(/-?\d+(\.\d+)?/)?.[0]);
+      const multi = (visual === "list" || visual === "compare") && /,|\bvs\b/i.test(label);
+      return { text, visual, label: multi ? "" : label, items: multi ? label.split(/,|\bvs\.?\b/i).map((x) => x.trim()).filter(Boolean) : null, number: Number.isFinite(num) ? num : null, icon: null };
+    }).filter((r) => r.text);
+    save("mk-rows", rows);
+  }
+  $("#mk-rows").addEventListener("input", () => { readRows(); scheduleBuild(); });
+  $("#mk-rows").addEventListener("click", (e) => { const d = e.target.closest("[data-del]"); if (!d) return; readRows(); rows.splice(+d.dataset.del, 1); save("mk-rows", rows); renderRows(); build(); });
+  $("#mk-add").addEventListener("click", () => { readRows(); rows.push({ text: "A new line of narration.", visual: "statement", label: "new point" }); renderRows(); build(); });
+  $("#mk-starter").addEventListener("click", () => { rows = M.starterScript($("#mk-topic").value.trim()); save("mk-rows", rows); renderRows(); build(); $("#mk-script-msg").textContent = "Starter template added. Replace the words with your own."; });
+  $("#mk-topic").addEventListener("input", () => save("mk-topic", $("#mk-topic").value));
+
+  // ---- player
+  const player = M.Player($("#mk-canvas"), {
+    onTime: (t, d) => { $("#mk-time").textContent = `${fmt(t)} / ${fmt(d)}`; $("#mk-scrub").value = Math.round((t / Math.max(0.01, d)) * 1000); },
+    onState: (st) => { $("#mk-play").textContent = st === "playing" || st === "recording" ? "Pause" : "Play"; },
+  });
+  let buildTimer = 0;
+  const scheduleBuild = () => { clearTimeout(buildTimer); buildTimer = setTimeout(build, 400); };
+  function build() {
+    if (!rows.length) return;
+    const tl = M.register(style, rows);
+    player.set(tl, { voice: $("#mk-voice").checked, music: $("#mk-music").checked, wpm: style.narration.wpm });
+    player.seekTo(Math.min(tl.duration * 0.04 + 1.2, tl.duration));
+  }
+  $("#mk-build").addEventListener("click", () => { readRows(); build(); player.seekTo(0); player.play(); });
+  $("#mk-play").addEventListener("click", () => (player.playing ? player.stop() : player.play()));
+  $("#mk-restart").addEventListener("click", () => player.seekTo(0));
+  $("#mk-scrub").addEventListener("input", (e) => player.tl && player.seekTo((+e.target.value / 1000) * player.tl.duration));
+  ["mk-voice", "mk-music"].forEach((id) => $("#" + id).addEventListener("change", () => player.tl && player.set(player.tl, { voice: $("#mk-voice").checked, music: $("#mk-music").checked })));
+  $("#mk-record").addEventListener("click", async () => {
+    if ($("#mk-record").dataset.on) { player.cancelRecording(); return; }
+    $("#mk-record").dataset.on = "1"; $("#mk-record").textContent = "Stop recording"; $("#mk-rec-msg").textContent = "Recording in real time. Keep this tab visible until it finishes.";
+    try {
+      lastBlob = await player.record();
+      const v = $("#mk-out"); v.src = URL.createObjectURL(lastBlob); v.hidden = false;
+      $("#mk-save").hidden = !downloads;
+      $("#mk-rec-msg").textContent = downloads ? `Recorded ${(lastBlob.size / 1e6).toFixed(1)} MB. Save it, then add narration in any editor if you want a voice.` : "Recorded. Play it below. Saving files isn't available in this view; run the lab locally to save.";
+    } catch (e) { $("#mk-rec-msg").textContent = e.message || "Recording failed."; }
+    delete $("#mk-record").dataset.on; $("#mk-record").textContent = "Record video";
+  });
+  $("#mk-save").addEventListener("click", async () => {
+    if (!lastBlob || !downloads) return;
+    const name = ($("#mk-topic").value.trim() || "my-video").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "my-video";
+    try { await downloads.save({ filename: name + ".webm", data: lastBlob }); $("#mk-rec-msg").textContent = "Saved."; }
+    catch (e) { $("#mk-rec-msg").textContent = e.code === "declined" ? "Not saved." : e.code === "rate_limited" ? "A save prompt is already open." : "Saving isn't available here."; if (["unavailable", "not_granted", "capability_disabled", "capability_removed"].includes(e.code)) $("#mk-save").hidden = true; }
+  });
+
+  // ---- step 1: reference video
+  function bar(text, k) { $("#mk-an-status").hidden = false; $("#mk-msg").textContent = text; $("#mk-msg").classList.remove("err"); if (k != null) $("#mk-bar").style.width = `${Math.round(k * 100)}%`; }
+  async function analyze(blob, name) {
+    try {
+      measured = await M.analyze(blob, bar); measured.name = name;
+      const m = measured;
+      $("#mk-measure").hidden = false; $("#mk-ex1").textContent = name;
+      $("#mk-measure").innerHTML = `<div class="grid2"><dl class="kv">
+          <dt>Length</dt><dd>${fmt(m.duration)} measured · ${m.width}×${m.height}</dd>
+          <dt>Pace</dt><dd>${m.shots.length} shots, ${m.avgShot.toFixed(1)} s average, ${m.cutsPerMin.toFixed(0)} cuts a minute</dd>
+          <dt>Changes</dt><dd>a visual change every ${(60 / Math.max(0.1, m.changesPerMin)).toFixed(1)} s</dd>
+          <dt>Look</dt><dd>${m.brightness < 0.42 ? "dark" : "light"} (brightness ${m.brightness.toFixed(2)}), saturation ${m.saturation.toFixed(2)}</dd>
+          <dt>Palette</dt><dd><span class="swatches">${m.palette.slice(0, 6).map((c) => `<i style="background:${c.hex}" title="${c.hex}"></i>`).join("")}</span></dd>
+          <dt>Audio</dt><dd>${m.audio ? `median ${m.audio.median.toFixed(0)} dBFS` : "none found"}</dd></dl>
+        <div class="frames">${m.frames.map((f) => `<img src="${f.url}" alt="Frame at ${fmt(f.t)}">`).join("")}</div></div>`;
+      style = M.styleFromMeasurements(m); save("mk-style", style); renderStyle(); build();
+      $("#mk-s1").classList.add("done");
+      $("#mk-style-msg").textContent = sample ? "Style set from the measurements. Ask Claude to look at the frames for colours, captions and mood, or adjust it yourself." : "Style set from the measurements. Adjust anything below.";
+      $("#mk-read-wrap").hidden = !sample;
+    } catch (e) { $("#mk-msg").textContent = e.message || String(e); $("#mk-msg").classList.add("err"); }
+  }
+  $("#mk-file").addEventListener("change", (e) => e.target.files[0] && analyze(e.target.files[0], e.target.files[0].name));
+  const drop = $("#mk-drop");
+  drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer.files[0]; f && analyze(f, f.name); });
+  $("#mk-sample").addEventListener("click", async () => { bar("Loading the Fermi Paradox film…", 0); analyze(await (await fetch("recreations/fermi.webm")).blob(), "The Fermi Paradox film"); });
+
+  // ---- step 2 and 3: Claude
+  async function ask(kind) {
+    const isStyle = kind === "style", msgEl = isStyle ? $("#mk-style-msg") : $("#mk-script-msg"), stopBtn = isStyle ? $("#mk-read-stop") : $("#mk-write-stop"), goBtn = isStyle ? $("#mk-read") : $("#mk-write");
+    ctl = new AbortController(); stopBtn.hidden = false; goBtn.disabled = true; msgEl.classList.remove("err");
+    msgEl.textContent = isStyle ? `Claude is looking at ${maxImages ? Math.min(maxImages, measured.frames.length) : 0} frames and the measurements. This can take up to a minute.` : "Claude is writing the script. This can take up to a minute.";
+    try {
+      if (isStyle) {
+        const opts = { signal: ctl.signal }; if (maxImages) opts.images = measured.frames.slice(0, maxImages).map((f) => f.blob);
+        const ai = await sample.json(M.stylePrompt(measured, style), opts);
+        style = M.mergeStyle(style, ai); save("mk-style", style); renderStyle(); build(); $("#mk-s2").classList.add("done");
+        msgEl.textContent = "Style read. Every setting below is yours to change.";
+      } else {
+        readStyle();
+        const topic = $("#mk-topic").value.trim(); if (!topic) { msgEl.textContent = "Type a topic first."; return; }
+        const arr = await sample.json(M.scriptPrompt(topic, +$("#mk-len").value, style), { signal: ctl.signal, cache: false });
+        const next = M.normalizeScript(arr); if (!next.length) throw { code: "invalid_json" };
+        rows = next; save("mk-rows", rows); renderRows(); build(); $("#mk-s3").classList.add("done");
+        msgEl.textContent = `Script written: ${rows.length} lines. Edit any line, then build.`;
+      }
+    } catch (e) {
+      if (e?.code !== "cancelled") { msgEl.textContent = errText(e); msgEl.classList.add("err"); } else msgEl.textContent = "Stopped.";
+      if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(e?.code)) { $("#mk-read-wrap").hidden = true; $("#mk-write-wrap").hidden = true; }
+    } finally { stopBtn.hidden = true; goBtn.disabled = false; }
+  }
+  $("#mk-read").addEventListener("click", () => measured && ask("style"));
+  $("#mk-write").addEventListener("click", () => ask("script"));
+  $("#mk-read-stop").addEventListener("click", () => ctl?.abort());
+  $("#mk-write-stop").addEventListener("click", () => ctl?.abort());
+
+  // ---- capabilities light up when available
+  (async () => {
+    if (!window.claude?.use) return;
+    try { sample = await window.claude.use("sample"); } catch { sample = null; }
+    if (sample) { $("#mk-write-wrap").hidden = false; try { const lim = await sample.limits(); maxImages = lim.images ? Math.min(lim.images.maxCount, 8) : 0; } catch { maxImages = 0; } if (measured) $("#mk-read-wrap").hidden = false; }
+    try { downloads = await window.claude.use("downloads"); } catch { downloads = null; }
+    if (downloads && lastBlob) $("#mk-save").hidden = false;
+  })();
+
+  renderStyle(); renderRows(); build();
 })();
 </script>

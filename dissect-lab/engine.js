@@ -514,7 +514,19 @@
     // subtitles
     if (tl.captions) {
       const ln = tl.lines.find((l) => t >= l.start && t <= l.end && l.text);
-      if (ln) {
+      const cs = tl.captionStyle || {};
+      if (ln && cs.chunk) { // punchy word-by-word captions, current word highlighted
+        const words = ln.text.split(/\s+/), k = (t - ln.start) / Math.max(0.01, ln.end - ln.start), wi = Math.min(words.length - 1, Math.floor(k * words.length));
+        const from = Math.floor(wi / cs.chunk) * cs.chunk, chunk = words.slice(from, from + cs.chunk);
+        ctx.save(); ctx.font = (cs.font ? `${cs.font.split(" ")[0]} 58px ${cs.font.split(" ").slice(1).join(" ")}` : "900 58px Nunito, sans-serif"); ctx.textBaseline = "middle"; ctx.textAlign = "left";
+        const txt = chunk.map((w) => (cs.upper ? w.toUpperCase() : w)), sp = ctx.measureText(" ").width, total = txt.reduce((a, w) => a + ctx.measureText(w).width, 0) + sp * (txt.length - 1);
+        let x = W / 2 - total / 2; const y = cs.position === "center" ? H * 0.78 : H - 80;
+        txt.forEach((w, j) => { const ww = ctx.measureText(w).width, cur = from + j === wi;
+          ctx.lineWidth = 10; ctx.lineJoin = "round"; ctx.strokeStyle = "rgba(0,0,0,0.85)"; ctx.strokeText(w, x, y);
+          ctx.fillStyle = cur ? (cs.highlight || "#ffd400") : "#ffffff"; ctx.save(); if (cur) { ctx.translate(x + ww / 2, y); ctx.scale(1.08, 1.08); ctx.translate(-(x + ww / 2), -y); } ctx.fillText(w, x, y); ctx.restore();
+          x += ww + sp; });
+        ctx.restore();
+      } else if (ln) {
         ctx.font = "800 30px Nunito, 'Baloo 2', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
         const rows = wrapText(ctx, ln.text, W * 0.7), k = Math.min(1, (t - ln.start) / 0.2, (ln.end - t) / 0.2);
         ctx.save(); ctx.globalAlpha = Math.max(0, k);
