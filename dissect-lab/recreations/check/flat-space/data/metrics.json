@@ -1,0 +1,180 @@
+{
+ "version": "1.1.0",
+ "depth": "quick",
+ "probe": {
+  "duration": 44.833333,
+  "has_video": true,
+  "has_audio": true,
+  "width": 1280,
+  "height": 720,
+  "fps": 24.0,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "sample_rate": 96000,
+  "channels": 1
+ },
+ "analysed_seconds": 44.83,
+ "cuts": [
+  {
+   "t": 6.56,
+   "kind": "cut",
+   "score": 0.392
+  },
+  {
+   "t": 11.44,
+   "kind": "cut",
+   "score": 0.388
+  },
+  {
+   "t": 18.44,
+   "kind": "cut",
+   "score": 0.679
+  },
+  {
+   "t": 23.31,
+   "kind": "cut",
+   "score": 0.828
+  },
+  {
+   "t": 33.81,
+   "kind": "cut",
+   "score": 0.504
+  },
+  {
+   "t": 39.44,
+   "kind": "cut",
+   "score": 0.472
+  }
+ ],
+ "uncertain": [],
+ "steps": [
+  {
+   "t": 15.06,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.28,
+   "score": 0.173
+  },
+  {
+   "t": 29.44,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.22,
+   "score": 0.19
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 6.56,
+   "len": 6.56
+  },
+  {
+   "n": 2,
+   "start": 6.56,
+   "end": 11.44,
+   "len": 4.88
+  },
+  {
+   "n": 3,
+   "start": 11.44,
+   "end": 18.44,
+   "len": 7.0
+  },
+  {
+   "n": 4,
+   "start": 18.44,
+   "end": 23.31,
+   "len": 4.87
+  },
+  {
+   "n": 5,
+   "start": 23.31,
+   "end": 33.81,
+   "len": 10.5
+  },
+  {
+   "n": 6,
+   "start": 33.81,
+   "end": 39.44,
+   "len": 5.63
+  },
+  {
+   "n": 7,
+   "start": 39.44,
+   "end": 44.83,
+   "len": 5.39
+  }
+ ],
+ "voice": {},
+ "sound": {
+  "overall_db": -14.4,
+  "no_speech": true,
+  "bed_verdict": "music-like bed (tonal)",
+  "tempo_bpm_rough": {
+   "bpm": 154,
+   "confidence": 0.46
+  },
+  "silences": [],
+  "silence_count": 0,
+  "transients": {
+   "on_cuts": 1.0,
+   "cuts_checked": 6,
+   "on_steps": 0.0,
+   "steps_checked": 2,
+   "baseline": 0.62
+  },
+  "sfx_on_cuts_likely": true,
+  "hook_db_vs_rest": 0.3
+ },
+ "loudness": {
+  "integrated_lufs": -15.98,
+  "true_peak_dbtp": -2.52,
+  "range_lu": 0.7
+ },
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.17217493617601048,
+  "saturation": 0.7276054972725658,
+  "temperature": "cool (blue > red)",
+  "palette": [
+   {
+    "hex": "#431b5b",
+    "share": 0.169
+   },
+   {
+    "hex": "#1b1b4d",
+    "share": 0.164
+   },
+   {
+    "hex": "#111138",
+    "share": 0.131
+   },
+   {
+    "hex": "#171544",
+    "share": 0.122
+   },
+   {
+    "hex": "#446e9d",
+    "share": 0.119
+   },
+   {
+    "hex": "#26103d",
+    "share": 0.108
+   },
+   {
+    "hex": "#1c2d54",
+    "share": 0.094
+   },
+   {
+    "hex": "#381449",
+    "share": 0.093
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

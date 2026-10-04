@@ -1,0 +1,72 @@
+{
+ "version": "1.1.0",
+ "depth": "quick",
+ "probe": {
+  "duration": 45.0,
+  "has_video": true,
+  "has_audio": false,
+  "width": 1280,
+  "height": 720,
+  "fps": 24.0,
+  "vcodec": "h264"
+ },
+ "analysed_seconds": 45.0,
+ "cuts": [],
+ "uncertain": [],
+ "steps": [],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 45.0,
+   "len": 45.0
+  }
+ ],
+ "voice": {},
+ "sound": {},
+ "loudness": {},
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.532112525900205,
+  "saturation": 0.017071710309634607,
+  "temperature": "neutral",
+  "palette": [
+   {
+    "hex": "#8b8b8d",
+    "share": 0.497
+   },
+   {
+    "hex": "#88888a",
+    "share": 0.168
+   },
+   {
+    "hex": "#7e7d80",
+    "share": 0.152
+   },
+   {
+    "hex": "#979899",
+    "share": 0.07
+   },
+   {
+    "hex": "#8b8b8c",
+    "share": 0.061
+   },
+   {
+    "hex": "#8d8b8d",
+    "share": 0.026
+   },
+   {
+    "hex": "#8b8b8e",
+    "share": 0.021
+   },
+   {
+    "hex": "#898b8d",
+    "share": 0.005
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

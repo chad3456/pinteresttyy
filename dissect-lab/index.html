@@ -1,0 +1,586 @@
+<title>Dissect Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&family=Nunito:wght@700;800&family=Fredoka:wght@700&display=swap">
+<style>
+/* Layout: an edit-suite bench. A top bar of tabs, then one wide working column; results read as
+   source | recreation pairs with timecode strips drawn to scale. */
+:root {
+  --bg: #eef0f3; --surface: #ffffff; --sunken: #e3e6eb; --ink: #151922; --muted: #586172; --line: #d3d8e0;
+  --accent: #c2410c; --accent-ink: #ffffff;
+  --cut: #151922; --step: #b7870a; --unc: #d93036; --dissolve: #2f6fd6;
+  --shot-a: #c9d0da; --shot-b: #b3bcc9;
+  --ok: #1f7a4d; --ok-bg: #dcf1e5; --warn: #8a5a00; --warn-bg: #fbecc8; --bad: #a3242a; --bad-bg: #f9dcdd;
+  --f-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111318; --surface: #191c23; --sunken: #0c0e12; --ink: #e8eaef; --muted: #9aa3b3; --line: #2a2f3a;
+  --accent: #ff8a4c; --accent-ink: #1a0d05;
+  --cut: #e8eaef; --step: #f0c419; --unc: #ff6b6f; --dissolve: #6aa3ff;
+  --shot-a: #2c323e; --shot-b: #3a4252;
+  --ok: #6fd6a0; --ok-bg: #12301f; --warn: #f3c25b; --warn-bg: #33270b; --bad: #ff8a8e; --bad-bg: #3a1517;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111318; --surface: #191c23; --sunken: #0c0e12; --ink: #e8eaef; --muted: #9aa3b3; --line: #2a2f3a;
+  --accent: #ff8a4c; --accent-ink: #1a0d05;
+  --cut: #e8eaef; --step: #f0c419; --unc: #ff6b6f; --dissolve: #6aa3ff;
+  --shot-a: #2c323e; --shot-b: #3a4252;
+  --ok: #6fd6a0; --ok-bg: #12301f; --warn: #f3c25b; --warn-bg: #33270b; --bad: #ff8a8e; --bad-bg: #3a1517;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: 1.6rem; font-weight: 800; }
+h2 { font-size: 1.35rem; font-weight: 800; }
+h3 { font-size: 1rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+.muted { color: var(--muted); }
+.eyebrow { font: 600 0.72rem/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* top bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; padding-block: 14px; }
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.tc { font: 600 0.8rem var(--f-mono); color: var(--accent); }
+nav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav button { font: 500 0.9rem var(--f-body); color: var(--muted); background: none; border: 0; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+nav button[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+nav button:hover:not([aria-selected="true"]) { color: var(--ink); }
+
+/* intro */
+.intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; padding-block: 28px 20px; align-items: start; }
+.intro p + p { margin-top: 8px; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.stats div { background: var(--surface); padding: 12px 14px; }
+.stats b { display: block; font: 800 1.5rem/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.stats span { font-size: 0.8rem; color: var(--muted); }
+.notice { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--warn); background: var(--warn-bg); color: var(--ink); border-radius: 0 var(--r) var(--r) 0; font-size: 0.9rem; }
+
+/* result pairs */
+.pair { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 18px; }
+.pairs { display: grid; gap: 22px; }
+.pair-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 600 0.72rem/1 var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.measured { background: var(--sunken); color: var(--ink); }
+.chip.study { background: var(--warn-bg); color: var(--warn); }
+.chip.ok { background: var(--ok-bg); color: var(--ok); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.bad { background: var(--bad-bg); color: var(--bad); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.col { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.media { aspect-ratio: 16 / 9; width: 100%; max-width: 100%; background: var(--sunken); border-radius: 8px; overflow: hidden; display: block; object-fit: cover; }
+video.media { object-fit: contain; background: #000; }
+.swatches { display: flex; gap: 4px; }
+.swatches i { width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--line); }
+dl.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; margin: 0; font-size: 0.88rem; }
+dl.kv dt { color: var(--muted); }
+dl.kv dd { margin: 0; font-variant-numeric: tabular-nums; }
+.strip { display: grid; gap: 4px; }
+.strip svg { width: 100%; height: 34px; display: block; }
+.strip .axis { display: flex; justify-content: space-between; font: 0.72rem var(--f-mono); color: var(--muted); }
+.sa { fill: var(--shot-a); } .sb { fill: var(--shot-b); }
+.tk-cut { stroke: var(--cut); stroke-width: 3; } .tk-unc { stroke: var(--unc); stroke-width: 3; stroke-dasharray: 4 3; }
+.tk-step { stroke: var(--step); stroke-width: 2; } .tk-dis { stroke: var(--dissolve); stroke-width: 3; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.78rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 3px; vertical-align: middle; margin-right: 5px; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 0.72rem var(--f-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+td { font-variant-numeric: tabular-nums; }
+details { border-top: 1px solid var(--line); padding-top: 10px; }
+summary { cursor: pointer; font-weight: 600; }
+.md { max-width: 80ch; font-size: 0.92rem; overflow-wrap: anywhere; }
+.md h1 { font-size: 1.25rem; margin: 14px 0 6px; } .md h2 { font-size: 1.05rem; margin: 18px 0 6px; } .md h3 { font-size: 0.95rem; margin: 12px 0 4px; }
+.md table { display: block; overflow-x: auto; } .md td, .md th { white-space: normal; min-width: 90px; }
+.md pre { background: var(--sunken); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 0.82rem; }
+.md p, .md ul, .md ol { margin: 8px 0; }
+.sheets { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-top: 10px; }
+.sheets a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.sheets img { display: block; width: 100%; }
+
+/* studio */
+.studio { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 20px; padding-block: 24px; }
+.stage { display: grid; gap: 10px; align-content: start; min-width: 0; }
+canvas.screen { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 8px; background: #000; }
+.transport { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.transport input[type="range"] { flex: 1 1 200px; min-width: 0; accent-color: var(--accent); }
+.btn { font: 600 0.88rem var(--f-body); border-radius: 8px; padding: 8px 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+label { display: grid; gap: 4px; font-size: 0.85rem; font-weight: 500; }
+input[type="text"], select, textarea { font: 0.92rem var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+textarea { min-height: 170px; resize: vertical; line-height: 1.45; }
+.row { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+.check { display: flex; align-items: center; gap: 6px; grid-template-columns: none; }
+.hint { font-size: 0.8rem; color: var(--muted); }
+.slider { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; }
+.slider input { grid-column: 1 / -1; accent-color: var(--accent); }
+
+/* analyzer */
+.drop { border: 2px dashed var(--line); border-radius: var(--r); padding: 28px; display: grid; gap: 10px; justify-items: start; background: var(--surface); }
+.drop.over { border-color: var(--accent); }
+.progress { height: 6px; background: var(--sunken); border-radius: 999px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.2s; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.thumbs figure { margin: 0; font: 0.75rem var(--f-mono); color: var(--muted); }
+.thumbs img { width: 100%; border-radius: 6px; display: block; }
+
+/* run */
+.steps { display: grid; gap: 16px; padding-block: 24px; max-width: 860px; }
+pre.cmd { background: var(--sunken); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 0.85rem/1.5 var(--f-mono); margin: 0; }
+.cmd-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+
+section[hidden] { display: none !important; }
+@media (max-width: 860px) {
+  .intro, .cols, .studio { grid-template-columns: minmax(0, 1fr); }
+  .wrap { padding-inline: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="brand"><h1>Dissect Lab</h1><span class="tc" id="tc">00:00:00:00</span></div>
+    <nav role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-results" aria-controls="results" aria-selected="true">Results</button>
+      <button role="tab" id="tab-studio" aria-controls="studio" aria-selected="false">Studio</button>
+      <button role="tab" id="tab-analyzer" aria-controls="analyzer" aria-selected="false">Analyzer</button>
+      <button role="tab" id="tab-run" aria-controls="run" aria-selected="false">Run locally</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- RESULTS -->
+  <section id="results" role="tabpanel" aria-labelledby="tab-results">
+    <div class="intro">
+      <div>
+        <p class="eyebrow">Test bench for the /dissect skill</p>
+        <h2 style="margin-top:6px">Five videos measured, six recreations rendered, each checked by the same skill</h2>
+        <p style="margin-top:10px">The skill measured each source video and wrote a blueprint. The recreation engine turned each blueprint into a new video on a new topic. Then the skill measured the recreation, and the engine was fixed wherever the numbers missed. Both rounds are shown below.</p>
+        <div class="notice"><b>About the Kurzgesagt-style entry.</b> YouTube and every other video site were blocked on the machine that built this, so no Kurzgesagt video could be downloaded. That recreation follows a style study of the genre, not a measurement. To measure a real one, drop a downloaded file into the Analyzer tab or run the skill on its link from your own machine.</div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="pairs" id="pairs"><p class="muted">Loading results…</p></div>
+    <details style="margin-top:22px"><summary>Formula across the five measured videos</summary><div class="md" id="formula"></div></details>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio" role="tabpanel" aria-labelledby="tab-studio" hidden>
+    <div class="studio">
+      <div class="stage">
+        <canvas class="screen" id="screen" width="1280" height="720" aria-label="Recreation preview"></canvas>
+        <div class="transport">
+          <button class="btn primary" id="play">Play</button>
+          <button class="btn" id="restart">Restart</button>
+          <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Position">
+          <span class="mono" id="time">0:00.0 / 0:00.0</span>
+        </div>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="voice" checked> Narrate with browser voice</label>
+          <label class="check"><input type="checkbox" id="music" checked> Music bed</label>
+          <button class="btn" id="record">Record video</button>
+        </div>
+        <p class="hint" id="rec-note">Recording captures the picture and music. Browsers don't let pages record their own speech voice, so add narration in your editor.</p>
+        <video class="media" id="rec-out" controls hidden></video>
+        <div class="strip" id="studio-strip"></div>
+      </div>
+      <form class="panel" id="studio-form" autocomplete="off">
+        <label for="preset">Style (from a blueprint)
+          <select id="preset"></select>
+        </label>
+        <p class="hint" id="preset-note"></p>
+        <label for="topic">Topic <input type="text" id="topic"></label>
+        <label for="script"><span id="script-label">Script, one line per sentence</span>
+          <textarea id="script"></textarea>
+        </label>
+        <div id="pace-controls" class="row" style="display:grid;gap:10px">
+          <div class="slider"><label for="wpm">Narration pace</label><span class="mono" id="wpm-v"></span><input type="range" id="wpm" min="110" max="220" step="5"></div>
+          <div class="slider"><label for="asl">Average shot</label><span class="mono" id="asl-v"></span><input type="range" id="asl" min="1.5" max="10" step="0.5"></div>
+        </div>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="captions"> Subtitles</label>
+          <label class="check"><input type="checkbox" id="boxes"> Detection boxes</label>
+        </div>
+        <button class="btn primary" type="submit">Build video</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ANALYZER -->
+  <section id="analyzer" role="tabpanel" aria-labelledby="tab-analyzer" hidden>
+    <div class="steps" style="max-width:none">
+      <div>
+        <h2>Measure a video in your browser</h2>
+        <p class="muted" style="margin-top:6px">A lighter version of the skill's measuring step. It finds cuts and on-screen changes, the pace, palette, brightness and audio level, then suggests the closest style. Your file stays on your device. Dissolves, transcripts, voice analysis and platform stats need the full skill, so a dissolve may show up here as a cut.</p>
+      </div>
+      <div class="drop" id="drop">
+        <b>Drop a video file here</b>
+        <span class="muted">MP4, WebM or MOV. The first 3 minutes are analysed.</span>
+        <div class="row">
+          <label class="btn primary" for="file" style="display:inline-block">Choose a file</label>
+          <input type="file" id="file" accept="video/*" hidden>
+          <button class="btn" id="sample">Analyse the storybook recreation</button>
+        </div>
+      </div>
+      <div id="an-status" hidden>
+        <div class="progress"><i id="an-bar"></i></div>
+        <p class="hint" id="an-msg" style="margin-top:6px"></p>
+      </div>
+      <div id="an-out" class="panel" hidden></div>
+    </div>
+  </section>
+
+  <!-- RUN -->
+  <section id="run" role="tabpanel" aria-labelledby="tab-run" hidden>
+    <div class="steps">
+      <h2>Run the full skill on any link</h2>
+      <p>The full skill downloads the video, transcribes it with word timings and measures the voice, music and platform stats. It needs a machine that can reach the video site and Hugging Face (for the speech model).</p>
+      <h3>1. In Claude Code, inside the repository</h3>
+      <div class="cmd-row"><pre class="cmd">/dissect https://www.youtube.com/watch?v=VIDEO_ID</pre><button class="btn copy">Copy</button></div>
+      <h3>2. Or run the measuring script yourself</h3>
+      <div class="cmd-row"><pre class="cmd">uv run .claude/skills/dissect/scripts/dissect.py "https://www.youtube.com/watch?v=VIDEO_ID" --depth standard</pre><button class="btn copy">Copy</button></div>
+      <p class="hint">Missing something? <code>python3 .claude/skills/dissect/scripts/doctor.py</code> checks ffmpeg, uv, packages and network access and prints install commands.</p>
+      <h3>3. Run this lab on your machine</h3>
+      <div class="cmd-row"><pre class="cmd">python3 dissect-lab/server.py   # then open http://localhost:8765</pre><button class="btn copy">Copy</button></div>
+      <p>Served locally, this page gets a form that sends a link straight to the skill and adds the result here.</p>
+      <form class="panel" id="local-form" hidden>
+        <label for="link">Video link or file path <input type="text" id="link" placeholder="https://www.youtube.com/shorts/…"></label>
+        <label for="depth">Depth <select id="depth"><option>quick</option><option selected>standard</option><option>deep</option></select></label>
+        <button class="btn primary" type="submit">Dissect</button>
+        <p class="hint" id="local-msg"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="engine.js"></script>
+<script>
+(() => {
+  const E = window.DissectEngine;
+  const $ = (s, el = document) => el.querySelector(s);
+  const fmt = (t) => { t = Math.max(0, t || 0); const m = Math.floor(t / 60); return `${m}:${(t - m * 60).toFixed(1).padStart(4, "0")}`; };
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // markdown: marked from cdnjs when it loads, otherwise a small built-in renderer (offline/local use)
+  const md = (src) => {
+    if (window.marked) return window.marked.parse(src);
+    const inline = (s) => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<i>$1</i>");
+    const out = []; const L = src.split("\n"); let i = 0;
+    while (i < L.length) {
+      const l = L[i];
+      if (/^```/.test(l)) { const buf = []; i++; while (i < L.length && !/^```/.test(L[i])) buf.push(esc(L[i++])); i++; out.push(`<pre>${buf.join("\n")}</pre>`); continue; }
+      const h = l.match(/^(#{1,4})\s+(.*)/); if (h) { out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); i++; continue; }
+      if (/^\|/.test(l)) { const rows = []; while (i < L.length && /^\|/.test(L[i])) rows.push(L[i++]);
+        const cells = (r) => r.replace(/^\||\|$/g, "").split("|").map((c) => inline(c.trim()));
+        out.push("<table><thead><tr>" + cells(rows[0]).map((c) => `<th>${c}</th>`).join("") + "</tr></thead><tbody>" +
+          rows.slice(2).map((r) => "<tr>" + cells(r).map((c) => `<td>${c}</td>`).join("") + "</tr>").join("") + "</tbody></table>"); continue; }
+      if (/^\s*([-*]|\d+\.)\s+/.test(l)) { const ord = /^\s*\d+\./.test(l), items = []; while (i < L.length && /^\s*([-*]|\d+\.)\s+/.test(L[i])) items.push(`<li>${inline(L[i++].replace(/^\s*([-*]|\d+\.)\s+(\[[ x]\]\s*)?/, ""))}</li>`);
+        out.push(`<${ord ? "ol" : "ul"}>${items.join("")}</${ord ? "ol" : "ul"}>`); continue; }
+      if (/^>\s?/.test(l)) { out.push(`<blockquote>${inline(l.replace(/^>\s?/, ""))}</blockquote>`); i++; continue; }
+      if (!l.trim() || /^<!--/.test(l)) { if (/^<!--/.test(l)) while (i < L.length && !/-->/.test(L[i])) i++; i++; continue; }
+      const buf = []; while (i < L.length && L[i].trim() && !/^(#|\||```|\s*[-*]\s|\s*\d+\.\s|>)/.test(L[i])) buf.push(L[i++]); out.push(`<p>${inline(buf.join(" "))}</p>`);
+    }
+    return out.join("\n");
+  };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+  // ---------------------------------------------------------------- tabs
+  const tabs = ["results", "studio", "analyzer", "run"];
+  function show(id) {
+    if (!tabs.includes(id)) id = "results";
+    tabs.forEach((t) => { $("#" + t).hidden = t !== id; $("#tab-" + t).setAttribute("aria-selected", t === id); });
+    store.set("lab-tab", id);
+    if (id === "studio") studio.draw();
+  }
+  tabs.forEach((t) => $("#tab-" + t).addEventListener("click", () => { show(t); history.replaceState(null, "", "#" + t); }));
+
+  // ---------------------------------------------------------------- pace strip, drawn to scale
+  function strip(tl, dur, label) {
+    const x = (t) => (t / dur * 1000).toFixed(1);
+    let s = `<svg viewBox="0 0 1000 34" preserveAspectRatio="none" role="img" aria-label="${esc(label)}">`;
+    tl.shots.forEach(([a, b], i) => { s += `<rect class="${i % 2 ? "sb" : "sa"}" x="${x(a)}" y="6" width="${Math.max(0.5, x(b) - x(a))}" height="22"/>`; });
+    (tl.steps || []).forEach(([t, k]) => { s += `<line class="${k === "dissolve" ? "tk-dis" : "tk-step"}" x1="${x(t)}" x2="${x(t)}" y1="${k === "dissolve" ? 0 : 10}" y2="${k === "dissolve" ? 34 : 24}"/>`; });
+    (tl.uncertain || []).forEach((t) => { s += `<line class="tk-unc" x1="${x(t)}" x2="${x(t)}" y1="0" y2="34"/>`; });
+    (tl.cuts || []).forEach((t) => { s += `<line class="tk-cut" x1="${x(t)}" x2="${x(t)}" y1="0" y2="34"/>`; });
+    return `<div class="strip"><span class="eyebrow">${esc(label)}</span>${s}</svg><div class="axis"><span>0:00</span><span>${fmt(dur / 2)}</span><span>${fmt(dur)}</span></div></div>`;
+  }
+  const legend = `<div class="legend"><span><i style="background:var(--cut)"></i>hard cut</span><span><i style="background:var(--dissolve)"></i>dissolve or fade</span><span><i style="background:var(--step)"></i>change inside a shot</span><span><i style="background:var(--unc)"></i>uncertain</span></div>`;
+
+  // ---------------------------------------------------------------- results
+  function judge(kind, target, got) {
+    if (target == null || got == null) return ["n/a", "measured"];
+    if (kind === "avgShot") {
+      if (Array.isArray(target)) return got >= target[0] && got <= target[1] ? ["match", "ok"] : got >= target[0] * 0.8 && got <= target[1] * 1.2 ? ["close", "warn"] : ["off", "bad"];
+      const r = Math.abs(got - target) / target; return r <= 0.25 ? ["match", "ok"] : r <= 0.5 ? ["close", "warn"] : ["off", "bad"];
+    }
+    const d = Math.abs(got - target); const tol = kind === "saturation" ? 0.06 : 0.08;
+    return d <= tol ? ["match", "ok"] : d <= tol * 2 ? ["close", "warn"] : ["off", "bad"];
+  }
+  function renderResults(data) {
+    let ok = 0, total = 0;
+    const html = data.pairs.map((p) => {
+      const sm = p.sourceMetrics, r = p.recreation, P = E.PRESETS[p.preset];
+      const rows = [
+        ["Average shot", "avgShot", sm ? sm.avgShot : [3, 6], (v) => v == null ? "—" : Array.isArray(v) ? `${v[0]}–${v[1]} s (inferred)` : `${v} s`],
+        ["Shots", null, sm ? sm.shots : null, (v) => v ?? "—"],
+        ["Saturation", "saturation", sm ? sm.saturation : null, (v) => v == null ? "high (inferred)" : v.toFixed(2)],
+        ["Brightness", "brightness", sm ? sm.brightness : null, (v) => v == null ? "dark (inferred)" : v.toFixed(2)],
+      ];
+      const trs = rows.map(([name, key, target, f]) => {
+        const v1 = r.v1 ? (key ? r.v1[key] : r.v1.shots) : null, v2 = key ? r.v2[key] : r.v2.shots;
+        let chip = "";
+        if (key) { const [word, cls] = judge(key, target, v2); if (cls !== "measured") { total++; if (cls === "ok") ok++; } chip = `<span class="chip ${cls}">${word}</span>`; }
+        const f2 = (v) => v == null ? "—" : key === "avgShot" ? `${v} s` : typeof v === "number" && !Number.isInteger(v) ? v.toFixed(2) : v;
+        return `<tr><td>${name}</td><td>${f(target)}</td><td>${f2(v1)}</td><td>${f2(v2)}</td><td>${chip}</td></tr>`;
+      }).join("");
+      const srcCol = sm ? `
+          <img class="media" loading="lazy" src="${esc(p.sourceSheets.find((s) => s.includes("shots-01")) || p.sourceSheets[0])}" alt="Contact sheet of ${esc(p.title)}">
+          <dl class="kv"><dt>Length</dt><dd>${fmt(sm.duration)} · ${sm.width}×${sm.height}</dd>
+          <dt>Cuts</dt><dd>${sm.cuts} hard, ${sm.dissolves} dissolves, ${sm.steps - sm.dissolves} in-shot changes</dd>
+          <dt>Sound</dt><dd>${sm.hasAudio ? esc(sm.bed || "silent") + (sm.lufs != null ? `, ${sm.lufs.toFixed(1)} LUFS` : "") : "no audio track"}</dd>
+          <dt>Palette</dt><dd><span class="swatches">${sm.palette.map((c) => `<i style="background:${c.hex}" title="${c.hex}"></i>`).join("")}</span></dd></dl>
+          ${strip(sm.timeline, sm.duration, "Source pace")}
+          <p class="hint">${esc(p.credit || "")}</p>`
+        : `<div class="media" style="display:grid;place-items:center;padding:20px;text-align:center"><p class="muted">Not measured. YouTube was unreachable, so the targets come from a style study of the genre.</p></div>
+          <dl class="kv"><dt>Targets</dt><dd>new shot every 3–6 s, dark backgrounds, saturated accents, constant motion</dd>
+          <dt>Palette</dt><dd><span class="swatches">${P.palette.map((c) => `<i style="background:${c}" title="${c}"></i>`).join("")}</span></dd></dl>`;
+      return `<article class="pair" id="pair-${esc(p.preset)}">
+        <div class="pair-head"><div><p class="eyebrow">${esc(P.name)}</p><h2>${esc(p.title)}</h2></div>
+          <span class="chip ${p.measured ? "measured" : "study"}">${p.measured ? "Measured source" : "Style study, not measured"}</span></div>
+        <div class="cols">
+          <div class="col"><h3>Source</h3>${srcCol}</div>
+          <div class="col"><h3>Recreation: “${esc(r.topic)}”</h3>
+            <video class="media" controls preload="metadata" playsinline><source src="${esc(r.video)}" type="video/mp4"><source src="${esc(r.video.replace(/\.mp4$/, ".webm"))}" type="video/webm"></video>
+            <dl class="kv"><dt>Length</dt><dd>${fmt(r.duration)} · ${r.designedShots} designed shots</dd>
+            <dt>Measured</dt><dd>${r.v2.cuts} hard cuts, ${r.v2.dissolves} dissolves, ${r.v2.steps - r.v2.dissolves} in-shot changes${r.v2.uncertain ? `, ${r.v2.uncertain} uncertain` : ""}</dd>
+            <dt>Palette</dt><dd><span class="swatches">${r.v2.palette.map((c) => `<i style="background:${c.hex}" title="${c.hex}"></i>`).join("")}</span></dd></dl>
+            ${strip(r.v2.timeline, r.v2.duration, "Recreation pace, as the skill measured it")}
+            <button class="btn" data-open="${esc(p.preset)}">Remix in Studio</button>
+          </div>
+        </div>
+        ${legend}
+        <div class="table-wrap"><table><thead><tr><th>Measure</th><th>Target</th><th>First render</th><th>Final render</th><th></th></tr></thead><tbody>${trs}</tbody></table></div>
+        <details><summary>Blueprint</summary><div class="md">${md(p.blueprint)}</div></details>
+        <details><summary>Contact sheets</summary><div class="sheets">${[...p.sourceSheets, ...r.sheets].map((s) => `<a href="${esc(s)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(s)}" alt="${esc(s)}"></a>`).join("")}</div></details>
+      </article>`;
+    }).join("");
+    $("#pairs").innerHTML = html;
+    $("#formula").innerHTML = md(data.formula);
+    $("#stats").innerHTML = `<div><b>5</b><span>videos measured</span></div><div><b>6</b><span>recreations rendered</span></div><div><b>${ok}/${total}</b><span>targets matched after fixes</span></div>`;
+    document.querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => { studio.load(b.dataset.open); show("studio"); history.replaceState(null, "", "#studio"); }));
+  }
+
+  // ---------------------------------------------------------------- studio
+  const studio = (() => {
+    const cv = $("#screen"), ctx = cv.getContext("2d");
+    let tl = null, t = 0, playing = false, last = 0, raf = 0, audio = null, spoken = new Set(), recorder = null;
+    const sel = $("#preset");
+    Object.entries(E.PRESETS).forEach(([id, P]) => sel.add(new Option(P.name + (P.measured ? "" : " (style study)"), id)));
+    function load(id) {
+      const P = E.PRESETS[id]; sel.value = id;
+      $("#topic").value = P.sample.topic; $("#script").value = P.sample.lines.join("\n");
+      $("#wpm").value = P.wpm || 160; $("#asl").value = P.asl || 4.5;
+      $("#captions").checked = !!P.captions; $("#boxes").checked = !!P.boxes;
+      $("#pace-controls").hidden = P.mode !== "narrated";
+      $("#script-label").textContent = P.mode === "narrated" ? "Script, one line per sentence" : P.mode === "beats" ? "Beats, one per shot (no narration in this format)" : "Events, one per subject (no narration in this format)";
+      $("#voice").disabled = P.mode !== "narrated"; $("#voice").checked = P.mode === "narrated";
+      $("#music").disabled = !(P.music && P.music !== "none"); $("#music").checked = !$("#music").disabled;
+      $("#preset-note").textContent = P.measured ? `Targets measured from the source: average shot ${P.targets.avgShot} s, ${P.targets.shots} shot${P.targets.shots > 1 ? "s" : ""}, saturation ${P.targets.saturation}, brightness ${P.targets.brightness}; transitions: ${P.targets.transitions}.` : "Targets from a style study (not measured).";
+      build();
+    }
+    function build() {
+      stop();
+      const id = sel.value, P = E.PRESETS[id];
+      tl = E.buildTimeline(id, { topic: $("#topic").value, lines: $("#script").value.split("\n"), wpm: +$("#wpm").value, asl: +$("#asl").value,
+        captions: $("#captions").checked, boxes: $("#boxes").checked });
+      $("#wpm-v").textContent = `${$("#wpm").value} wpm`; $("#asl-v").textContent = `${(+$("#asl").value).toFixed(1)} s`;
+      t = 0; draw();
+      const cuts = E.cutTimes(tl);
+      $("#studio-strip").innerHTML = strip({ shots: tl.shots.map((s) => [s.start, s.end]), cuts: cuts.filter((c) => c.kind === "cut").map((c) => c.t),
+        steps: cuts.filter((c) => c.kind !== "cut").map((c) => [c.t, c.kind === "jump" ? "local" : "dissolve"]) }, tl.duration, "Planned pace") + legend;
+    }
+    function draw() { if (!tl) return; E.renderAt(ctx, tl, t); $("#time").textContent = `${fmt(t)} / ${fmt(tl.duration)}`; $("#scrub").value = Math.round(t / tl.duration * 1000);
+      const f = Math.floor(t * 24 % 24), s = Math.floor(t); $("#tc").textContent = `00:00:${String(s % 60).padStart(2, "0")}:${String(f).padStart(2, "0")}`; }
+    function tick(now) {
+      const dt = (now - last) / 1000; last = now; t += dt;
+      if (t >= tl.duration) { t = tl.duration; draw(); stop(); if (recorder) recorder.stop(); return; }
+      if ($("#voice").checked && !$("#voice").disabled && "speechSynthesis" in window) {
+        tl.lines.forEach((ln, i) => { if (!spoken.has(i) && t >= ln.start && t < ln.end) { spoken.add(i); const u = new SpeechSynthesisUtterance(ln.text); u.rate = Math.min(2, Math.max(0.6, +$("#wpm").value / 165)); try { speechSynthesis.speak(u); } catch {} } });
+      }
+      draw(); raf = requestAnimationFrame(tick);
+    }
+    function music(on) {
+      if (audio) { try { audio.ctx.close(); } catch {} audio = null; }
+      if (!on || $("#music").disabled || !$("#music").checked) return null;
+      const P = E.PRESETS[tl.preset], ac = new (window.AudioContext || window.webkitAudioContext)(), out = ac.createGain(), dest = ac.createMediaStreamDestination();
+      out.gain.value = 0.5; out.connect(ac.destination); out.connect(dest);
+      const note = (f, at, dur, amp, attack) => { if (at < 0) return; const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; o.type = "sine";
+        g.gain.setValueAtTime(0, ac.currentTime + at); g.gain.linearRampToValueAtTime(amp, ac.currentTime + at + attack); g.gain.linearRampToValueAtTime(0, ac.currentTime + at + dur);
+        o.connect(g); g.connect(out); o.start(ac.currentTime + at); o.stop(ac.currentTime + at + dur + 0.05); };
+      const rem = tl.duration - t;
+      if (P.music === "pad") {
+        const ch = [[220, 277.18, 329.63], [196, 246.94, 293.66], [174.61, 220, 261.63], [196, 246.94, 329.63]];
+        for (let k = Math.floor(t / 4); k * 4 < tl.duration; k++) { const at = k * 4 - t; ch[k % 4].forEach((f) => note(f / 2, at, 5, 0.05, 1.2)); for (let j = 0; j < 4; j++) note(ch[k % 4][j % 3] * 2, at + j + 0.5, 0.6, 0.03, 0.005); }
+      } else if (P.music === "pastoral") {
+        const sc = [261.63, 293.66, 329.63, 392, 440, 523.25]; let k = 0;
+        for (let at = Math.max(2 - t, 0); at < rem; at += 0.6) note(sc[(k++ * 7) % 6], at, 0.7, 0.05, 0.01);
+      }
+      audio = { ctx: ac, dest }; return dest.stream;
+    }
+    function play() { if (!tl) return; if (t >= tl.duration) t = 0; playing = true; spoken = new Set(tl.lines.map((l, i) => (l.end <= t ? i : -1)).filter((i) => i >= 0)); last = performance.now(); music(true); $("#play").textContent = "Pause"; raf = requestAnimationFrame(tick); }
+    function stop() { playing = false; cancelAnimationFrame(raf); music(false); try { speechSynthesis.cancel(); } catch {} $("#play").textContent = "Play"; }
+    $("#play").addEventListener("click", () => (playing ? stop() : play()));
+    $("#restart").addEventListener("click", () => { stop(); t = 0; draw(); });
+    $("#scrub").addEventListener("input", (e) => { stop(); t = (+e.target.value / 1000) * tl.duration; draw(); });
+    sel.addEventListener("change", () => load(sel.value));
+    ["wpm", "asl", "captions", "boxes"].forEach((id) => $("#" + id).addEventListener("input", build));
+    $("#studio-form").addEventListener("submit", (e) => { e.preventDefault(); build(); play(); });
+    $("#record").addEventListener("click", () => {
+      if (recorder) { recorder.stop(); return; }
+      if (!cv.captureStream || !window.MediaRecorder) { $("#rec-note").textContent = "This browser can't record a canvas. Try Chrome, Edge or Firefox."; return; }
+      stop(); t = 0; draw();
+      const stream = cv.captureStream(30); play();
+      if (audio) audio.dest.stream.getAudioTracks().forEach((tr) => stream.addTrack(tr));
+      const type = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"].find((m) => MediaRecorder.isTypeSupported(m));
+      const chunks = []; recorder = new MediaRecorder(stream, type ? { mimeType: type } : undefined);
+      recorder.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+      recorder.onstop = () => { recorder = null; stop(); const v = $("#rec-out"); v.src = URL.createObjectURL(new Blob(chunks, { type: "video/webm" })); v.hidden = false; $("#record").textContent = "Record video";
+        $("#rec-note").textContent = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? "Recorded. Use the player's menu to save it." : "Recorded. Play it below; to save files, run the lab locally."; };
+      recorder.start(); $("#record").textContent = "Stop recording";
+    });
+    return { load, draw, build };
+  })();
+
+  // ---------------------------------------------------------------- analyzer (browser port of the skill's cut detector)
+  const analyzer = (() => {
+    const GRID = 8;
+    const median = (a) => { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); return s[s.length >> 1]; };
+    const seek = (v, t) => new Promise((res) => { const h = () => { v.removeEventListener("seeked", h); res(); }; v.addEventListener("seeked", h); v.currentTime = t; });
+    function msg(text, k) { $("#an-status").hidden = false; $("#an-msg").textContent = text; if (k != null) $("#an-bar").style.width = `${Math.round(k * 100)}%`; }
+    async function run(blob, name) {
+      $("#an-out").hidden = true;
+      const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = URL.createObjectURL(blob);
+      await new Promise((res, rej) => { v.onloadeddata = res; v.onerror = () => rej(new Error("This browser can't decode that file. Try an MP4 (H.264) or WebM.")); });
+      const dur = Math.min(v.duration, 180), fps = dur > 90 ? 4 : 6, n = Math.floor(dur * fps);
+      const w = v.videoWidth >= v.videoHeight ? 96 : Math.round(96 * v.videoWidth / v.videoHeight), h = v.videoWidth >= v.videoHeight ? Math.round(96 * v.videoHeight / v.videoWidth) : 96;
+      const c = document.createElement("canvas"); c.width = w; c.height = h; const cx = c.getContext("2d", { willReadFrequently: true });
+      const dp = [], dh = [], bf = [], bmax = [], th = [], lum = [], sat = [], pix = [];
+      let prevG = null, prevH = null;
+      for (let i = 0; i < n; i++) {
+        await seek(v, i / fps); cx.drawImage(v, 0, 0, w, h);
+        const d = cx.getImageData(0, 0, w, h).data, g = new Float32Array(w * h), hist = new Float32Array(64);
+        let L = 0, S = 0;
+        for (let p = 0, q = 0; p < d.length; p += 4, q++) {
+          const r = d[p], gg = d[p + 1], b = d[p + 2]; g[q] = (0.299 * r + 0.587 * gg + 0.114 * b) / 255; L += g[q];
+          const mx = Math.max(r, gg, b), mn = Math.min(r, gg, b); S += mx ? (mx - mn) / mx : 0;
+          hist[(r >> 6) * 16 + (gg >> 6) * 4 + (b >> 6)]++;
+          if (q % 37 === 0) pix.push([r, gg, b]);
+        }
+        hist.forEach((x, k) => (hist[k] = x / (w * h))); lum.push(L / (w * h)); sat.push(S / (w * h));
+        const blocks = new Float32Array(GRID * GRID), bd = new Float32Array(GRID * GRID), cnt = new Float32Array(GRID * GRID);
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const k = Math.min(GRID - 1, Math.floor(y / h * GRID)) * GRID + Math.min(GRID - 1, Math.floor(x / w * GRID)), q = y * w + x;
+          blocks[k] += g[q]; if (prevG) bd[k] += Math.abs(g[q] - prevG[q]); cnt[k]++; }
+        blocks.forEach((x, k) => { blocks[k] = x / cnt[k]; bd[k] = bd[k] / cnt[k]; });
+        th.push(blocks);
+        if (prevG) { let s = 0; for (let q = 0; q < g.length; q++) s += Math.abs(g[q] - prevG[q]); dp.push(s / g.length); let hd = 0; for (let k = 0; k < 64; k++) hd += Math.abs(hist[k] - prevH[k]); dh.push(hd / 2);
+          bf.push(bd.filter((x) => x > 0.1).length / bd.length); bmax.push(Math.max(...bd)); } else { dp.push(0); dh.push(0); bf.push(0); bmax.push(0); }
+        prevG = g; prevH = hist;
+        if (i % 6 === 0) msg(`Scanning frames: ${fmt(i / fps)} of ${fmt(dur)}`, (i / n) * 0.8);
+      }
+      // same rules as dissect.py: hard cut, uncertain, change inside a shot
+      const half = Math.max(3, Math.round(fps * 0.75)), cuts = [], unc = [], steps = [];
+      const loc = (arr, i) => median([...arr.slice(Math.max(0, i - half), i), ...arr.slice(i + 1, i + half + 1)]);
+      const td = (a, b) => { a = Math.max(0, Math.min(n - 1, a)); b = Math.max(0, Math.min(n - 1, b)); let s = 0; for (let k = 0; k < 64; k++) s += Math.abs(th[a][k] - th[b][k]); return s / 64; };
+      for (let i = 1; i < n; i++) {
+        const mdp = loc(dp, i), mdh = loc(dh, i), mbf = loc(bf, i), mbm = loc(bmax, i), t = (i - 0.5) / fps;
+        const spike = dp[i] >= 2.5 * mdp + 0.03 || dh[i] >= 2.5 * mdh + 0.1, motion = mdp >= 0.06 || mbf >= 0.45;
+        const returns = td(i - 1, i + 2) < 0.35 * Math.max(td(i - 1, i), 1e-6) && td(i - 1, i + 2) < 0.03;
+        const nb = Math.max(dp[i - 1], dp[i + 1] || 0);
+        const strong = (bf[i] >= 0.5 && (dh[i] >= 0.25 || (dp[i] >= 0.07 && bf[i] >= 0.65))) || (dh[i] >= 0.2 && dp[i] >= 0.04 && dp[i] >= 4 * nb && bf[i] >= 0.12);
+        if (strong && spike && !returns && !motion) cuts.push(t);
+        else if ((strong && (spike || !returns)) || (bf[i] >= 0.3 && spike && (dh[i] >= 0.15 || dp[i] >= 0.04))) unc.push(t);
+        else if (bmax[i] >= 2.5 * mbm + 0.06 && bmax[i] >= 0.12 && mbf < 0.2) steps.push(t);
+      }
+      const nms = (arr) => arr.filter((t, k) => k === 0 || t - arr[k - 1] >= 0.3);
+      const C = nms(cuts), U = nms(unc).filter((t) => C.every((c) => Math.abs(c - t) >= 0.3)), St = nms(steps).filter((t) => [...C, ...U].every((c) => Math.abs(c - t) >= 0.3));
+      const bounds = [0, ...C, dur], shots = bounds.slice(1).map((b, k) => [bounds[k], b]);
+      // thumbnails at shot middles
+      const tw = 240, thh = Math.round(tw * v.videoHeight / v.videoWidth), tc = document.createElement("canvas"); tc.width = tw; tc.height = thh;
+      const thumbs = [];
+      for (const [a, b] of shots.slice(0, 24)) { await seek(v, (a + b) / 2); tc.getContext("2d").drawImage(v, 0, 0, tw, thh); thumbs.push([tc.toDataURL("image/jpeg", 0.8), (a + b) / 2]); }
+      msg("Reading the audio…", 0.9);
+      let audioTxt = "No audio track found, or this browser couldn't decode it.";
+      try {
+        const buf = await (new (window.AudioContext || window.webkitAudioContext)()).decodeAudioData(await blob.arrayBuffer());
+        const x = buf.getChannelData(0), sr = buf.sampleRate, hop = Math.round(sr * 0.05), lv = [];
+        for (let k = 0; k + hop <= Math.min(x.length, dur * sr); k += hop) { let s = 0; for (let j = k; j < k + hop; j++) s += x[j] * x[j]; lv.push(10 * Math.log10(s / hop + 1e-12)); }
+        const med = median(lv), quiet = lv.filter((d) => d < -50).length / lv.length;
+        audioTxt = `Median level ${med.toFixed(1)} dBFS (RMS, not LUFS); ${(quiet * 100).toFixed(0)}% of the time below -50 dBFS.`;
+      } catch {}
+      // palette: a few rounds of k-means over sampled pixels
+      let cent = [[20, 20, 30], [90, 90, 90], [160, 160, 160], [230, 230, 230], [200, 120, 60], [60, 120, 200]];
+      for (let it = 0; it < 6; it++) { const acc = cent.map(() => [0, 0, 0, 0]); for (const p of pix) { let bi = 0, bd = 1e9; cent.forEach((c, k) => { const d = (c[0] - p[0]) ** 2 + (c[1] - p[1]) ** 2 + (c[2] - p[2]) ** 2; if (d < bd) { bd = d; bi = k; } }); const a = acc[bi]; a[0] += p[0]; a[1] += p[1]; a[2] += p[2]; a[3]++; }
+        cent = acc.map((a, k) => (a[3] ? [a[0] / a[3], a[1] / a[3], a[2] / a[3], a[3]] : [...cent[k].slice(0, 3), 0])); }
+      const pal = cent.filter((c) => c[3]).sort((a, b) => b[3] - a[3]).map((c) => "#" + c.slice(0, 3).map((x) => Math.round(x).toString(16).padStart(2, "0")).join(""));
+      const avgShot = dur / shots.length, sa = sat.reduce((a, b) => a + b, 0) / sat.length, br = lum.reduce((a, b) => a + b, 0) / lum.length;
+      // closest style
+      const cands = Object.entries(E.PRESETS).map(([id, P]) => { const tg = P.targets; const as = typeof tg.avgShot === "number" ? tg.avgShot : 4.5, ts = typeof tg.saturation === "number" ? tg.saturation : 0.7, tb = typeof tg.brightness === "number" ? tg.brightness : 0.2;
+        return [id, Math.abs(Math.log(avgShot / as)) + 3 * Math.abs(sa - ts) + 3 * Math.abs(br - tb)]; }).sort((a, b) => a[1] - b[1]);
+      const best = cands[0][0];
+      msg("Done.", 1);
+      $("#an-out").innerHTML = `<div class="pair-head"><div><p class="eyebrow">Browser measurement</p><h2>${esc(name)}</h2></div><span class="chip measured">${fmt(dur)} analysed at ${fps} fps</span></div>
+        <div class="stats"><div><b>${shots.length}</b><span>shots</span></div><div><b>${avgShot.toFixed(1)} s</b><span>average shot</span></div><div><b>${(C.length / (dur / 60)).toFixed(1)}–${((C.length + U.length) / (dur / 60)).toFixed(1)}</b><span>cuts per minute</span></div></div>
+        <dl class="kv"><dt>Changes</dt><dd>${C.length} hard cuts, ${U.length} uncertain, ${St.length} changes inside shots</dd><dt>Look</dt><dd>saturation ${sa.toFixed(2)}, brightness ${br.toFixed(2)}</dd>
+        <dt>Palette</dt><dd><span class="swatches">${pal.map((c) => `<i style="background:${c}" title="${c}"></i>`).join("")}</span></dd><dt>Audio</dt><dd>${esc(audioTxt)}</dd>
+        <dt>Closest style</dt><dd>${esc(E.PRESETS[best].name)} <button class="btn" id="an-open">Open in Studio</button></dd></dl>
+        ${strip({ shots, cuts: C, uncertain: U, steps: St.map((t) => [t, "local"]) }, dur, "Pace")}${legend}
+        <h3>Shot middles</h3><div class="thumbs">${thumbs.map(([src, t], k) => `<figure><img src="${src}" alt="Shot ${k + 1}"><figcaption>S${k + 1} · ${fmt(t)}</figcaption></figure>`).join("")}</div>`;
+      $("#an-out").hidden = false;
+      $("#an-open").addEventListener("click", () => { studio.load(best); if (E.PRESETS[best].mode === "narrated") { $("#asl").value = Math.min(10, Math.max(1.5, avgShot.toFixed(1))); studio.build(); } show("studio"); });
+      URL.revokeObjectURL(v.src);
+    }
+    const go = (blob, name) => run(blob, name).catch((e) => msg(e.message || String(e), 0));
+    $("#file").addEventListener("change", (e) => e.target.files[0] && go(e.target.files[0], e.target.files[0].name));
+    const drop = $("#drop");
+    drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+    drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+    drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer.files[0]; f && go(f, f.name); });
+    $("#sample").addEventListener("click", async () => { msg("Loading the sample…", 0); go(await (await fetch("recreations/storybook.webm")).blob(), "Storybook recreation (sample)"); });
+  })();
+
+  // ---------------------------------------------------------------- run locally
+  document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", () => {
+    const pre = b.previousElementSibling, txt = pre.textContent;
+    navigator.clipboard?.writeText(txt).then(() => { b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1500); },
+      () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  }));
+  fetch("api/status").then((r) => (r.ok ? r.json() : null)).then((j) => {
+    if (!j || !j.local) return;
+    $("#local-form").hidden = false;
+    $("#local-form").addEventListener("submit", async (e) => {
+      e.preventDefault(); $("#local-msg").textContent = "Running the skill. A short video takes a few minutes; progress shows in the server's terminal.";
+      try { const r = await fetch("api/dissect", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ source: $("#link").value, depth: $("#depth").value }) });
+        const j2 = await r.json(); $("#local-msg").textContent = j2.status === "ok" ? `Done: ${j2.folder}. Open facts.md there, then ask Claude to write the blueprint.` : `${j2.status}: ${j2.fix || j2.detail || ""}`;
+      } catch (err) { $("#local-msg").textContent = "The local server didn't answer: " + err.message; }
+    });
+  }).catch(() => {});
+
+  // ---------------------------------------------------------------- boot
+  fetch("data.json").then((r) => r.json()).then(renderResults).catch((e) => { $("#pairs").innerHTML = `<p>Couldn't load the results (${esc(e.message)}). Reload the page to try again.</p>`; });
+  studio.load("flat-space");
+  const start = (location.hash || "").slice(1) || store.get("lab-tab") || "results";
+  show(start);
+})();
+</script>

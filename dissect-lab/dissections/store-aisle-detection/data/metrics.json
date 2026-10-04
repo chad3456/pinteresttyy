@@ -1,0 +1,108 @@
+{
+ "version": "1.1.0",
+ "depth": "standard",
+ "probe": {
+  "duration": 65.415375,
+  "has_video": true,
+  "has_audio": true,
+  "width": 720,
+  "height": 404,
+  "fps": 59.94,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "sample_rate": 24000,
+  "channels": 1
+ },
+ "analysed_seconds": 65.42,
+ "cuts": [],
+ "uncertain": [],
+ "steps": [
+  {
+   "t": 6.12,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.02,
+   "score": 0.153
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 65.42,
+   "len": 65.42
+  }
+ ],
+ "voice": {},
+ "sound": {
+  "overall_db": -120.0,
+  "no_speech": true,
+  "bed_verdict": "near-silence (no continuous bed)",
+  "tempo_bpm_rough": null,
+  "silences": [
+   {
+    "start": 0.0,
+    "len": 65.4
+   }
+  ],
+  "silence_count": 1,
+  "transients": {
+   "on_cuts": null,
+   "cuts_checked": 0,
+   "on_steps": 0.0,
+   "steps_checked": 1,
+   "baseline": 0.0
+  },
+  "sfx_on_cuts_likely": false,
+  "hook_db_vs_rest": 0.0
+ },
+ "loudness": {
+  "integrated_lufs": null,
+  "true_peak_dbtp": null,
+  "range_lu": 0.0
+ },
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.5239522496606134,
+  "saturation": 0.1394125320634265,
+  "temperature": "warm (red > blue)",
+  "palette": [
+   {
+    "hex": "#bbb8b3",
+    "share": 0.136
+   },
+   {
+    "hex": "#565248",
+    "share": 0.132
+   },
+   {
+    "hex": "#a8a39a",
+    "share": 0.13
+   },
+   {
+    "hex": "#949390",
+    "share": 0.13
+   },
+   {
+    "hex": "#878077",
+    "share": 0.126
+   },
+   {
+    "hex": "#6e6f6c",
+    "share": 0.12
+   },
+   {
+    "hex": "#dad8d4",
+    "share": 0.117
+   },
+   {
+    "hex": "#2d2723",
+    "share": 0.11
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

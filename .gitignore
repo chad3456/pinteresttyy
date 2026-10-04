@@ -45,3 +45,5 @@ next-env.d.ts
 
 # video dissections (dissect skill output)
 /dissections/
+__pycache__/
+/dissect-lab/node_modules/

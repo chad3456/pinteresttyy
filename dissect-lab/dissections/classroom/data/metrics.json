@@ -1,0 +1,80 @@
+{
+ "version": "1.1.0",
+ "depth": "standard",
+ "probe": {
+  "duration": 32.8,
+  "has_video": true,
+  "has_audio": false,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30.0,
+  "vcodec": "h264"
+ },
+ "analysed_seconds": 32.8,
+ "cuts": [],
+ "uncertain": [],
+ "steps": [
+  {
+   "t": 4.79,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.03,
+   "score": 0.156
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 32.8,
+   "len": 32.8
+  }
+ ],
+ "voice": {},
+ "sound": {},
+ "loudness": {},
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.5076872355441757,
+  "saturation": 0.23967888130603102,
+  "temperature": "cool (blue > red)",
+  "palette": [
+   {
+    "hex": "#717271",
+    "share": 0.153
+   },
+   {
+    "hex": "#a4a9ab",
+    "share": 0.142
+   },
+   {
+    "hex": "#faf9f9",
+    "share": 0.132
+   },
+   {
+    "hex": "#091d37",
+    "share": 0.129
+   },
+   {
+    "hex": "#1f354c",
+    "share": 0.122
+   },
+   {
+    "hex": "#c1c7c8",
+    "share": 0.11
+   },
+   {
+    "hex": "#858f94",
+    "share": 0.108
+   },
+   {
+    "hex": "#525d65",
+    "share": 0.105
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

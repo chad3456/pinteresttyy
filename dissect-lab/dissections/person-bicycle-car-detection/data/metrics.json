@@ -1,0 +1,100 @@
+{
+ "version": "1.1.0",
+ "depth": "standard",
+ "probe": {
+  "duration": 53.916667,
+  "has_video": true,
+  "has_audio": true,
+  "width": 768,
+  "height": 432,
+  "fps": 12.0,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "sample_rate": 48000,
+  "channels": 2
+ },
+ "analysed_seconds": 53.92,
+ "cuts": [],
+ "uncertain": [],
+ "steps": [],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 53.92,
+   "len": 53.92
+  }
+ ],
+ "voice": {},
+ "sound": {
+  "overall_db": -120.0,
+  "no_speech": true,
+  "bed_verdict": "near-silence (no continuous bed)",
+  "tempo_bpm_rough": null,
+  "silences": [
+   {
+    "start": 0.0,
+    "len": 53.9
+   }
+  ],
+  "silence_count": 1,
+  "transients": {
+   "on_cuts": null,
+   "cuts_checked": 0,
+   "on_steps": null,
+   "steps_checked": 0,
+   "baseline": 0.0
+  },
+  "sfx_on_cuts_likely": false,
+  "hook_db_vs_rest": 0.0
+ },
+ "loudness": {
+  "integrated_lufs": null,
+  "true_peak_dbtp": null,
+  "range_lu": 0.0
+ },
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.5281568782683318,
+  "saturation": 0.024845615127217457,
+  "temperature": "neutral",
+  "palette": [
+   {
+    "hex": "#8c8b8f",
+    "share": 0.198
+   },
+   {
+    "hex": "#89888b",
+    "share": 0.17
+   },
+   {
+    "hex": "#8a8a8d",
+    "share": 0.137
+   },
+   {
+    "hex": "#818184",
+    "share": 0.135
+   },
+   {
+    "hex": "#848487",
+    "share": 0.124
+   },
+   {
+    "hex": "#87868a",
+    "share": 0.115
+   },
+   {
+    "hex": "#959599",
+    "share": 0.07
+   },
+   {
+    "hex": "#78787b",
+    "share": 0.053
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "preset": "fixed-classroom",
+ "topic": "Library study hall",
+ "lines": [
+  {
+   "text": "A student gets up to fetch a book and sits back down",
+   "start": 4,
+   "end": 17
+  },
+  {
+   "text": "A second student stretches, walks over and returns",
+   "start": 20,
+   "end": 33
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 42,
+   "scene": "room",
+   "seed": 3,
+   "line": 0
+  }
+ ],
+ "events": [
+  {
+   "text": "A student gets up to fetch a book and sits back down",
+   "start": 4,
+   "end": 17
+  },
+  {
+   "text": "A second student stretches, walks over and returns",
+   "start": 20,
+   "end": 33
+  }
+ ],
+ "duration": 42,
+ "boxes": true,
+ "cuts": []
+}

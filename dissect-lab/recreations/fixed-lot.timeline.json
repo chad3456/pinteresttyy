@@ -1,0 +1,50 @@
+{
+ "preset": "fixed-lot",
+ "topic": "Campus plaza crossings",
+ "lines": [
+  {
+   "text": "A student crosses toward the library",
+   "start": 1,
+   "end": 7
+  },
+  {
+   "text": "A delivery van sweeps through",
+   "start": 13,
+   "end": 19
+  },
+  {
+   "text": "A cyclist cuts across the top",
+   "start": 25,
+   "end": 31
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 45,
+   "scene": "lot",
+   "seed": 3,
+   "line": 0
+  }
+ ],
+ "events": [
+  {
+   "text": "A student crosses toward the library",
+   "start": 1,
+   "end": 7
+  },
+  {
+   "text": "A delivery van sweeps through",
+   "start": 13,
+   "end": 19
+  },
+  {
+   "text": "A cyclist cuts across the top",
+   "start": 25,
+   "end": 31
+  }
+ ],
+ "duration": 45,
+ "boxes": true,
+ "cuts": []
+}

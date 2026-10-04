@@ -1,0 +1,157 @@
+{
+ "preset": "flat-space",
+ "topic": "What if Earth had rings?",
+ "lines": [
+  {
+   "text": "Imagine looking up at night and seeing a glowing bridge of ice arching across the sky.",
+   "start": 0.4,
+   "end": 6.4
+  },
+  {
+   "text": "Earth almost had rings like this, and it still might one day.",
+   "start": 6.75,
+   "end": 11.25
+  },
+  {
+   "text": "A ring is born when a moon wanders too close and gravity tears it into billions of pieces.",
+   "start": 11.6,
+   "end": 18.35
+  },
+  {
+   "text": "Those pieces spread into a disk that is wide but astonishingly thin.",
+   "start": 18.7,
+   "end": 23.2
+  },
+  {
+   "text": "From the equator, the ring would be a razor-thin line slicing the sky in two.",
+   "start": 23.549999999999997,
+   "end": 29.174999999999997
+  },
+  {
+   "text": "Further north, it would cast a shadow belt across entire countries.",
+   "start": 29.525,
+   "end": 33.65
+  },
+  {
+   "text": "Seasons would shift, and so would the light that plants and animals depend on.",
+   "start": 34,
+   "end": 39.25
+  },
+  {
+   "text": "One collision could rewrite the sky over our heads.",
+   "start": 39.6,
+   "end": 42.975
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 6.575,
+   "scene": "rings",
+   "seed": 947600570,
+   "line": 0,
+   "cut": "cut"
+  },
+  {
+   "start": 6.575,
+   "end": 11.425,
+   "scene": "collision",
+   "seed": 4079961719,
+   "line": 1,
+   "cut": "cut"
+  },
+  {
+   "start": 11.424999999999999,
+   "end": 14.975000000000001,
+   "scene": "rings",
+   "seed": 3965545538,
+   "line": 2,
+   "cut": "zoom"
+  },
+  {
+   "start": 14.975000000000001,
+   "end": 18.525000000000002,
+   "scene": "horizon",
+   "seed": 3982323157,
+   "line": 2,
+   "cut": "cut"
+  },
+  {
+   "start": 18.525,
+   "end": 23.375,
+   "scene": "moonbreak",
+   "seed": 1520129162,
+   "line": 3,
+   "cut": "cut"
+  },
+  {
+   "start": 23.374999999999996,
+   "end": 29.349999999999998,
+   "scene": "rings",
+   "seed": 4008046503,
+   "line": 4,
+   "cut": "zoom"
+  },
+  {
+   "start": 29.349999999999998,
+   "end": 33.824999999999996,
+   "scene": "shadow",
+   "seed": 2158256385,
+   "line": 5,
+   "cut": "cut"
+  },
+  {
+   "start": 33.825,
+   "end": 39.425,
+   "scene": "life",
+   "seed": 1599817995,
+   "line": 6,
+   "cut": "cut"
+  },
+  {
+   "start": 39.425000000000004,
+   "end": 44.825,
+   "scene": "collision",
+   "seed": 758488953,
+   "line": 7,
+   "cut": "zoom"
+  }
+ ],
+ "events": [],
+ "duration": 44.825,
+ "captions": false,
+ "cuts": [
+  {
+   "t": 6.575,
+   "kind": "cut"
+  },
+  {
+   "t": 11.424999999999999,
+   "kind": "cut"
+  },
+  {
+   "t": 14.975000000000001,
+   "kind": "zoom"
+  },
+  {
+   "t": 18.525,
+   "kind": "cut"
+  },
+  {
+   "t": 23.374999999999996,
+   "kind": "cut"
+  },
+  {
+   "t": 29.349999999999998,
+   "kind": "zoom"
+  },
+  {
+   "t": 33.825,
+   "kind": "cut"
+  },
+  {
+   "t": 39.425000000000004,
+   "kind": "cut"
+  }
+ ]
+}

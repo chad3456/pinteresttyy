@@ -1,0 +1,59 @@
+{
+ "preset": "fixed-corridor",
+ "topic": "Office lobby check-ins",
+ "lines": [
+  {
+   "text": "A visitor walks up and pauses at the kiosk",
+   "start": 3,
+   "end": 17
+  },
+  {
+   "text": "A courier walks up and waits",
+   "start": 17.05,
+   "end": 31.05
+  },
+  {
+   "text": "A colleague walks up, checks in and leaves",
+   "start": 31.1,
+   "end": 45.1
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 48.150000000000006,
+   "scene": "corridor",
+   "seed": 3,
+   "line": 0
+  }
+ ],
+ "events": [
+  {
+   "text": "A visitor walks up and pauses at the kiosk",
+   "start": 3,
+   "end": 17
+  },
+  {
+   "text": "A courier walks up and waits",
+   "start": 17.05,
+   "end": 31.05
+  },
+  {
+   "text": "A colleague walks up, checks in and leaves",
+   "start": 31.1,
+   "end": 45.1
+  }
+ ],
+ "duration": 48.150000000000006,
+ "boxes": true,
+ "cuts": [
+  {
+   "t": 17.05,
+   "kind": "jump"
+  },
+  {
+   "t": 31.1,
+   "kind": "jump"
+  }
+ ]
+}

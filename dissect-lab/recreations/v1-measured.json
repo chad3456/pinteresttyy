@@ -1,0 +1,56 @@
+{
+ "flat-space": {
+  "duration": 44.83,
+  "shots": 1,
+  "avgShot": 44.8,
+  "cuts": 0,
+  "dissolves": 1,
+  "saturation": 0.72,
+  "brightness": 0.16
+ },
+ "storybook": {
+  "duration": 36.08,
+  "shots": 5,
+  "avgShot": 7.2,
+  "cuts": 4,
+  "dissolves": 2,
+  "saturation": 0.18,
+  "brightness": 0.6
+ },
+ "fixed-classroom": {
+  "duration": 42.0,
+  "shots": 1,
+  "avgShot": 42.0,
+  "cuts": 0,
+  "dissolves": 0,
+  "saturation": 0.32,
+  "brightness": 0.46
+ },
+ "fixed-aisle": {
+  "duration": 55.0,
+  "shots": 1,
+  "avgShot": 55.0,
+  "cuts": 0,
+  "dissolves": 0,
+  "saturation": 0.1,
+  "brightness": 0.45
+ },
+ "fixed-corridor": {
+  "duration": 48.17,
+  "shots": 1,
+  "avgShot": 48.2,
+  "cuts": 0,
+  "dissolves": 0,
+  "saturation": 0.05,
+  "brightness": 0.66
+ },
+ "fixed-lot": {
+  "duration": 45.0,
+  "shots": 1,
+  "avgShot": 45.0,
+  "cuts": 0,
+  "dissolves": 0,
+  "saturation": 0.02,
+  "brightness": 0.53
+ }
+}

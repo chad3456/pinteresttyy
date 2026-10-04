@@ -1,0 +1,1086 @@
+{
+ "generated": "2026-10-04",
+ "pairs": [
+  {
+   "preset": "flat-space",
+   "source": "flat-space-explainer",
+   "title": "Flat-vector science explainer (Kurzgesagt-style)",
+   "credit": null,
+   "measured": false,
+   "sourceMetrics": null,
+   "sourceSheets": [],
+   "blueprint": "# Blueprint: Flat-Vector Science Explainer\n\n*Style study for the \"flat-vector animated science explainer\" look that channels like Kurzgesagt popularised. **This was not measured.** YouTube is blocked in the sandbox this was built in, so no video was downloaded or dissected. Everything below is from general knowledge of the genre and is marked (inferred). To measure a real video, run `dissect.py` on its link on a normal network, or drop the file into the Analyzer tab of the Dissect Lab.*\n\n*Characters and assets for this format must be original. Never reuse a channel's mascots, logo, music or narrator.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | Calm, authoritative narrated explainer over flat vector animation that never stops moving (inferred) |\n| Platform & shape | 16:9 long-form, typically 8\u201315 min (inferred) |\n| Promise | A big question asked in the first 10\u201320 s (\"What would happen if\u2026?\") (inferred) |\n| Hook | A striking cosmic or microscopic scene plus the question, spoken over gentle motion (inferred) |\n| Structure | Question \u2192 scale-setting \u2192 mechanism step by step \u2192 twist or bigger implication \u2192 reflective close (inferred) |\n| Pace | A new composition every ~3\u20136 s, mostly via camera moves and morphs rather than hard cuts (inferred) |\n| Signature look | Flat shapes without outlines, deep navy and violet backgrounds, saturated accent colours, soft glows, round cute creatures (inferred) |\n| Sound | Measured narrator (~150\u2013170 wpm), ambient synth/orchestral score, a soft sound effect on nearly every motion (inferred) |\n\n## 2. Why it works (inferred)\n\n1. **Constant gentle motion.** Something always drifts, pulses or rotates, so the eye never rests even during long explanations.\n2. **Every sentence gets a picture.** Abstract ideas (scale, time, probability) become concrete objects that animate as the sentence lands.\n3. **Contrast does the hierarchy.** A dark background plus one or two saturated focal colours means you always know where to look.\n4. **Cute characters carry the stakes.** Simple round creatures make big or grim topics approachable.\n\n## 6. Visual style guide (inferred)\n\n- **Shapes:** geometric primitives (circles, rounded rectangles, triangles), no outlines, 2\u20133 flat shades per object (base, shadow, highlight), long soft glows on light sources.\n- **Palette (target for the recreation):** background `#0e1033` \u2192 `#241a5c` vertical gradient; accents `#ff5e8a` pink, `#ffb03b` amber, `#3ee0c9` teal, `#7b5cff` violet, `#f4f1ff` near-white highlight.\n- **Depth:** 3\u20134 parallax layers; distant stars, mid shapes, foreground objects; slow camera push-ins (2\u20135% scale over a shot).\n- **Characters:** round body, two dot eyes, no mouth or a tiny one, short limbs; squash and stretch on motion. Design your own.\n- **Text:** rare. Short labels and numbers only, in a rounded geometric sans (closest free fonts: Nunito Black, Baloo 2), white with no stroke.\n- **Transitions:** camera flies or zooms between scenes, objects morph, quick crossfades; few plain hard cuts.\n\n## 7. Voice direction (inferred)\n\nWarm, calm, slightly playful narrator archetype; clear diction; 150\u2013170 wpm; short pauses before the key number or twist; mostly falling sentence endings (assertive), rising only on the opening question.\n\n## 8. Sound design (inferred)\n\nAmbient synth pads with soft melodic plucks, music bed 18\u201324 dB under the voice, a soft whoosh, pop or chime on almost every object entrance.\n\n## 11. Fill-in-the-blanks script\n\n```\n[0:00\u20130:06 COSMIC WIDE | slow push-in] VO: Imagine {{STRANGE_SCENARIO}}.\n[0:06\u20130:12 FOCUS | object morphs in] VO: It sounds {{ADJECTIVE}}, but {{SURPRISING_FACT}}.\n[0:12\u20130:18 SCALE | zoom out reveals size] VO: To understand why, we need to look at {{MECHANISM}}.\n[0:18\u20130:24 CHARACTERS | creatures react] VO: {{CONSEQUENCE_1}}.\n[0:24\u20130:30 TWIST | colour shift] VO: But here's the strange part: {{TWIST}}.\n[0:30\u20130:36 CLOSE | slow pull-back to stars] VO: {{REFLECTIVE_LINE}}.\n```\n\n## 13. AI prompts\n\n**Visuals:** `Flat vector illustration, no outlines, deep navy to violet gradient background, glowing {{SUBJECT}} in saturated pink, amber and teal, soft radial glow, simple geometric shapes, small round original creatures with dot eyes, parallax depth, 16:9`\n\n**Voice:** `Warm, calm, curious male or female narrator, mid-30s, 160 wpm, short pause before each key number, falling endings, close mic, no music ducking artifacts`\n\n**Music:** `Ambient synth pad in a major key, soft glassy plucks, 70\u201390 BPM, slow swells at section changes, mixed 20 dB under the voice`\n\n## 15. QA checklist\n\n- [ ] Nothing is ever fully still; a new composition every 3\u20136 s\n- [ ] Every sentence has a matching visual action\n- [ ] Dark background, \u22642 focal accent colours per scene\n- [ ] Original characters and music only\n- [ ] VO 150\u2013170 wpm; bed ~20 dB under\n",
+   "blueprintPath": "dissections/flat-space-explainer/flat-space-explainer.blueprint.md",
+   "recreation": {
+    "video": "recreations/flat-space.mp4",
+    "topic": "What if Earth had rings?",
+    "duration": 44.8,
+    "designedShots": 9,
+    "designedCuts": [
+     {
+      "t": 6.575,
+      "kind": "cut"
+     },
+     {
+      "t": 11.424999999999999,
+      "kind": "cut"
+     },
+     {
+      "t": 14.975000000000001,
+      "kind": "zoom"
+     },
+     {
+      "t": 18.525,
+      "kind": "cut"
+     },
+     {
+      "t": 23.374999999999996,
+      "kind": "cut"
+     },
+     {
+      "t": 29.349999999999998,
+      "kind": "zoom"
+     },
+     {
+      "t": 33.825,
+      "kind": "cut"
+     },
+     {
+      "t": 39.425000000000004,
+      "kind": "cut"
+     }
+    ],
+    "v1": {
+     "duration": 44.83,
+     "shots": 1,
+     "avgShot": 44.8,
+     "cuts": 0,
+     "dissolves": 1,
+     "saturation": 0.72,
+     "brightness": 0.16
+    },
+    "v2": {
+     "duration": 44.83,
+     "width": 1280,
+     "height": 720,
+     "shots": 7,
+     "avgShot": 6.4,
+     "cuts": 6,
+     "uncertain": 0,
+     "steps": 2,
+     "dissolves": 0,
+     "saturation": 0.73,
+     "brightness": 0.17,
+     "palette": [
+      {
+       "hex": "#431b5b",
+       "share": 0.169
+      },
+      {
+       "hex": "#1b1b4d",
+       "share": 0.164
+      },
+      {
+       "hex": "#111138",
+       "share": 0.131
+      },
+      {
+       "hex": "#171544",
+       "share": 0.122
+      },
+      {
+       "hex": "#446e9d",
+       "share": 0.119
+      },
+      {
+       "hex": "#26103d",
+       "share": 0.108
+      }
+     ],
+     "lufs": -15.98,
+     "bed": "music-like bed (tonal)",
+     "sfxOnCuts": 1.0,
+     "sfxBaseline": 0.62,
+     "hasAudio": true,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        6.56
+       ],
+       [
+        6.56,
+        11.44
+       ],
+       [
+        11.44,
+        18.44
+       ],
+       [
+        18.44,
+        23.31
+       ],
+       [
+        23.31,
+        33.81
+       ],
+       [
+        33.81,
+        39.44
+       ],
+       [
+        39.44,
+        44.83
+       ]
+      ],
+      "cuts": [
+       6.56,
+       11.44,
+       18.44,
+       23.31,
+       33.81,
+       39.44
+      ],
+      "uncertain": [],
+      "steps": [
+       [
+        15.06,
+        "local"
+       ],
+       [
+        29.44,
+        "local"
+       ]
+      ]
+     }
+    },
+    "sheets": [
+     "recreations/check/flat-space/hook.jpg",
+     "recreations/check/flat-space/shots-01.jpg",
+     "recreations/check/flat-space/shots-02.jpg",
+     "recreations/check/flat-space/cover.jpg"
+    ]
+   }
+  },
+  {
+   "preset": "storybook",
+   "source": "big_buck_bunny",
+   "title": "Big Buck Bunny, opening minute",
+   "credit": "Big Buck Bunny \u00a9 Blender Foundation, CC BY 3.0 (sample file from mediaelement/mediaelement-files)",
+   "measured": true,
+   "sourceMetrics": {
+    "duration": 60.1,
+    "width": 640,
+    "height": 360,
+    "shots": 6,
+    "avgShot": 10.0,
+    "cuts": 5,
+    "uncertain": 0,
+    "steps": 11,
+    "dissolves": 3,
+    "saturation": 0.35,
+    "brightness": 0.52,
+    "palette": [
+     {
+      "hex": "#7c8057",
+      "share": 0.17
+     },
+     {
+      "hex": "#bdcbaf",
+      "share": 0.151
+     },
+     {
+      "hex": "#455247",
+      "share": 0.137
+     },
+     {
+      "hex": "#f9e2cd",
+      "share": 0.136
+     },
+     {
+      "hex": "#597156",
+      "share": 0.128
+     },
+     {
+      "hex": "#1a2423",
+      "share": 0.106
+     }
+    ],
+    "lufs": -26.13,
+    "bed": "music-like bed (tonal)",
+    "sfxOnCuts": 0.4,
+    "sfxBaseline": 0.13333333333333333,
+    "hasAudio": true,
+    "timeline": {
+     "shots": [
+      [
+       0.0,
+       11.88
+      ],
+      [
+       11.88,
+       15.71
+      ],
+      [
+       15.71,
+       23.04
+      ],
+      [
+       23.04,
+       47.71
+      ],
+      [
+       47.71,
+       56.04
+      ],
+      [
+       56.04,
+       60.1
+      ]
+     ],
+     "cuts": [
+      11.88,
+      15.71,
+      23.04,
+      47.71,
+      56.04
+     ],
+     "uncertain": [],
+     "steps": [
+      [
+       1.75,
+       "dissolve"
+      ],
+      [
+       5.25,
+       "dissolve"
+      ],
+      [
+       16.38,
+       "local"
+      ],
+      [
+       18.04,
+       "local"
+      ],
+      [
+       19.88,
+       "local"
+      ],
+      [
+       20.79,
+       "local"
+      ],
+      [
+       32.67,
+       "dissolve"
+      ],
+      [
+       44.21,
+       "local"
+      ],
+      [
+       46.46,
+       "local"
+      ],
+      [
+       51.79,
+       "local"
+      ],
+      [
+       53.04,
+       "local"
+      ]
+     ]
+    }
+   },
+   "sourceSheets": [
+    "dissections/big_buck_bunny/hook.jpg",
+    "dissections/big_buck_bunny/shots-01.jpg",
+    "dissections/big_buck_bunny/shots-02.jpg",
+    "dissections/big_buck_bunny/cover.jpg"
+   ],
+   "blueprint": "# Blueprint: Storybook Cold Open\n\n*Reverse-engineered from the first 60 s of \"Big Buck Bunny\" (Blender Foundation / Peach open movie project, CC BY 3.0), a 640\u00d7360 local sample file. Dissected 2026-10-04 at `standard` depth, without a transcript (speech recognition was unavailable in the test sandbox, and this opening has no dialogue).*\n*Source facts: `facts.md`. Sheets: `hook.jpg`, `shots-01.jpg`, `shots-02.jpg`.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | Wordless storybook opening: world first, then a sidekick gag, then a title, then the hero's reveal |\n| Platform & shape | 16:9 film opening, 60 s |\n| Promise | \"A gentle, funny world is about to introduce its hero\", made by the music and pastel nature at 0:02, then the title at 0:25 |\n| Hook | Fade up from black into a pink-cloud sky over trees (0:00.25\u20130:02.5) |\n| Structure | Establish \u2192 second establishing shot \u2192 sidekick gag + credit \u2192 title over the home \u2192 hero emerges \u2192 hero in the open \u2192 low-angle hero shot |\n| Pace | 6 shots in 60 s, average shot 10.0 s (median ~8 s, 3.8\u201324.7 s); 5 hard cuts/min; an on-screen change every ~3.8 s |\n| Signature look | Soft CG, pastel pink sky, sage greens, warm sunlight; brightness 0.52, low saturation 0.35 |\n| Sound | Orchestral-style music-led bed (no speech), quiet master (-26 LUFS), sound hits on 40% of cuts |\n\n## 2. Why it works\n\n1. **It takes its time on purpose.** The first shot holds 11.9 s and the title shot 24.7 s. That slow pace tells the viewer this is a calm story, and it makes the later gag land.\n2. **The comic sidekick arrives before the hero.** The bird gag (0:15.7\u20130:23.0) packs 4 pop-in moves into 7.3 s, the densest stretch in the clip. It sets the tone before the title.\n3. **Credits and title sit inside the world.** \"Presents\" appears over the bird at 0:21, and the title fades over the hero's burrow at 0:25. No black title cards break the story.\n4. **The reveal is staged in the dark.** After the dissolve at 0:32.7, the burrow close-up stays dark (section brightness drops from 0.57 to 0.34). The hero emerges at 0:44 and is then shown in full light at 0:47.7.\n5. **It ends on a low-angle hero shot** (0:56): a clear \"this is our protagonist\" button.\n\n## 3. Hook breakdown (0:00\u20130:05)\n\n| Time | Picture | On-screen text | Sound | Job |\n|---|---|---|---|---|\n| 0:00.0 | One-frame poster of the title (a file artifact; ignore) | Title | \u2014 | \u2014 |\n| 0:00.25\u20130:01.0 | Black, slowly fading up | \u2014 | Near-silence (1.45 s) | Anticipation |\n| 0:01.0\u20130:02.5 | Pink clouds and trees emerge (fade, dissolve at 0:01.75) | \u2014 | Music enters, 11 dB quieter than the rest | Set the mood |\n| 0:02.5\u20130:05 | Bright pastel sky, slow drift right | \u2014 | Soft music | Invite the viewer in |\n\n- **Hook type:** demonstration (beauty shot) plus a fade from black. It promises a mood, not a plot.\n- **Reusable hook template:** \"Fade up over {{2 s}} into the most beautiful wide shot of {{WORLD}}. Hold it for 10+ s with only music.\"\n\n## 4. Beat sheet\n\n| # | Time | Beat | Job | Device |\n|---|---|---|---|---|\n| 1 | 0:00\u20130:11.9 | Fade-up wide (S1) | Mood and world | Fade from black, slow drift |\n| 2 | 0:11.9\u20130:15.7 | Closer nature detail (S2) | Texture: stream, flowers | Hard cut, 3.8 s |\n| 3 | 0:15.7\u20130:23.0 | Sidekick gag (S3) | Comedy, tone | 4 quick pose changes (+ at 16.4, 18.0, 19.9, 20.8), \"Presents\" credit at 0:21 |\n| 4 | 0:23.0\u20130:32.7 | Title over the hero's home (S4a) | Name the story | Title fades in at ~0:25 |\n| 5 | 0:32.7\u20130:47.7 | Burrow close-up, hero emerges (S4b) | Build-up and reveal | Slow dissolve, darker frame, reveal at 0:44.2 |\n| 6 | 0:47.7\u20130:56.0 | Hero in full light, stretching (S5) | Payoff | Bright and warm, pose changes at 51.8, 53.0 |\n| 7 | 0:56.0\u20131:00.1 | Low-angle hero shot (S6) | Button | Hero rises into frame against the sky |\n\n- **Open loop:** who lives in the burrow? Opened at 0:25, closed at 0:44\u20130:48.\n\n## 5. Shot grammar\n\n- **Pace:** average shot 10 s; long holds alternate with one short detail shot (3.8 s). Changes inside shots are character poses, not edits.\n- **Transitions:** fade-in and dissolves for passing time or moving into the hero's home; hard cuts for character beats. Sound hits on 40% of cuts vs 13% at random moments *(rough)*.\n- **Camera:** slow lateral drift on the wides, locked-off on character beats, low angle for the hero.\n- **Picture\u2013sound sync:** nothing is said; the music carries the mood and character moves land on accents (inferred).\n\n## 6. Visual style guide\n\n- **Palette (measured):** `#f9e2cd` peach sky, `#bdcbaf` pale sage, `#8aa380` grass, `#597156` foliage, `#7c8057` olive, `#455247` shade, `#1a2423` deep shadow.\n- **Grade:** warm, soft, low saturation (0.35), mid brightness (0.52), with one dark stretch (0.34) for the reveal.\n- **Text:** credit in small spaced white caps, centred over the picture; the title is a chunky rounded display face (closest free fonts: Fredoka Bold or Baloo 2 ExtraBold), white, centred, fading in over a wide.\n- **Characters:** round, soft-bodied, big-eyed creatures with exaggerated poses. Design your own; never reuse these characters.\n\n## 7. Voice direction\n\nNo voice. If you add narration, keep it sparse: a warm storyteller, under 120 wpm, with long pauses that let the pictures play.\n\n## 8. Sound design\n\n- **Bed:** music-like, tonal and gentle (mood inferred: pastoral, orchestral).\n- **Loudness:** -26 LUFS integrated, 18 LU range: a dynamic, film-style mix. For web delivery, master to about -16 LUFS.\n- **Silence:** near-silences at 0:00 (1.45 s), 0:22.3, 0:43.4 (1.5 s, just before the reveal) and 0:53.0. Silence before the reveal is a key device.\n\n## 9. Packaging\n\nThe title sits on the hero's home, and the cover is the title over the burrow. Template: \"{{TITLE}} over the place where {{HERO}} lives.\"\n\n## 10. Creator-specific vs reusable\n\n| Belongs to the film (don't copy) | Reusable |\n|---|---|\n| The rabbit, the bird, the title, the music | World before hero; sidekick gag before the title; title over the hero's home; reveal in the dark, payoff in the light; low-angle button |\n\n## 11. Fill-in-the-blanks script (shot list)\n\n```\n[0:00\u20130:12 WIDE | fade up from black over 2 s | slow drift] {{WORLD}} at its most beautiful. Music only.\n[0:12\u20130:16 DETAIL | hard cut] One small living detail of {{WORLD}}.\n[0:16\u20130:23 SIDEKICK | locked-off medium] {{SIDEKICK}} does 3\u20134 exaggerated poses, one every ~1.5 s. Credit \"{{STUDIO}} presents\" at 0:21.\n[0:23\u20130:33 HOME | wide] {{HERO}}'s home. Title \"{{TITLE}}\" fades in at 0:25.\n[0:33\u20130:48 DARK CLOSE | 2 s dissolve] Inside or at the door. Near-silence at 0:43, {{HERO}} emerges at 0:44.\n[0:48\u20130:56 PAYOFF | bright medium] {{HERO}} in sunlight, two big pose changes.\n[0:56\u20131:00 BUTTON | low angle] {{HERO}} rises into frame against the sky.\n```\n\n## 12. Production plan\n\nAnimatic first: block the 6 shots with these exact durations and time the music to them. Character animation goes into shots 3, 5 and 6 only; shots 1, 2 and 4 are environment plus a camera drift.\n\n## 13. AI prompts\n\n**Visuals:** `Soft 3D storybook animation still, {{SHOT}}, pastel peach sky, sage and olive greens, warm low sun, gentle depth of field, rounded original creature with big eyes, 16:9, no text`\n\n**Music:** `Gentle pastoral orchestral cue, woodwinds and pizzicato strings, 60 s: soft intro 0\u201312 s, playful staccato 15\u201323 s, warm swell at 25 s for the title, hush at 43 s, bright reprise from 47 s`\n\n## 14. Edit recipe\n\n1. Lay the 6 shots at 11.9 / 3.8 / 7.3 / 9.7 / 15.0 / 8.3 / 4.1 s (shot 4 split by a 2 s dissolve).\n2. Fade from black over 2 s at the start.\n3. Hard cuts between character beats, each with a soft hit or whoosh.\n4. Leave 1\u20131.5 s of near-silence before the reveal.\n\n## 15. QA checklist\n\n- [ ] First shot holds \u226510 s; average shot 8\u201310 s\n- [ ] Sidekick gag before the title; title over the hero's home\n- [ ] Reveal in a darker frame, payoff in a brighter one\n- [ ] Palette within the peach/sage/olive family; saturation around 0.35\n- [ ] Near-silence before the reveal\n- [ ] Original characters only\n",
+   "blueprintPath": "dissections/big_buck_bunny/big_buck_bunny.blueprint.md",
+   "recreation": {
+    "video": "recreations/storybook.mp4",
+    "topic": "Moss wakes up for spring",
+    "duration": 60.1,
+    "designedShots": 7,
+    "designedCuts": [
+     {
+      "t": 11.9,
+      "kind": "cut"
+     },
+     {
+      "t": 15.7,
+      "kind": "cut"
+     },
+     {
+      "t": 23,
+      "kind": "cut"
+     },
+     {
+      "t": 32.7,
+      "kind": "dissolve"
+     },
+     {
+      "t": 47.7,
+      "kind": "cut"
+     },
+     {
+      "t": 56,
+      "kind": "cut"
+     }
+    ],
+    "v1": {
+     "duration": 36.08,
+     "shots": 5,
+     "avgShot": 7.2,
+     "cuts": 4,
+     "dissolves": 2,
+     "saturation": 0.18,
+     "brightness": 0.6
+    },
+    "v2": {
+     "duration": 60.12,
+     "width": 1280,
+     "height": 720,
+     "shots": 6,
+     "avgShot": 10.0,
+     "cuts": 5,
+     "uncertain": 0,
+     "steps": 4,
+     "dissolves": 2,
+     "saturation": 0.3,
+     "brightness": 0.59,
+     "palette": [
+      {
+       "hex": "#acc3e4",
+       "share": 0.244
+      },
+      {
+       "hex": "#79a958",
+       "share": 0.187
+      },
+      {
+       "hex": "#394c31",
+       "share": 0.119
+      },
+      {
+       "hex": "#a6b5bc",
+       "share": 0.115
+      },
+      {
+       "hex": "#e5d8d2",
+       "share": 0.109
+      },
+      {
+       "hex": "#d0d0c3",
+       "share": 0.098
+      }
+     ],
+     "lufs": -15.97,
+     "bed": "music-like bed (tonal)",
+     "sfxOnCuts": 1.0,
+     "sfxBaseline": 0.5133333333333333,
+     "hasAudio": true,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        11.81
+       ],
+       [
+        11.81,
+        15.69
+       ],
+       [
+        15.69,
+        22.94
+       ],
+       [
+        22.94,
+        47.69
+       ],
+       [
+        47.69,
+        55.94
+       ],
+       [
+        55.94,
+        60.12
+       ]
+      ],
+      "cuts": [
+       11.81,
+       15.69,
+       22.94,
+       47.69,
+       55.94
+      ],
+      "uncertain": [],
+      "steps": [
+       [
+        1.25,
+        "dissolve"
+       ],
+       [
+        33.12,
+        "dissolve"
+       ],
+       [
+        37.94,
+        "local"
+       ],
+       [
+        45.69,
+        "local"
+       ]
+      ]
+     }
+    },
+    "sheets": [
+     "recreations/check/storybook/hook.jpg",
+     "recreations/check/storybook/shots-01.jpg",
+     "recreations/check/storybook/shots-02.jpg",
+     "recreations/check/storybook/cover.jpg"
+    ]
+   }
+  },
+  {
+   "preset": "fixed-classroom",
+   "source": "classroom",
+   "title": "Classroom, fixed camera",
+   "credit": "classroom.mp4, Intel IoT DevKit sample-videos, CC BY 4.0",
+   "measured": true,
+   "sourceMetrics": {
+    "duration": 32.8,
+    "width": 1920,
+    "height": 1080,
+    "shots": 1,
+    "avgShot": 32.8,
+    "cuts": 0,
+    "uncertain": 0,
+    "steps": 1,
+    "dissolves": 0,
+    "saturation": 0.24,
+    "brightness": 0.51,
+    "palette": [
+     {
+      "hex": "#717271",
+      "share": 0.153
+     },
+     {
+      "hex": "#a4a9ab",
+      "share": 0.142
+     },
+     {
+      "hex": "#faf9f9",
+      "share": 0.132
+     },
+     {
+      "hex": "#091d37",
+      "share": 0.129
+     },
+     {
+      "hex": "#1f354c",
+      "share": 0.122
+     },
+     {
+      "hex": "#c1c7c8",
+      "share": 0.11
+     }
+    ],
+    "lufs": null,
+    "bed": null,
+    "sfxOnCuts": null,
+    "sfxBaseline": null,
+    "hasAudio": false,
+    "timeline": {
+     "shots": [
+      [
+       0.0,
+       32.8
+      ]
+     ],
+     "cuts": [],
+     "uncertain": [],
+     "steps": [
+      [
+       4.79,
+       "local"
+      ]
+     ]
+    }
+   },
+   "sourceSheets": [
+    "dissections/classroom/hook.jpg",
+    "dissections/classroom/shots-01.jpg",
+    "dissections/classroom/cover.jpg"
+   ],
+   "blueprint": "# Blueprint: Fixed-Cam Classroom Scene\n\n*Reverse-engineered from classroom.mp4 (Intel IoT DevKit sample videos, CC BY 4.0), 32.8 s, 1920\u00d71080, no audio track. Dissected 2026-10-04 at `standard` depth without a transcript (there's no speech). Camera: high-angle wide from a front corner.*\n*Source facts: `facts.md`. Sheets: `hook.jpg`, `shots-*.jpg`.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | Locked-off high-angle wide of a classroom; one person stands, walks and sits while others stay seated |\n| Platform & shape | 16:9, 33 s, silent |\n| Promise | Nothing is promised; it's a reference clip of ordinary behaviour |\n| Hook | None: the scene is already running at 0:00 |\n| Structure | Seated \u2192 one person stands (0:04.8) \u2192 walks to the front and back \u2192 sits (~0:18) \u2192 a second person shifts (~0:22\u20130:25) \u2192 settled |\n| Pace | 1 shot, 33 s; 1 measured on-screen change (0:04.8) |\n| Signature look | Cool blue chairs and carpet, white walls, blown-out window right; brightness 0.51, saturation 0.24, cool |\n| Sound | No audio track |\n\n## 2. Why it works\n\n1. **Action reads at a glance.** Wide, high and locked off: every person's position is visible in every frame.\n2. **One clear movement at a time.** The standing person (0:04.8\u20130:18) is the only big change; the rest stay still.\n3. **The colour makes the space.** Blue chairs (`#1f354c`, `#091d37`) against pale grey walls (`#a4a9ab`) separate people from furniture.\n\n## 3\u20134. Hook and beat sheet\n\n| Time | Beat | Job |\n|---|---|---|\n| 0:00\u20130:04.8 | Everyone seated | Baseline |\n| 0:04.8\u20130:18 | One person stands and walks (+ at 0:04.8) | Main action |\n| 0:18\u20130:25 | Sits; a second person stirs at the back | Secondary action |\n| 0:25\u20130:32.8 | Settled | Rest |\n\n## 5. Shot grammar\n\n- **One locked-off take.** No pans, zooms or cuts were detected. Rhythm comes from people entering, acting and leaving.\n- **Framing:** wide enough that every subject stays fully in frame; subjects enter from the frame edges.\n- **Changes:** the only measured changes are people appearing or disappearing; there are no graphics or text.\n\n## 6. Visual style guide\n\n- **Palette (measured):** `#faf9f9` window white, `#c1c7c8` wall, `#a4a9ab` wall shade, `#717271` grey, `#525d65` slate, `#1f354c` chair blue, `#091d37` carpet navy.\n- **Grade:** natural, flat light; saturation 0.24, brightness 0.51. Don't stylise it.\n- **Text:** none in the source. The \"detection\" variant adds thin boxes and a timestamp (see prompts).\n\n## 7\u20138. Voice and sound\n\nNo voice and no music. Keep it silent or use quiet room tone. A narrated version would put a calm, neutral explainer voice over it at ~140 wpm, describing what the system sees.\n\n## 9. Packaging\n\nCover: a mid-action frame with the most people visible. Title template: \"{{N}} {{SUBJECTS}} in a {{LOCATION}}: what a camera sees\".\n\n## 11. Fill-in-the-blanks shot plan\n\n```\n[0:00\u20130:04.8] Everyone seated \u2192 {{YOUR_SUBJECTS}} version\n[0:04.8\u20130:18] One person stands and walks (+ at 0:04.8) \u2192 {{YOUR_SUBJECTS}} version\n[0:18\u20130:25] Sits; a second person stirs at the back \u2192 {{YOUR_SUBJECTS}} version\n[0:25\u20130:32.8] Settled \u2192 {{YOUR_SUBJECTS}} version\n```\n\n## 12. Production plan\n\nTripod or wall mount, lock exposure and white balance, record one continuous take with the subjects briefed on their entrances. Total crew: 1 camera operator plus the subjects.\n\n## 10. Creator-specific vs reusable\n\n| Belongs to the source (don't copy) | Reusable |\n|---|---|\n| These people, this location, Intel's dataset purpose | One locked-off take; subjects enter, act and leave; desaturated real light; no music; optional detection overlays |\n\n## 13. AI prompts\n\n**Visuals:** `Locked-off security-camera still, {{ANGLE}} of {{LOCATION}}, flat fluorescent light, desaturated (saturation ~0.24), slight wide-angle distortion, {{N}} ordinary people mid-action, 16:9, no text`\n\n**Overlay (for a \"machine vision\" version):** `Thin rectangular bounding boxes in a single bright colour around each person, label \"person 0.9x\" in a small monospace font above each box, timestamp top-left`\n\n## 14. Edit recipe\n\n1. One continuous take; no cuts. If you must remove dead time, hide the edit as a jump cut while the frame is empty.\n2. No music, no effects; keep room tone or silence.\n3. Optional: add a timestamp and detection boxes in post.\n\n## 15. QA checklist\n\n- [ ] One shot, camera never moves\n- [ ] Subjects enter and leave within frame; at least one stretch with nobody moving\n- [ ] Saturation and brightness within \u00b10.05 of the targets above\n- [ ] No music, no narration\n",
+   "blueprintPath": "dissections/classroom/classroom.blueprint.md",
+   "recreation": {
+    "video": "recreations/fixed-classroom.mp4",
+    "topic": "Library study hall",
+    "duration": 42,
+    "designedShots": 1,
+    "designedCuts": [],
+    "v1": {
+     "duration": 42.0,
+     "shots": 1,
+     "avgShot": 42.0,
+     "cuts": 0,
+     "dissolves": 0,
+     "saturation": 0.32,
+     "brightness": 0.46
+    },
+    "v2": {
+     "duration": 42.0,
+     "width": 1280,
+     "height": 720,
+     "shots": 1,
+     "avgShot": 42.0,
+     "cuts": 0,
+     "uncertain": 0,
+     "steps": 0,
+     "dissolves": 0,
+     "saturation": 0.22,
+     "brightness": 0.51,
+     "palette": [
+      {
+       "hex": "#3e4f61",
+       "share": 0.315
+      },
+      {
+       "hex": "#a3a8ab",
+       "share": 0.288
+      },
+      {
+       "hex": "#dde0e2",
+       "share": 0.155
+      },
+      {
+       "hex": "#374a60",
+       "share": 0.099
+      },
+      {
+       "hex": "#556371",
+       "share": 0.065
+      },
+      {
+       "hex": "#8a9399",
+       "share": 0.036
+      }
+     ],
+     "lufs": null,
+     "bed": null,
+     "sfxOnCuts": null,
+     "sfxBaseline": null,
+     "hasAudio": false,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        42.0
+       ]
+      ],
+      "cuts": [],
+      "uncertain": [],
+      "steps": []
+     }
+    },
+    "sheets": [
+     "recreations/check/fixed-classroom/hook.jpg",
+     "recreations/check/fixed-classroom/shots-01.jpg",
+     "recreations/check/fixed-classroom/shots-02.jpg",
+     "recreations/check/fixed-classroom/cover.jpg"
+    ]
+   }
+  },
+  {
+   "preset": "fixed-aisle",
+   "source": "store-aisle-detection",
+   "title": "Store aisle, fixed camera",
+   "credit": "store-aisle-detection.mp4, Intel IoT DevKit sample-videos, CC BY 4.0",
+   "measured": true,
+   "sourceMetrics": {
+    "duration": 65.42,
+    "width": 720,
+    "height": 404,
+    "shots": 1,
+    "avgShot": 65.4,
+    "cuts": 0,
+    "uncertain": 0,
+    "steps": 1,
+    "dissolves": 0,
+    "saturation": 0.14,
+    "brightness": 0.52,
+    "palette": [
+     {
+      "hex": "#bbb8b3",
+      "share": 0.136
+     },
+     {
+      "hex": "#565248",
+      "share": 0.132
+     },
+     {
+      "hex": "#a8a39a",
+      "share": 0.13
+     },
+     {
+      "hex": "#949390",
+      "share": 0.13
+     },
+     {
+      "hex": "#878077",
+      "share": 0.126
+     },
+     {
+      "hex": "#6e6f6c",
+      "share": 0.12
+     }
+    ],
+    "lufs": null,
+    "bed": "near-silence (no continuous bed)",
+    "sfxOnCuts": null,
+    "sfxBaseline": 0.0,
+    "hasAudio": true,
+    "timeline": {
+     "shots": [
+      [
+       0.0,
+       65.42
+      ]
+     ],
+     "cuts": [],
+     "uncertain": [],
+     "steps": [
+      [
+       6.12,
+       "local"
+      ]
+     ]
+    }
+   },
+   "sourceSheets": [
+    "dissections/store-aisle-detection/hook.jpg",
+    "dissections/store-aisle-detection/shots-01.jpg",
+    "dissections/store-aisle-detection/shots-02.jpg",
+    "dissections/store-aisle-detection/cover.jpg"
+   ],
+   "blueprint": "# Blueprint: Fixed-Cam Store Aisle\n\n*Reverse-engineered from store-aisle-detection.mp4 (Intel IoT DevKit sample videos, CC BY 4.0), 65.4 s, 720\u00d7404, silent audio track. Dissected 2026-10-04 at `standard` depth without a transcript (there's no speech). Camera: high overhead-angle down a long aisle.*\n*Source facts: `facts.md`. Sheets: `hook.jpg`, `shots-*.jpg`.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | Overhead locked-off view down a store aisle; shoppers enter from the bottom of frame and browse |\n| Platform & shape | 16:9, 65 s, silent |\n| Promise | None: reference footage |\n| Hook | A shopper's hat enters bottom-right at 0:06.1 (the only measured change) |\n| Structure | Empty aisle \u2192 1 shopper (0:06) \u2192 2 (0:12) \u2192 3 (0:16) \u2192 4\u20135 crowding the middle (0:26\u20130:37) \u2192 thinning out |\n| Pace | 1 shot, 65 s; activity builds rather than cuts |\n| Signature look | Rows of white crockery, warm-grey floor; brightness 0.52, saturation 0.14, slightly warm |\n| Sound | Silent track (near-silence throughout) |\n\n## 2. Why it works\n\n1. **The frame fills up.** The count of people rises from 0 to 5 by ~0:28: escalation without a single cut.\n2. **Strong one-point perspective.** The aisle's vanishing point is upper-centre, so entrances at the bottom feel close and the far end feels deep.\n3. **Repetitive texture as a backdrop.** Hundreds of near-identical white items (`#dad8d4`, `#bbb8b3`) make every moving person stand out.\n\n## 3\u20134. Hook and beat sheet\n\n| Time | Beat | Job |\n|---|---|---|\n| 0:00\u20130:06 | Empty aisle | Baseline |\n| 0:06\u20130:16 | Shoppers 1\u20133 arrive bottom-right (+ at 0:06.1) | Build |\n| 0:16\u20130:37 | 4\u20135 people browse, reach and cross | Peak density |\n| 0:37\u20131:05 | People drift away down the aisle | Release |\n\n## 5. Shot grammar\n\n- **One locked-off take.** No pans, zooms or cuts were detected. Rhythm comes from people entering, acting and leaving.\n- **Framing:** wide enough that every subject stays fully in frame; subjects enter from the frame edges.\n- **Changes:** the only measured changes are people appearing or disappearing; there are no graphics or text.\n\n## 6. Visual style guide\n\n- **Palette (measured):** `#dad8d4` crockery white, `#bbb8b3` light grey, `#a8a39a` warm grey, `#878077` taupe, `#6e6f6c` shelf grey, `#565248` floor shadow, `#2d2723` deep brown.\n- **Grade:** natural, flat light; saturation 0.14, brightness 0.52. Don't stylise it.\n- **Text:** none in the source. The \"detection\" variant adds thin boxes and a timestamp (see prompts).\n\n## 7\u20138. Voice and sound\n\nNo voice and no music. Keep it silent or use quiet room tone. A narrated version would put a calm, neutral explainer voice over it at ~140 wpm, describing what the system sees.\n\n## 9. Packaging\n\nCover: a mid-action frame with the most people visible. Title template: \"{{N}} {{SUBJECTS}} in a {{LOCATION}}: what a camera sees\".\n\n## 11. Fill-in-the-blanks shot plan\n\n```\n[0:00\u20130:06] Empty aisle \u2192 {{YOUR_SUBJECTS}} version\n[0:06\u20130:16] Shoppers 1\u20133 arrive bottom-right (+ at 0:06.1) \u2192 {{YOUR_SUBJECTS}} version\n[0:16\u20130:37] 4\u20135 people browse, reach and cross \u2192 {{YOUR_SUBJECTS}} version\n[0:37\u20131:05] People drift away down the aisle \u2192 {{YOUR_SUBJECTS}} version\n```\n\n## 12. Production plan\n\nTripod or wall mount, lock exposure and white balance, record one continuous take with the subjects briefed on their entrances. Total crew: 1 camera operator plus the subjects.\n\n## 10. Creator-specific vs reusable\n\n| Belongs to the source (don't copy) | Reusable |\n|---|---|\n| These people, this location, Intel's dataset purpose | One locked-off take; subjects enter, act and leave; desaturated real light; no music; optional detection overlays |\n\n## 13. AI prompts\n\n**Visuals:** `Locked-off security-camera still, {{ANGLE}} of {{LOCATION}}, flat fluorescent light, desaturated (saturation ~0.14), slight wide-angle distortion, {{N}} ordinary people mid-action, 16:9, no text`\n\n**Overlay (for a \"machine vision\" version):** `Thin rectangular bounding boxes in a single bright colour around each person, label \"person 0.9x\" in a small monospace font above each box, timestamp top-left`\n\n## 14. Edit recipe\n\n1. One continuous take; no cuts. If you must remove dead time, hide the edit as a jump cut while the frame is empty.\n2. No music, no effects; keep room tone or silence.\n3. Optional: add a timestamp and detection boxes in post.\n\n## 15. QA checklist\n\n- [ ] One shot, camera never moves\n- [ ] Subjects enter and leave within frame; at least one stretch with nobody moving\n- [ ] Saturation and brightness within \u00b10.05 of the targets above\n- [ ] No music, no narration\n",
+   "blueprintPath": "dissections/store-aisle-detection/store-aisle-detection.blueprint.md",
+   "recreation": {
+    "video": "recreations/fixed-aisle.mp4",
+    "topic": "Bakery aisle rush",
+    "duration": 55,
+    "designedShots": 1,
+    "designedCuts": [],
+    "v1": {
+     "duration": 55.0,
+     "shots": 1,
+     "avgShot": 55.0,
+     "cuts": 0,
+     "dissolves": 0,
+     "saturation": 0.1,
+     "brightness": 0.45
+    },
+    "v2": {
+     "duration": 55.0,
+     "width": 1280,
+     "height": 720,
+     "shots": 1,
+     "avgShot": 55.0,
+     "cuts": 0,
+     "uncertain": 0,
+     "steps": 0,
+     "dissolves": 0,
+     "saturation": 0.1,
+     "brightness": 0.54,
+     "palette": [
+      {
+       "hex": "#8b8b89",
+       "share": 0.476
+      },
+      {
+       "hex": "#a99c8a",
+       "share": 0.204
+      },
+      {
+       "hex": "#897c6a",
+       "share": 0.167
+      },
+      {
+       "hex": "#8b8b87",
+       "share": 0.061
+      },
+      {
+       "hex": "#99958b",
+       "share": 0.038
+      },
+      {
+       "hex": "#8b8c89",
+       "share": 0.025
+      }
+     ],
+     "lufs": null,
+     "bed": null,
+     "sfxOnCuts": null,
+     "sfxBaseline": null,
+     "hasAudio": false,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        55.0
+       ]
+      ],
+      "cuts": [],
+      "uncertain": [],
+      "steps": []
+     }
+    },
+    "sheets": [
+     "recreations/check/fixed-aisle/hook.jpg",
+     "recreations/check/fixed-aisle/shots-01.jpg",
+     "recreations/check/fixed-aisle/shots-02.jpg",
+     "recreations/check/fixed-aisle/cover.jpg"
+    ]
+   }
+  },
+  {
+   "preset": "fixed-corridor",
+   "source": "face-demographics-walking-and-pause",
+   "title": "Corridor walk-ups, fixed camera",
+   "credit": "face-demographics-walking-and-pause.mp4, Intel IoT DevKit sample-videos, CC BY 4.0",
+   "measured": true,
+   "sourceMetrics": {
+    "duration": 90.92,
+    "width": 768,
+    "height": 432,
+    "shots": 1,
+    "avgShot": 90.9,
+    "cuts": 0,
+    "uncertain": 0,
+    "steps": 3,
+    "dissolves": 0,
+    "saturation": 0.11,
+    "brightness": 0.51,
+    "palette": [
+     {
+      "hex": "#a3a3a5",
+      "share": 0.15
+     },
+     {
+      "hex": "#9a9494",
+      "share": 0.137
+     },
+     {
+      "hex": "#625f61",
+      "share": 0.136
+     },
+     {
+      "hex": "#8c8c8d",
+      "share": 0.132
+     },
+     {
+      "hex": "#6d7073",
+      "share": 0.129
+     },
+     {
+      "hex": "#817a77",
+      "share": 0.117
+     }
+    ],
+    "lufs": null,
+    "bed": "near-silence (no continuous bed)",
+    "sfxOnCuts": null,
+    "sfxBaseline": 0.0,
+    "hasAudio": true,
+    "timeline": {
+     "shots": [
+      [
+       0.0,
+       90.92
+      ]
+     ],
+     "cuts": [],
+     "uncertain": [],
+     "steps": [
+      [
+       19.21,
+       "local"
+      ],
+      [
+       43.96,
+       "local"
+      ],
+      [
+       86.12,
+       "local"
+      ]
+     ]
+    }
+   },
+   "sourceSheets": [
+    "dissections/face-demographics-walking-and-pause/hook.jpg",
+    "dissections/face-demographics-walking-and-pause/shots-01.jpg",
+    "dissections/face-demographics-walking-and-pause/shots-02.jpg",
+    "dissections/face-demographics-walking-and-pause/shots-03.jpg",
+    "dissections/face-demographics-walking-and-pause/cover.jpg"
+   ],
+   "blueprint": "# Blueprint: Fixed-Cam Corridor Walk-Up\n\n*Reverse-engineered from face-demographics-walking-and-pause.mp4 (Intel IoT DevKit sample videos, CC BY 4.0), 90.9 s, 768\u00d7432, silent audio track. Dissected 2026-10-04 at `standard` depth without a transcript (there's no speech). Camera: eye-level camera facing down a corridor.*\n*Source facts: `facts.md`. Sheets: `hook.jpg`, `shots-*.jpg`.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | Eye-level camera at the end of a corridor; people walk up to the lens, pause facing it, then leave |\n| Platform & shape | 16:9, 91 s, silent |\n| Promise | None: reference footage |\n| Hook | Empty corridor; a man walks up from the far end (0:03\u20130:07) and stops in a medium close-up |\n| Structure | Walk-up 1 (one man) \u2192 hold \u2192 hidden jump cut to the empty corridor (0:19.2) \u2192 walk-up 2 (a pair, 0:27\u20130:33) \u2192 hold \u2192 cut (0:44.0) \u2192 \u2026 \u2192 end change (1:26.1) |\n| Pace | 1 shot, 91 s, but 3 measured in-shot changes at 0:19.2, 0:44.0 and 1:26.1. The first is a hidden jump cut: the man vanishes between frames |\n| Signature look | White walls, glass doors, ceiling light; brightness 0.51, saturation 0.11, neutral |\n| Sound | Silent track |\n\n## 2. Why it works\n\n1. **Walk-up framing.** Subjects travel from wide to medium close-up, so faces grow in frame without a camera move.\n2. **Hidden jump cuts.** At 0:19.2 the corridor is suddenly empty: separate takes are joined with the camera locked off, so the video reads as one continuous shot.\n3. **A neutral, near-colourless set** (saturation 0.11) keeps attention on faces and clothes.\n\n## 3\u20134. Hook and beat sheet\n\n| Time | Beat | Job |\n|---|---|---|\n| 0:00\u20130:07 | Empty, then man 1 walks up | Approach |\n| 0:07\u20130:19 | Man 1 holds facing camera | Hold |\n| 0:19.2 | Jump cut to the empty corridor | Reset |\n| 0:27\u20130:44 | A pair walks up and holds | Approach and hold |\n| 0:44\u20131:26 | Further walk-ups (cut at 0:44.0) | Repeat |\n| 1:26.1\u20131:31 | Final change | End |\n\n## 5. Shot grammar\n\n- **One locked-off take.** No pans, zooms or cuts were detected. Rhythm comes from people entering, acting and leaving.\n- **Framing:** wide enough that every subject stays fully in frame; subjects enter from the frame edges.\n- **Changes:** the only measured changes are people appearing or disappearing; there are no graphics or text.\n\n## 6. Visual style guide\n\n- **Palette (measured):** `#cacfd9` cool white, `#a3a3a5` wall, `#9a9494` warm grey, `#8c8c8d` mid grey, `#6d7073` door frame, `#625f61` shadow, `#423b3e` dark clothes.\n- **Grade:** natural, flat light; saturation 0.11, brightness 0.51. Don't stylise it.\n- **Text:** none in the source. The \"detection\" variant adds thin boxes and a timestamp (see prompts).\n\n## 7\u20138. Voice and sound\n\nNo voice and no music. Keep it silent or use quiet room tone. A narrated version would put a calm, neutral explainer voice over it at ~140 wpm, describing what the system sees.\n\n## 9. Packaging\n\nCover: a mid-action frame with the most people visible. Title template: \"{{N}} {{SUBJECTS}} in a {{LOCATION}}: what a camera sees\".\n\n## 11. Fill-in-the-blanks shot plan\n\n```\n[0:00\u20130:07] Empty, then man 1 walks up \u2192 {{YOUR_SUBJECTS}} version\n[0:07\u20130:19] Man 1 holds facing camera \u2192 {{YOUR_SUBJECTS}} version\n[0:19.2] Jump cut to the empty corridor \u2192 {{YOUR_SUBJECTS}} version\n[0:27\u20130:44] A pair walks up and holds \u2192 {{YOUR_SUBJECTS}} version\n[0:44\u20131:26] Further walk-ups (cut at 0:44.0) \u2192 {{YOUR_SUBJECTS}} version\n[1:26.1\u20131:31] Final change \u2192 {{YOUR_SUBJECTS}} version\n```\n\n## 12. Production plan\n\nTripod or wall mount, lock exposure and white balance, record one continuous take with the subjects briefed on their entrances. Total crew: 1 camera operator plus the subjects.\n\n## 10. Creator-specific vs reusable\n\n| Belongs to the source (don't copy) | Reusable |\n|---|---|\n| These people, this location, Intel's dataset purpose | One locked-off take; subjects enter, act and leave; desaturated real light; no music; optional detection overlays |\n\n## 13. AI prompts\n\n**Visuals:** `Locked-off security-camera still, {{ANGLE}} of {{LOCATION}}, flat fluorescent light, desaturated (saturation ~0.11), slight wide-angle distortion, {{N}} ordinary people mid-action, 16:9, no text`\n\n**Overlay (for a \"machine vision\" version):** `Thin rectangular bounding boxes in a single bright colour around each person, label \"person 0.9x\" in a small monospace font above each box, timestamp top-left`\n\n## 14. Edit recipe\n\n1. One continuous take; no cuts. If you must remove dead time, hide the edit as a jump cut while the frame is empty.\n2. No music, no effects; keep room tone or silence.\n3. Optional: add a timestamp and detection boxes in post.\n\n## 15. QA checklist\n\n- [ ] One shot, camera never moves\n- [ ] Subjects enter and leave within frame; at least one stretch with nobody moving\n- [ ] Saturation and brightness within \u00b10.05 of the targets above\n- [ ] No music, no narration\n",
+   "blueprintPath": "dissections/face-demographics-walking-and-pause/face-demographics-walking-and-pause.blueprint.md",
+   "recreation": {
+    "video": "recreations/fixed-corridor.mp4",
+    "topic": "Office lobby check-ins",
+    "duration": 48.2,
+    "designedShots": 1,
+    "designedCuts": [
+     {
+      "t": 17.05,
+      "kind": "jump"
+     },
+     {
+      "t": 31.1,
+      "kind": "jump"
+     }
+    ],
+    "v1": {
+     "duration": 48.17,
+     "shots": 1,
+     "avgShot": 48.2,
+     "cuts": 0,
+     "dissolves": 0,
+     "saturation": 0.05,
+     "brightness": 0.66
+    },
+    "v2": {
+     "duration": 48.17,
+     "width": 1280,
+     "height": 720,
+     "shots": 1,
+     "avgShot": 48.2,
+     "cuts": 0,
+     "uncertain": 0,
+     "steps": 3,
+     "dissolves": 0,
+     "saturation": 0.11,
+     "brightness": 0.58,
+     "palette": [
+      {
+       "hex": "#8f8d90",
+       "share": 0.282
+      },
+      {
+       "hex": "#9ea6af",
+       "share": 0.19
+      },
+      {
+       "hex": "#7e746a",
+       "share": 0.188
+      },
+      {
+       "hex": "#b3b8c1",
+       "share": 0.177
+      },
+      {
+       "hex": "#8f8d8f",
+       "share": 0.074
+      },
+      {
+       "hex": "#969395",
+       "share": 0.053
+      }
+     ],
+     "lufs": null,
+     "bed": null,
+     "sfxOnCuts": null,
+     "sfxBaseline": null,
+     "hasAudio": false,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        48.17
+       ]
+      ],
+      "cuts": [],
+      "uncertain": [],
+      "steps": [
+       [
+        16.94,
+        "local"
+       ],
+       [
+        31.06,
+        "local"
+       ],
+       [
+        45.06,
+        "local"
+       ]
+      ]
+     }
+    },
+    "sheets": [
+     "recreations/check/fixed-corridor/hook.jpg",
+     "recreations/check/fixed-corridor/shots-01.jpg",
+     "recreations/check/fixed-corridor/shots-02.jpg",
+     "recreations/check/fixed-corridor/cover.jpg"
+    ]
+   }
+  },
+  {
+   "preset": "fixed-lot",
+   "source": "person-bicycle-car-detection",
+   "title": "Parking lot, fixed camera",
+   "credit": "person-bicycle-car-detection.mp4, Intel IoT DevKit sample-videos, CC BY 4.0",
+   "measured": true,
+   "sourceMetrics": {
+    "duration": 53.92,
+    "width": 768,
+    "height": 432,
+    "shots": 1,
+    "avgShot": 53.9,
+    "cuts": 0,
+    "uncertain": 0,
+    "steps": 0,
+    "dissolves": 0,
+    "saturation": 0.02,
+    "brightness": 0.53,
+    "palette": [
+     {
+      "hex": "#8c8b8f",
+      "share": 0.198
+     },
+     {
+      "hex": "#89888b",
+      "share": 0.17
+     },
+     {
+      "hex": "#8a8a8d",
+      "share": 0.137
+     },
+     {
+      "hex": "#818184",
+      "share": 0.135
+     },
+     {
+      "hex": "#848487",
+      "share": 0.124
+     },
+     {
+      "hex": "#87868a",
+      "share": 0.115
+     }
+    ],
+    "lufs": null,
+    "bed": "near-silence (no continuous bed)",
+    "sfxOnCuts": null,
+    "sfxBaseline": 0.0,
+    "hasAudio": true,
+    "timeline": {
+     "shots": [
+      [
+       0.0,
+       53.92
+      ]
+     ],
+     "cuts": [],
+     "uncertain": [],
+     "steps": []
+    }
+   },
+   "sourceSheets": [
+    "dissections/person-bicycle-car-detection/hook.jpg",
+    "dissections/person-bicycle-car-detection/shots-01.jpg",
+    "dissections/person-bicycle-car-detection/shots-02.jpg",
+    "dissections/person-bicycle-car-detection/cover.jpg"
+   ],
+   "blueprint": "# Blueprint: Fixed-Cam Parking Lot\n\n*Reverse-engineered from person-bicycle-car-detection.mp4 (Intel IoT DevKit sample videos, CC BY 4.0), 53.9 s, 768\u00d7432, silent audio track. Dissected 2026-10-04 at `standard` depth without a transcript (there's no speech). Camera: high, near-overhead angle over an empty parking lot.*\n*Source facts: `facts.md`. Sheets: `hook.jpg`, `shots-*.jpg`.*\n\n## 1. Format card\n\n| | |\n|---|---|\n| Format | High static view of an empty lot; a pedestrian, then a car, then a cyclist pass through one at a time |\n| Platform & shape | 16:9, 54 s, silent |\n| Promise | None: reference footage |\n| Hook | A pedestrian already crossing at 0:01 |\n| Structure | Pedestrian (0:00\u20130:07) \u2192 empty (0:07\u20130:14) \u2192 car sweeps through (0:14\u20130:19) \u2192 empty \u2192 cyclist (0:24\u20130:29) \u2192 empty to the end |\n| Pace | 1 shot, 54 s; 0 measured changes, because each subject is small and the change is gradual |\n| Signature look | Flat grey asphalt with white bay lines; saturation 0.02 (nearly monochrome), brightness 0.53 |\n| Sound | Silent track |\n\n## 2. Why it works\n\n1. **One subject type at a time.** Person, car, bike: a clean taxonomy with gaps in between.\n2. **Empty frames are part of the rhythm.** 7\u201310 s of nothing between subjects makes each arrival an event.\n3. **Graphic ground plane.** White lines on grey give scale and direction; it's almost a diagram.\n\n## 3\u20134. Hook and beat sheet\n\n| Time | Beat | Job |\n|---|---|---|\n| 0:00\u20130:07 | Pedestrian crosses diagonally | Subject 1 |\n| 0:07\u20130:14 | Empty | Pause |\n| 0:14\u20130:19 | White car curves through | Subject 2 |\n| 0:19\u20130:24 | Empty | Pause |\n| 0:24\u20130:29 | Cyclist crosses top-right | Subject 3 |\n| 0:29\u20130:54 | Empty | Tail |\n\n## 5. Shot grammar\n\n- **One locked-off take.** No pans, zooms or cuts were detected. Rhythm comes from people entering, acting and leaving.\n- **Framing:** wide enough that every subject stays fully in frame; subjects enter from the frame edges.\n- **Changes:** the only measured changes are people appearing or disappearing; there are no graphics or text.\n\n## 6. Visual style guide\n\n- **Palette (measured):** `#959599` light asphalt, `#8c8b8f` asphalt, `#8a8a8d`, `#848487`, `#818184` mid grey, `#78787b` shadow; white lines at about `#f0f0f0`.\n- **Grade:** natural, flat light; saturation 0.02, brightness 0.53. Don't stylise it.\n- **Text:** none in the source. The \"detection\" variant adds thin boxes and a timestamp (see prompts).\n\n## 7\u20138. Voice and sound\n\nNo voice and no music. Keep it silent or use quiet room tone. A narrated version would put a calm, neutral explainer voice over it at ~140 wpm, describing what the system sees.\n\n## 9. Packaging\n\nCover: a mid-action frame with the most people visible. Title template: \"{{N}} {{SUBJECTS}} in a {{LOCATION}}: what a camera sees\".\n\n## 11. Fill-in-the-blanks shot plan\n\n```\n[0:00\u20130:07] Pedestrian crosses diagonally \u2192 {{YOUR_SUBJECTS}} version\n[0:07\u20130:14] Empty \u2192 {{YOUR_SUBJECTS}} version\n[0:14\u20130:19] White car curves through \u2192 {{YOUR_SUBJECTS}} version\n[0:19\u20130:24] Empty \u2192 {{YOUR_SUBJECTS}} version\n[0:24\u20130:29] Cyclist crosses top-right \u2192 {{YOUR_SUBJECTS}} version\n[0:29\u20130:54] Empty \u2192 {{YOUR_SUBJECTS}} version\n```\n\n## 12. Production plan\n\nTripod or wall mount, lock exposure and white balance, record one continuous take with the subjects briefed on their entrances. Total crew: 1 camera operator plus the subjects.\n\n## 10. Creator-specific vs reusable\n\n| Belongs to the source (don't copy) | Reusable |\n|---|---|\n| These people, this location, Intel's dataset purpose | One locked-off take; subjects enter, act and leave; desaturated real light; no music; optional detection overlays |\n\n## 13. AI prompts\n\n**Visuals:** `Locked-off security-camera still, {{ANGLE}} of {{LOCATION}}, flat fluorescent light, desaturated (saturation ~0.02), slight wide-angle distortion, {{N}} ordinary people mid-action, 16:9, no text`\n\n**Overlay (for a \"machine vision\" version):** `Thin rectangular bounding boxes in a single bright colour around each person, label \"person 0.9x\" in a small monospace font above each box, timestamp top-left`\n\n## 14. Edit recipe\n\n1. One continuous take; no cuts. If you must remove dead time, hide the edit as a jump cut while the frame is empty.\n2. No music, no effects; keep room tone or silence.\n3. Optional: add a timestamp and detection boxes in post.\n\n## 15. QA checklist\n\n- [ ] One shot, camera never moves\n- [ ] Subjects enter and leave within frame; at least one stretch with nobody moving\n- [ ] Saturation and brightness within \u00b10.05 of the targets above\n- [ ] No music, no narration\n",
+   "blueprintPath": "dissections/person-bicycle-car-detection/person-bicycle-car-detection.blueprint.md",
+   "recreation": {
+    "video": "recreations/fixed-lot.mp4",
+    "topic": "Campus plaza crossings",
+    "duration": 45,
+    "designedShots": 1,
+    "designedCuts": [],
+    "v1": {
+     "duration": 45.0,
+     "shots": 1,
+     "avgShot": 45.0,
+     "cuts": 0,
+     "dissolves": 0,
+     "saturation": 0.02,
+     "brightness": 0.53
+    },
+    "v2": {
+     "duration": 45.0,
+     "width": 1280,
+     "height": 720,
+     "shots": 1,
+     "avgShot": 45.0,
+     "cuts": 0,
+     "uncertain": 0,
+     "steps": 0,
+     "dissolves": 0,
+     "saturation": 0.02,
+     "brightness": 0.53,
+     "palette": [
+      {
+       "hex": "#8b8b8d",
+       "share": 0.497
+      },
+      {
+       "hex": "#88888a",
+       "share": 0.168
+      },
+      {
+       "hex": "#7e7d80",
+       "share": 0.152
+      },
+      {
+       "hex": "#979899",
+       "share": 0.07
+      },
+      {
+       "hex": "#8b8b8c",
+       "share": 0.061
+      },
+      {
+       "hex": "#8d8b8d",
+       "share": 0.026
+      }
+     ],
+     "lufs": null,
+     "bed": null,
+     "sfxOnCuts": null,
+     "sfxBaseline": null,
+     "hasAudio": false,
+     "timeline": {
+      "shots": [
+       [
+        0.0,
+        45.0
+       ]
+      ],
+      "cuts": [],
+      "uncertain": [],
+      "steps": []
+     }
+    },
+    "sheets": [
+     "recreations/check/fixed-lot/hook.jpg",
+     "recreations/check/fixed-lot/shots-01.jpg",
+     "recreations/check/fixed-lot/shots-02.jpg",
+     "recreations/check/fixed-lot/cover.jpg"
+    ]
+   }
+  }
+ ],
+ "formula": "# Formula: five test videos\n\nFive openly licensed sample videos, dissected on 2026-10-04 without transcripts:\n\n| Video | Length | Shots | Avg shot | Measured changes | Saturation | Brightness | Audio |\n|---|---|---|---|---|---|---|---|\n| Big Buck Bunny (opening) | 60.1 s | 6 | 10.0 s | 5 cuts, 3 dissolves, 8 in-shot changes | 0.35 | 0.52 | Music bed, -26 LUFS |\n| Classroom | 32.8 s | 1 | 32.8 s | 1 | 0.24 | 0.51 | None |\n| Store aisle | 65.4 s | 1 | 65.4 s | 1 | 0.14 | 0.52 | Silent |\n| Corridor walk-up | 90.9 s | 1 | 90.9 s | 3 (hidden jump cuts) | 0.11 | 0.51 | Silent |\n| Parking lot | 53.9 s | 1 | 53.9 s | 0 | 0.02 | 0.53 | Silent |\n\nNone of these have platform stats (they're local files), so the \"best performer\" comparison can't be made. Instead, this compares the two formats in the set.\n\n## What stays constant (the real format of the four Intel clips)\n\n- **One locked-off take.** No cuts, pans or zooms; rhythm comes from subjects entering and leaving.\n- **Brightness \u2248 0.51\u20130.53** in all four, from flat, even, real-world light.\n- **Low saturation (0.02\u20130.24)**, falling as the setting gets more utilitarian.\n- **No music or voice.**\n- **Gaps are part of the rhythm.** Every clip has empty or still stretches between actions (parking lot: 7\u201310 s empty between subjects).\n\n## What varies\n\n- **Camera angle** sets the job: overhead for counting (aisle, lot), eye-level for faces (corridor), high corner for behaviour (classroom).\n- **Density curve:** the aisle builds from 0 to 5 people; the lot shows one subject at a time; the corridor repeats walk-ups.\n- **Hidden edits:** only the corridor clip joins takes, as jump cuts while the frame is empty (0:19.2, 0:44.0).\n\n## The outlier: Big Buck Bunny\n\nThe only produced piece. It shares brightness (0.52) with the rest but uses six shots, dissolves, a music bed, a title and staged reveals. Its formula: world first, then a sidekick gag, then the title over the hero's home, then a reveal in the dark and a payoff in the light.\n\n## Merged template (fixed-cam)\n\n```\nCamera: {{ANGLE}} on a tripod, exposure and white balance locked. One take of {{40\u201390}} s.\n0:00     Empty or near-empty frame, 3\u20137 s\nthen     Subject 1 enters from a frame edge, does one readable action, leaves or settles\nthen     2\u201310 s of stillness\nthen     Subject 2 (different type or a pair), repeat; optionally build the count up to 4\u20135\nend      Settle to stillness for 5+ s\nLook:    saturation 0.02\u20130.24, brightness ~0.52, no grade, no text (or detection boxes)\nSound:   none\n```\n"
+}

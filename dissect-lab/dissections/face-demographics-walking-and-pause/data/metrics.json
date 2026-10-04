@@ -1,0 +1,122 @@
+{
+ "version": "1.1.0",
+ "depth": "standard",
+ "probe": {
+  "duration": 90.916667,
+  "has_video": true,
+  "has_audio": true,
+  "width": 768,
+  "height": 432,
+  "fps": 12.0,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "sample_rate": 48000,
+  "channels": 2
+ },
+ "analysed_seconds": 90.92,
+ "cuts": [],
+ "uncertain": [],
+ "steps": [
+  {
+   "t": 19.21,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.06,
+   "score": 0.272
+  },
+  {
+   "t": 43.96,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.05,
+   "score": 0.317
+  },
+  {
+   "t": 86.12,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.34,
+   "score": 0.234
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 90.92,
+   "len": 90.92
+  }
+ ],
+ "voice": {},
+ "sound": {
+  "overall_db": -120.0,
+  "no_speech": true,
+  "bed_verdict": "near-silence (no continuous bed)",
+  "tempo_bpm_rough": null,
+  "silences": [
+   {
+    "start": 0.0,
+    "len": 90.9
+   }
+  ],
+  "silence_count": 1,
+  "transients": {
+   "on_cuts": null,
+   "cuts_checked": 0,
+   "on_steps": 0.0,
+   "steps_checked": 3,
+   "baseline": 0.0
+  },
+  "sfx_on_cuts_likely": false,
+  "hook_db_vs_rest": 0.0
+ },
+ "loudness": {
+  "integrated_lufs": null,
+  "true_peak_dbtp": null,
+  "range_lu": 0.0
+ },
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.5149765750828629,
+  "saturation": 0.10521546667945374,
+  "temperature": "neutral",
+  "palette": [
+   {
+    "hex": "#a3a3a5",
+    "share": 0.15
+   },
+   {
+    "hex": "#9a9494",
+    "share": 0.137
+   },
+   {
+    "hex": "#625f61",
+    "share": 0.136
+   },
+   {
+    "hex": "#8c8c8d",
+    "share": 0.132
+   },
+   {
+    "hex": "#6d7073",
+    "share": 0.129
+   },
+   {
+    "hex": "#817a77",
+    "share": 0.117
+   },
+   {
+    "hex": "#423b3e",
+    "share": 0.104
+   },
+   {
+    "hex": "#cacfd9",
+    "share": 0.097
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

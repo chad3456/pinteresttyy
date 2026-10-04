@@ -1,0 +1,186 @@
+{
+ "version": "1.1.0",
+ "depth": "quick",
+ "probe": {
+  "duration": 60.125,
+  "has_video": true,
+  "has_audio": true,
+  "width": 1280,
+  "height": 720,
+  "fps": 24.0,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "sample_rate": 96000,
+  "channels": 1
+ },
+ "analysed_seconds": 60.12,
+ "cuts": [
+  {
+   "t": 11.81,
+   "kind": "cut",
+   "score": 0.468
+  },
+  {
+   "t": 15.69,
+   "kind": "cut",
+   "score": 0.786
+  },
+  {
+   "t": 22.94,
+   "kind": "cut",
+   "score": 1.044
+  },
+  {
+   "t": 47.69,
+   "kind": "cut",
+   "score": 1.739
+  },
+  {
+   "t": 55.94,
+   "kind": "cut",
+   "score": 0.874
+  }
+ ],
+ "uncertain": [],
+ "steps": [
+  {
+   "t": 1.25,
+   "kind": "step",
+   "why": "dissolve or fade",
+   "score": 0.695
+  },
+  {
+   "t": 33.12,
+   "kind": "step",
+   "why": "dissolve or fade",
+   "score": 0.435
+  },
+  {
+   "t": 37.94,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.09,
+   "score": 0.173
+  },
+  {
+   "t": 45.69,
+   "kind": "step",
+   "why": "local change (text, graphic, overlay)",
+   "area": 0.12,
+   "score": 0.39
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 11.81,
+   "len": 11.81
+  },
+  {
+   "n": 2,
+   "start": 11.81,
+   "end": 15.69,
+   "len": 3.88
+  },
+  {
+   "n": 3,
+   "start": 15.69,
+   "end": 22.94,
+   "len": 7.25
+  },
+  {
+   "n": 4,
+   "start": 22.94,
+   "end": 47.69,
+   "len": 24.75
+  },
+  {
+   "n": 5,
+   "start": 47.69,
+   "end": 55.94,
+   "len": 8.25
+  },
+  {
+   "n": 6,
+   "start": 55.94,
+   "end": 60.12,
+   "len": 4.19
+  }
+ ],
+ "voice": {},
+ "sound": {
+  "overall_db": -15.4,
+  "no_speech": true,
+  "bed_verdict": "music-like bed (tonal)",
+  "tempo_bpm_rough": {
+   "bpm": 122,
+   "confidence": 0.24
+  },
+  "silences": [
+   {
+    "start": 0.0,
+    "len": 2.0
+   }
+  ],
+  "silence_count": 1,
+  "transients": {
+   "on_cuts": 1.0,
+   "cuts_checked": 5,
+   "on_steps": 0.5,
+   "steps_checked": 4,
+   "baseline": 0.5133333333333333
+  },
+  "sfx_on_cuts_likely": true,
+  "hook_db_vs_rest": -104.6
+ },
+ "loudness": {
+  "integrated_lufs": -15.97,
+  "true_peak_dbtp": -1.48,
+  "range_lu": 3.5
+ },
+ "audience": {},
+ "replay_peaks": [],
+ "look": {
+  "brightness": 0.5880873743793201,
+  "saturation": 0.29911693140647516,
+  "temperature": "neutral",
+  "palette": [
+   {
+    "hex": "#acc3e4",
+    "share": 0.244
+   },
+   {
+    "hex": "#79a958",
+    "share": 0.187
+   },
+   {
+    "hex": "#394c31",
+    "share": 0.119
+   },
+   {
+    "hex": "#a6b5bc",
+    "share": 0.115
+   },
+   {
+    "hex": "#e5d8d2",
+    "share": 0.109
+   },
+   {
+    "hex": "#d0d0c3",
+    "share": 0.098
+   },
+   {
+    "hex": "#c8c8d3",
+    "share": 0.095
+   },
+   {
+    "hex": "#7c906a",
+    "share": 0.032
+   }
+  ]
+ },
+ "notes": [
+  "cover.jpg is the first frame (no platform thumbnail)"
+ ]
+}

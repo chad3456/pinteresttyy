@@ -1,0 +1,70 @@
+{
+ "preset": "fixed-aisle",
+ "topic": "Bakery aisle rush",
+ "lines": [
+  {
+   "text": "Shopper one browses the loaves",
+   "start": 5,
+   "end": 21
+  },
+  {
+   "text": "Shopper two reaches for rolls",
+   "start": 12,
+   "end": 28
+  },
+  {
+   "text": "A couple compares baguettes",
+   "start": 19,
+   "end": 35
+  },
+  {
+   "text": "A late shopper squeezes past",
+   "start": 26,
+   "end": 42
+  },
+  {
+   "text": "The aisle empties out",
+   "start": 33,
+   "end": 49
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 55,
+   "scene": "aisle",
+   "seed": 3,
+   "line": 0
+  }
+ ],
+ "events": [
+  {
+   "text": "Shopper one browses the loaves",
+   "start": 5,
+   "end": 21
+  },
+  {
+   "text": "Shopper two reaches for rolls",
+   "start": 12,
+   "end": 28
+  },
+  {
+   "text": "A couple compares baguettes",
+   "start": 19,
+   "end": 35
+  },
+  {
+   "text": "A late shopper squeezes past",
+   "start": 26,
+   "end": 42
+  },
+  {
+   "text": "The aisle empties out",
+   "start": 33,
+   "end": 49
+  }
+ ],
+ "duration": 55,
+ "boxes": true,
+ "cuts": []
+}

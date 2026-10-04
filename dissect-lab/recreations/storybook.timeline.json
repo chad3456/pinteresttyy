@@ -1,0 +1,130 @@
+{
+ "preset": "storybook",
+ "topic": "Moss wakes up for spring",
+ "lines": [
+  {
+   "text": "A quiet meadow at dawn",
+   "start": 0,
+   "end": 11.9
+  },
+  {
+   "text": "Wildflowers by the stream",
+   "start": 11.9,
+   "end": 15.7
+  },
+  {
+   "text": "Puff the sidekick rehearses a big hello",
+   "start": 15.7,
+   "end": 23
+  },
+  {
+   "text": "Moss's hill, with the title",
+   "start": 23,
+   "end": 32.7
+  },
+  {
+   "text": "Something stirs inside the burrow",
+   "start": 32.7,
+   "end": 47.7
+  },
+  {
+   "text": "Moss stretches in the sun",
+   "start": 47.7,
+   "end": 56
+  },
+  {
+   "text": "Moss rises against the sky",
+   "start": 56,
+   "end": 60.1
+  }
+ ],
+ "shots": [
+  {
+   "start": 0,
+   "end": 11.9,
+   "scene": "meadow",
+   "seed": 11,
+   "line": 0,
+   "cut": "cut"
+  },
+  {
+   "start": 11.9,
+   "end": 15.7,
+   "scene": "detail",
+   "seed": 12,
+   "line": 1,
+   "cut": "cut"
+  },
+  {
+   "start": 15.7,
+   "end": 23,
+   "scene": "sidekick",
+   "seed": 13,
+   "line": 2,
+   "cut": "cut"
+  },
+  {
+   "start": 23,
+   "end": 32.7,
+   "scene": "home",
+   "seed": 14,
+   "line": 3,
+   "cut": "dissolve"
+  },
+  {
+   "start": 32.7,
+   "end": 47.7,
+   "scene": "burrow",
+   "seed": 15,
+   "line": 4,
+   "cut": "cut"
+  },
+  {
+   "start": 47.7,
+   "end": 56,
+   "scene": "hero",
+   "seed": 16,
+   "line": 5,
+   "cut": "cut"
+  },
+  {
+   "start": 56,
+   "end": 60.1,
+   "scene": "lowangle",
+   "seed": 17,
+   "line": 6,
+   "cut": "cut"
+  }
+ ],
+ "events": [],
+ "duration": 60.1,
+ "title": "MOSS",
+ "credit": "A small studio presents",
+ "captions": false,
+ "cuts": [
+  {
+   "t": 11.9,
+   "kind": "cut"
+  },
+  {
+   "t": 15.7,
+   "kind": "cut"
+  },
+  {
+   "t": 23,
+   "kind": "cut"
+  },
+  {
+   "t": 32.7,
+   "kind": "dissolve"
+  },
+  {
+   "t": 47.7,
+   "kind": "cut"
+  },
+  {
+   "t": 56,
+   "kind": "cut"
+  }
+ ]
+}

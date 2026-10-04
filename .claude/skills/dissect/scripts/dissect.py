@@ -416,6 +416,10 @@ def detect_changes(dp, dh, bd, th, hi, fps, lum, sat) -> dict:
         # did the picture come back a few frames later? (flash, smoke puff, shake)
         returns = tdiff(i - 1, i + 2) < 0.35 * max(tdiff(i - 1, i), 1e-6) and tdiff(i - 1, i + 2) < 0.03
         strong = bf[i] >= 0.5 and (dh[i] >= 0.25 or (dp[i] >= 0.07 and bf[i] >= 0.65))
+        # a one-frame spike in colour with stillness either side is a cut even when the frames are
+        # dark or pastel and few blocks pass the absolute threshold
+        nb = max(dp[i - 1], dp[i + 1] if i + 1 < n else 0.0)
+        strong = strong or (dh[i] >= 0.2 and dp[i] >= 0.04 and dp[i] >= 4 * nb and bf[i] >= 0.12)
         t = (i - 0.5) / fps
         if strong and spike and not returns and not high_motion:
             events.append({"t": t, "i": i, "kind": "cut", "score": float(dh[i] + dp[i] * 2)})
@@ -432,9 +436,9 @@ def detect_changes(dp, dh, bd, th, hi, fps, lum, sat) -> dict:
                                    "area": round(float(changed.mean()), 2), "score": float(bmax[i])})
 
     # dissolves / fades: the middle frame is a blend of the two ends
-    k = max(2, int(round(fps * 0.4)))
     hard = {e["i"] for e in events if e["kind"] in ("cut", "uncertain")}
-    for i in range(k, n - k, max(1, k // 2)):
+    for k, i in ((k, i) for k in (max(2, int(round(fps * 0.4))), max(4, int(round(fps * 1.2))))
+                 for i in range(k, n - k, max(1, k // 2))):
         if any(abs(i - j) <= k for j in hard):
             continue
         D = float(np.abs(th[i + k] - th[i - k]).mean())
@@ -453,7 +457,7 @@ def detect_changes(dp, dh, bd, th, hi, fps, lum, sat) -> dict:
     events.sort(key=lambda e: (-rank[e["kind"]], -e["score"]))
     kept = []
     for e in events:
-        gap = 0.8 if e.get("why") == "dissolve or fade" else 0.3
+        gap = 1.5 if e.get("why") == "dissolve or fade" else 0.3
         if all(abs(e["t"] - k2["t"]) >= gap for k2 in kept):
             kept.append(e)
     kept.sort(key=lambda e: e["t"])
@@ -471,6 +475,13 @@ def detect_changes(dp, dh, bd, th, hi, fps, lum, sat) -> dict:
 
 
 def build_shots(cuts, dur):
+    # a "shot" shorter than ~2 frames is a poster frame or glitch: fold it into its neighbour
+    keep = []
+    for c in cuts:
+        prev = keep[-1]["t"] if keep else 0.0
+        if c["t"] - prev >= 0.15 and dur - c["t"] >= 0.15:
+            keep.append(c)
+    cuts[:] = keep
     bounds = [0.0] + [c["t"] for c in cuts] + [dur]
     shots = []
     for i in range(len(bounds) - 1):
@@ -613,11 +624,9 @@ def palette(images, k=8):
                 ims.append(im.convert("RGB").resize((48, 48)))
     if not ims:
         return []
-    cols = min(len(ims), 12)
-    rows = math.ceil(len(ims) / cols)
-    m = Image.new("RGB", (cols * 48, rows * 48))
+    m = Image.new("RGB", (48, 48 * len(ims)))  # one column, so no empty cells skew the counts
     for i, im in enumerate(ims):
-        m.paste(im, ((i % cols) * 48, (i // cols) * 48))
+        m.paste(im, (0, i * 48))
     q = m.quantize(colors=k, method=Image.Quantize.MEDIANCUT)
     pal = q.getpalette()
     counts = sorted(q.getcolors(), reverse=True)
@@ -1151,7 +1160,7 @@ def write_facts(path: Path, ctx: dict) -> None:
             bed += ", digital silence between words"
         elif snd.get("bed_under_voice_db") is not None:
             bed += f", {snd['bed_under_voice_db']} dB under the voice"
-        a(f"| Bed between words *(rough)* | {bed} |")
+        a(f"| {'Audio bed (no speech)' if snd.get('no_speech') else 'Bed between words'} *(rough)* | {bed} |")
     if "transients" in snd:
         tr = snd["transients"]
         a(f"| Sound hits on cuts *(rough)* | {fmt_rate(tr.get('on_cuts'))} of cuts vs {fmt_rate(tr.get('baseline'))} at random moments → "
